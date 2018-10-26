@@ -3,13 +3,25 @@
 	// Strict mode changes previously accepted "bad syntax" into real errors.
 	"use strict";
 
-	// Tone.js example arpeggio
 	var Tone = window.Tone;
 	var synth = new Tone.Synth();
 	synth.toMaster();
-	var pattern = new Tone.Pattern(function(time, note) {
-		synth.triggerAttackRelease(note, 0.25);
-	}, ["C4", "E4", "G4", "A4"]);
+	
+	var i = 0;
+	var rhythms = [
+		function() {new Tone.Part(function(time, note) {
+			synth.triggerAttackRelease(note, "8n", time);
+		}, [[0, "C3"], ["0:2", "C4"], ["0:3:2", "G3"]]).start("+0");},
+		function() {new Tone.Part(function(time, note) {
+			synth.triggerAttackRelease(note, "8n", time);
+		}, [["0:1", "E3"], ["0:2", "E4"], ["0:3:2", "G3"]]).start("+0");}
+	];
+
+	var loop = new Tone.Loop(function() {
+		rhythms[i]();
+		i++;
+		i %= rhythms.length;
+	}, "1m").start(0);
 
 	// Toggle audio button
 	document.getElementById("play-pause-button").addEventListener("click", function(){
@@ -25,7 +37,6 @@
 		    this.className = "is-playing";
 		    // Replace fa-play with fa-pause icon
 		    this.innerHTML = "<i class=\"fa fa-pause\"></i>";
-		    pattern.start(0);
 			Tone.Transport.start();
 		  }
 	});
