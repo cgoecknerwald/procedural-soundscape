@@ -35,35 +35,54 @@
 		return bars + ":" + quarters + ":" + sixteenths;
 	}
 	
+	// Note patterns and rhythm patterns to choose from
 	var pitches = ["C4", "E4", "G4", "A4"];
 	var rhythms =  [[4], [2, 2], [1, 1, 1, 1],
 					[1, 1, 2], [1, 2, 1], [2, 1, 1],
 					[1, 3], [3, 1]];
 	
-	function createMeasure(rhythm) {
+	// Create a full, half, or quarter measure of randomly-generated music.
+	// Generate up to maxLength (in number of quarter notes) of music,
+	// with given offset from the start of the measure.
+	function createMeasure(maxLength, offset) {
+		var rhythm = rhythms[Math.floor(Math.random() * rhythms.length)];
 		var notes = [];
-		var totalTime = 0;
+		var totalTime = offset;
+		
+		// create a full, half, or quarter measure
+		var multiplier = Math.floor(Math.random() * Math.log2(maxLength));
+		multiplier = Math.pow(2, multiplier) / 4;
+		console.log(multiplier);
+		
+		// determine note length, timing, & pitch, for each note in the rhythm
 		for (var i = 0; i < rhythm.length; i++) {
 			var pitch = pitches[i % pitches.length];
-			var length = getNoteLength(rhythm[i]);
+			var length = getNoteLength(rhythm[i] * multiplier)
 			var time = getNoteTime(totalTime);
-			totalTime += rhythm[i];
+			totalTime += rhythm[i] * multiplier;
 			notes.push({"time" : time, "pitch" : pitch, "length" : length});
 		}
+		
 		new Tone.Part(function(time, value) {
 			leadLine.triggerAttackRelease(value.pitch, value.length, time);
 		}, notes).start("+0");
+		
+		// If a full measure hasn't been generated yet, generate the remaining part
+		if (multiplier * 4 < maxLength) {
+			createMeasure(maxLength - multiplier * 4, offset + multiplier * 4);
+		}
 	}
 
+	// Randomize, one measure at a time
 	var loop = new Tone.Loop(function() {
-		createMeasure(rhythms[Math.floor(Math.random() * rhythms.length)]);
+		createMeasure(4, 0);
 	}, "1m").start(0);
 	
 	var baseLoop = new Tone.Loop(function() {
-		bassLine.triggerAttackRelease("G3", "8n", "+0");
-		bassLine.triggerAttackRelease("G3", "8n", "+4n");
-		bassLine.triggerAttackRelease("G3", "8n", "+2n");
-		bassLine.triggerAttackRelease("G3", "8n", "+2n.");
+		bassLine.triggerAttackRelease("A3", "8n", "+0", 1);
+		bassLine.triggerAttackRelease("G3", "8n", "+4n", 0.5);
+		bassLine.triggerAttackRelease("G3", "8n", "+2n", 0.5);
+		bassLine.triggerAttackRelease("G3", "8n", "+2n.", 0.5);
 	}, "1m").start(0);
 
 	// Toggle audio button
