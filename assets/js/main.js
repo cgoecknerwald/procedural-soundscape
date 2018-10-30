@@ -5,22 +5,24 @@
 	
 	// Note: Everything assumes 4/4 time
 	var Tone = window.Tone;
-	var synth = new Tone.Synth();
-	synth.toMaster();
+	var leadLine = new Tone.Synth();
+	leadLine.toMaster();
+	var bassLine = new Tone.Synth();
+	bassLine.toMaster();
 	
 	Tone.Transport.bpm.value = 80;
 	
 	// Converts input note length from a float (1 = quarter, 0.5 = eighth, etc.)
 	// to Tone's string format ("4n", "8n", etc.).
-	// For now, can only handle non-dotted and non-triplet notes.
+	// Cannot handle triplet notes or double dots.
 	function getNoteLength(length) {
 		var exp = Math.log2(length);
 		if (exp % 1 == 0 && length < 4) {
 			return Math.pow(2, -exp + 2) + "n";
 		} else if (length % 4 == 0) {
 			return Math.floor(length / 4) + "m";
-		} else {
-			throw new Error("invalid note length");
+		} else { // assume dotted
+			return getNoteLength(2 * length / 3) + ".";
 		}
 	}
 	
@@ -33,8 +35,10 @@
 		return bars + ":" + quarters + ":" + sixteenths;
 	}
 	
-	var pitches = ["C4", "E4", "", "G4", "A4"];
-	var rhythms = [[2, 1, 0.5, 0.5], [0.5, 0.5, 1, 1, 1]];
+	var pitches = ["C4", "E4", "G4", "A4"];
+	var rhythms =  [[4], [2, 2], [1, 1, 1, 1],
+					[1, 1, 2], [1, 2, 1], [2, 1, 1],
+					[1, 3], [3, 1]];
 	
 	function createMeasure(rhythm) {
 		var notes = [];
@@ -47,12 +51,19 @@
 			notes.push({"time" : time, "pitch" : pitch, "length" : length});
 		}
 		new Tone.Part(function(time, value) {
-			synth.triggerAttackRelease(value.pitch, value.length, time);
+			leadLine.triggerAttackRelease(value.pitch, value.length, time);
 		}, notes).start("+0");
 	}
 
 	var loop = new Tone.Loop(function() {
 		createMeasure(rhythms[Math.floor(Math.random() * rhythms.length)]);
+	}, "1m").start(0);
+	
+	var baseLoop = new Tone.Loop(function() {
+		bassLine.triggerAttackRelease("G3", "8n", "+0");
+		bassLine.triggerAttackRelease("G3", "8n", "+4n");
+		bassLine.triggerAttackRelease("G3", "8n", "+2n");
+		bassLine.triggerAttackRelease("G3", "8n", "+2n.");
 	}, "1m").start(0);
 
 	// Toggle audio button
