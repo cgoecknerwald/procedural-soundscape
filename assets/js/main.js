@@ -50,9 +50,8 @@
 		var totalTime = offset;
 		
 		// create a full, half, or quarter measure
-		var multiplier = Math.floor(Math.random() * Math.log2(maxLength));
-		multiplier = Math.pow(2, multiplier) / 4;
-		console.log(multiplier);
+		var sectionLength = Math.pow(2, Math.floor(Math.random() * Math.log2(maxLength)));
+		var multiplier = sectionLength / 4;
 		
 		// determine note length, timing, & pitch, for each note in the rhythm
 		for (var i = 0; i < rhythm.length; i++) {
@@ -69,7 +68,7 @@
 		
 		// If a full measure hasn't been generated yet, generate the remaining part
 		if (multiplier * 4 < maxLength) {
-			createMeasure(maxLength - multiplier * 4, offset + multiplier * 4);
+			createMeasure(maxLength - sectionLength, offset + sectionLength);
 		}
 	}
 
