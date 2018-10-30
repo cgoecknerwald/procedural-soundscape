@@ -9,33 +9,32 @@
 	</head>
 
 	<body>
-		<!-- Header -->
-		<header id="header">
-			<h1>Coffeehouse Jazz</h1>
-			<h2>02826 Sound Design Project<h2>
-			<p>By Amy Xiong and Claire Goeckner-Wald</p>
-		</header>
 
-		<!-- Play-Pause Button -->
-		<button id="play-pause-button"><i class="fa fa-play"></i></button>
-
-		<!-- Slider -->
-		<div class="slider-container">
-			<input type="range" min="1" max="6" value="4" class="slider" id="slider">
+		<div class="grid-container">
+			<div class="grid-panel">
+				<button id="play-pause-button">
+					<i class="fa fa-play"></i>
+				</button>
+			</div>
+			<div class="grid-nopanel"></div>
+			<div class="grid-panel">
+				BPM
+				<p id="slider-value"></p>
+			</div>
+			<div class="grid-nopanel"></div>
+			<div class="grid-panel"></div>
+			<div class="grid-nopanel"></div>
+			<div class="grid-panel"></div>
+			<div class="grid-nopanel"></div>
+			<div class="grid-panel"></div>
+			<div class="grid-nopanel"></div>
+			<div class="grid-panel"></div>
+			<div class="grid-nopanel"></div>
+			<div class="grid-panel"></div>
+			<div class="grid-nopanel"></div>
+			<div class="grid-panel">
+			</div>
 		</div>
-
-		<div>
-			<p id="slider-value">
-				Move the slider!
-			</p>
-		</div>
-
-		<!-- Footer -->
-		<footer id="footer">
-			<p>
-				&copy; Claire Goeckner-Wald & Amy Xiong.
-			</p>
-		</footer>
 
 		<!-- Scripts -->
 		<script src="assets/js/Tone.js"></script>
