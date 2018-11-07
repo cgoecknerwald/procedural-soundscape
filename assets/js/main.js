@@ -50,6 +50,11 @@
 					
 	var currPitchIndex = 0, currOctave = 4;
 	
+	var noteIndexUI = document.getElementById("note-index");
+	var notesUI = document.getElementById("notes");
+	var notesString = "";
+	var notesIndex = 0;
+	
 	// Create a full, half, or quarter measure of randomly-generated music.
 	// Generate up to maxLength (in number of quarter notes) of music,
 	// with given offset from the start of the measure.
@@ -59,8 +64,9 @@
 		var totalTime = offset;
 		
 		// create a full, half, or quarter measure
-		var sectionLength = Math.pow(2, Math.floor(Math.random() * Math.log2(maxLength)));
-		console.log(maxLength + " " + offset + " " + sectionLength);
+		var sectionLength = Math.random() * (Math.log2(maxLength) + 1);
+		sectionLength = Math.pow(2, Math.floor(sectionLength));
+		// console.log(maxLength + " " + offset + " " + sectionLength);
 		var multiplier = sectionLength / 4;
 		
 		// determine note length, timing, & pitch, for each note in the rhythm
@@ -93,12 +99,14 @@
 			
 			if (pitch != "") {
 				notes.push({"time" : time, "pitch" : pitch, "length" : length});
+				notesString += pitch + " " + length + ", ";
 			}
 			// console.log(time + " " + pitch + " " + length);
 		}
 		
 		new Tone.Part(function(time, value) {
 			leadLine.triggerAttackRelease(value.pitch, value.length, time);
+			noteIndexUI.innerHTML = ++notesIndex;
 		}, notes).start("+0");
 		
 		// If a full measure hasn't been generated yet, generate the remaining part
@@ -110,6 +118,9 @@
 	// Randomize, one measure at a time
 	var loop = new Tone.Loop(function() {
 		createMeasure(4, 0);
+		notesUI.innerHTML = notesString;
+		notesString = "";
+		notesIndex = 0;
 	}, "1m").start(0);
 	
 	var baseLoop = new Tone.Loop(function() {
