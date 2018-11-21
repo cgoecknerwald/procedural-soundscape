@@ -42,9 +42,16 @@
 			</div>
 		</div>
 
+
+		<!-- Force Module Preload -->
+		<!-- Ref: https://developers.google.com/web/fundamentals/primers/modules -->
+		<link rel="modulepreload" href="./assets/js/instruments.js">
+		<link rel="modulepreload" href="./assets/js/chords.js">
 		<!-- Scripts -->
-		<script src="assets/js/Tone.js"></script>
-		<script src="assets/js/main.js"></script>
+		<script src="./assets/js/Tone.js"></script>
+		<script src="./assets/js/instruments.js" type="module"></script>
+		<script src="./assets/js/chords.js" type="module"></script>
+		<script src="./assets/js/main.js" type="module"></script>
 
 	</body>
 </html>
