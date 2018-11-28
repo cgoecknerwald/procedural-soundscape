@@ -1,4 +1,4 @@
-import { SawTooth, SimpleSine } from './instruments.js'
+import * as instruments from './instruments.js'
 import * as chords from './chords.js'
 
 // Choose a random entry from the array
@@ -8,10 +8,8 @@ function pickRandom(arr) {
 
 // Note: Everything assumes 4/4 time
 const Tone = window.Tone;
-var leadLine = new Tone.Synth();
-leadLine.toMaster();
-var bassLine = new Tone.Synth();
-bassLine.toMaster();
+var leadLine = new instruments.Tiny();
+var bassLine = new instruments.SimpleSine();
 
 Tone.Transport.bpm.value = 100;
 
@@ -148,7 +146,7 @@ var loop = new Tone.Loop(function() {
 	notesIndex = 0;
 }, "1m").start(0);
 
-var baseLoop = new Tone.Loop(function() {
+var baseLobassLineop = new Tone.Loop(function() {
 	bassLine.triggerAttackRelease("G3", "8n", "+0", 1);
 	bassLine.triggerAttackRelease("G3", "8n", "+4n", 0.5);
 	bassLine.triggerAttackRelease("G3", "8n", "+2n", 0.5);
@@ -172,7 +170,3 @@ document.getElementById("play-pause-button").addEventListener("click", function(
 		Tone.Transport.start();
 	  }
 });
-
-// Slider
-var output = document.getElementById("slider-value");
-output.innerHTML = Tone.Transport.bpm.value;
