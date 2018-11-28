@@ -8,3 +8,4 @@
 - https://github.com/Tonejs/Tone.js/issues/290 references why we can't use .wav files in Tone.js (simply not supported, it seems)
 - https://github.com/nbrosowsky/tonejs-instruments (WAVs of publicly available instrument samples)
 - https://medium.com/@lukepura/basics-of-making-music-with-tone-js-5b294a92b240
+- Licensing a no-licensed repository (wheelibin's synthaesthesia)
