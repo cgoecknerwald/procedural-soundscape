@@ -1,7 +1,7 @@
-html {
+body {
     /* Background color is fallback */
     background-color: black;
-    background-size: cover
+    background-size: cover;
 }
 
 h1 {
@@ -10,7 +10,7 @@ h1 {
     font-size: 40px;
 }
 
-h2, h3, p, body {
+h2, h3, p {
 	color: white;
     font-family: 'Ubuntu', sans-serif;
     font-size: 24px;
