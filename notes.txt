@@ -5,4 +5,6 @@
 - We looked into playing and modifying audiofiles (MP3s or WAVs) but the integration with Tone.js was too complicated.
 - We discussed moving instruments synths into instruments.js
 - Moving roots/scales/chord progressions/rhythms/min & max on octaves in chords.js
-
+- https://github.com/Tonejs/Tone.js/issues/290 references why we can't use .wav files in Tone.js (simply not supported, it seems)
+- https://github.com/nbrosowsky/tonejs-instruments (WAVs of publicly available instrument samples)
+- https://medium.com/@lukepura/basics-of-making-music-with-tone-js-5b294a92b240
