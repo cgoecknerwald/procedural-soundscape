@@ -8,8 +8,10 @@ function pickRandom(arr) {
 
 // Note: Everything assumes 4/4 time
 const Tone = window.Tone;
-var leadLine = new SawTooth();
-var bassLine = new SimpleSine();
+var leadLine = new Tone.Synth();
+leadLine.toMaster();
+var bassLine = new Tone.Synth();
+bassLine.toMaster();
 
 Tone.Transport.bpm.value = 100;
 
@@ -35,6 +37,11 @@ function getNoteTime(time) {
 	var sixteenths = (time - bars - quarters) * 4;
 	return bars + ":" + quarters + ":" + sixteenths;
 }
+
+const chanceAscend = 0.5;
+const chanceStartRun = 0.5;
+const chanceEndRun = 0.7;
+const chanceAscendRun = 0.5;
 				
 var currPitchIndex = 0, currOctave = 4;
 
@@ -42,30 +49,27 @@ var noteIndexUI = document.getElementById("note-index");
 var notesUI = document.getElementById("notes");
 var notesString = "";
 var notesIndex = 0;
+var run = false;
+var runDirection = true; // true = up;
 
-// Create a full, half, or quarter measure of randomly-generated music.
-// Generate up to maxLength (in number of quarter notes) of music,
-// with given offset from the start of the measure.
-function createMeasure(maxLength, offset) {
-	var rhythm = pickRandom(chords.rhythms);
+function generateNotes(rhythm, totalTime, multiplier) {
 	var notes = [];
-	var totalTime = offset;
-	
-	// create a full, half, or quarter measure
-	var sectionLength = Math.random() * (Math.log2(maxLength) + 1);
-	sectionLength = Math.pow(2, Math.floor(sectionLength));
-	// console.log(maxLength + " " + offset + " " + sectionLength);
-	var multiplier = sectionLength / 4;
 	
 	// determine note length, timing, & pitch, for each note in the rhythm
 	for (var i = 0; i < rhythm.length; i++) {
 		// randomize pitch
 		var pitchIndex, pitch, octave;
 		do {
-			var interval = pickRandom(chords.intervals);
-			if (Math.random() > 0.5) {
-				interval *= -1;
+			var interval;
+			if (run) {
+				interval = (runDirection ? 1 : -1);
+			} else {
+				interval = pickRandom(chords.intervals);
+				if (Math.random() > chanceAscend) {
+					interval *= -1;
+				}
 			}
+			
 			pitchIndex = currPitchIndex + interval;
 			octave = currOctave;
 			if (pitchIndex < 0) {
@@ -76,6 +80,13 @@ function createMeasure(maxLength, offset) {
 				octave++;
 			}
 			pitch = chords.pitches[pitchIndex] + octave;
+			
+			if ((octave < chords.minOctave || octave > chords.maxOctave) && run) {
+				// stay on the same note for runs that go out of bounds
+				pitch = chords.pitches[currPitchIndex] + currOctave;
+				octave = currOctave;
+				pitchIndex = currPitchIndex;
+			}
 		} while (octave < chords.minOctave || octave > chords.maxOctave);
 		currPitchIndex = pitchIndex;
 		currOctave = octave;
@@ -91,14 +102,40 @@ function createMeasure(maxLength, offset) {
 		}
 		// console.log(time + " " + pitch + " " + length);
 	}
+	return notes;
+}
+
+// Create a full, half, or quarter measure of randomly-generated music.
+// Generate up to maxLength (in number of quarter notes) of music,
+// with given offset from the start of the measure.
+function createMeasure(maxLength, offset) {
+	// create a full, half, or quarter measure
+	var sectionLength = Math.random() * Math.floor(Math.log2(maxLength) + 1);
+	sectionLength = Math.pow(2, Math.floor(sectionLength));
+	// console.log(maxLength + " " + offset + " " + sectionLength);
 	
+	if (run && Math.random() < chanceEndRun) {
+		run = false;
+		//console.log("run finished");
+	} else if (!run && Math.random() < chanceStartRun) {
+		run = true;
+		if (Math.random() < chanceAscendRun) {
+			runDirection = true;
+			//console.log("start upwards run");
+		} else {
+			runDirection = false;
+			//console.log("start downwards run");
+		}
+	}
+	
+	var notes = generateNotes(pickRandom(chords.rhythms), offset, sectionLength / 4);
 	new Tone.Part(function(time, value) {
 		leadLine.triggerAttackRelease(value.pitch, value.length, time);
 		noteIndexUI.innerHTML = ++notesIndex;
 	}, notes).start("+0");
 	
 	// If a full measure hasn't been generated yet, generate the remaining part
-	if (multiplier * 4 < maxLength) {
+	if (sectionLength < maxLength) {
 		createMeasure(maxLength - sectionLength, offset + sectionLength);
 	}
 }
