@@ -176,20 +176,36 @@ var bassLoop = new Tone.Loop(function() {
     wav_suite["piano"].triggerAttackRelease("G3", "8n", "+2n.", 0.5);
 }, "1m").start(0);
 
+// Select random background on update-background button press.
+document.getElementById("update-background").addEventListener("click", function(){
+    console.log("Update background button toggled.");
+    const num_backgrounds = 38;
+    // Returns integers [0, num_backgrounds - 1] (assumes 0-indexing of backgrounds)
+    var rand = Math.floor(Math.random() * num_backgrounds);
+    var new_bkg = "../backgrounds/bkg" + rand.toString() + ".jpg";
+    console.log("New background: " + new_bkg);
+    document.body.style.backgroundImage = "url(\'" + new_bkg + "\'";
+    console.log(document.body.style.backgroundImage);
+});
+
+// <body onload="setbackground();">
+
 // Toggle audio button
 document.getElementById("play-pause-button").addEventListener("click", function(){
+    console.log("Play-pause button toggled.");
     var audio = document.getElementById('testAudio');
-        if (this.className == 'is-playing') {
+    if (this.className == 'is-playing') {
         // No longer playing
         this.className = "";
         // Replace fa-pause with fa-play icon
         this.innerHTML = "<i class=\"fa fa-play\"></i>"
         Tone.Transport.stop();
-        } else {
+    } 
+    else {
         // Now playing
         this.className = "is-playing";
         // Replace fa-play with fa-pause icon
         this.innerHTML = "<i class=\"fa fa-pause\"></i>";
         Tone.Transport.start();
-        }
+    }
 });
