@@ -3,6 +3,8 @@
 
 By Claire Goeckner-Wald and Amy Xiong.
 
+Check out the [demo](https://cgoecknerwald.github.io/procedural-soundscape).
+
 ## Thanks
 - [Font Awesome Icons](https://fontawesome.com/v4.7.0/icons/) by [Font Awesome](fontawesome.io)
 - [Tone.js](https://tonejs.github.io/) by [Yotam Mann](https://github.com/tambien)
