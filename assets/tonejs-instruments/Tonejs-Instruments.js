@@ -10,7 +10,8 @@ var SampleLibrary = {
     ext: '.[mp3|ogg]', // use setExt to change the extensions on all files // do not change this variable //
     baseUrl: '/samples/',
     list: ['bass-electric','bassoon','cello','clarinet','contrabass','flute','french-horn','guitar-acoustic','guitar-electric','guitar-nylon', 'harmonium','harp','organ','piano','saxophone','trombone','trumpet','tuba','violin','xylophone'],
-
+    onload: null,
+  
     setExt: function (newExt) {
         var i
         for (i = 0; i <= this.list.length - 1; i++) {
@@ -18,6 +19,8 @@ var SampleLibrary = {
 
                 this[this.list[i]][property] = this[this.list[i]][property].replace(this.ext, newExt)
             }
+
+
         }
         this.ext = newExt;
         return console.log("sample extensions set to " + this.ext)
@@ -28,6 +31,7 @@ var SampleLibrary = {
         (arg) ? t = arg: t = {};
         t.instruments = t.instruments || this.list;
         t.baseUrl = t.baseUrl || this.baseUrl;
+        t.onload = t.onload || this.onload;
 
         // update extensions if arg given
         if (t.ext) {
@@ -70,7 +74,8 @@ var SampleLibrary = {
 
                 rt[t.instruments[i]] = new Tone.Sampler(
                     newT, {
-                        baseUrl: t.baseUrl + t.instruments[i] + "/"
+                        baseUrl: t.baseUrl + t.instruments[i] + "/",
+                        onload: t.onload
                     }
 
                 )
@@ -103,9 +108,13 @@ var SampleLibrary = {
                 })
             }
 
+
+
+
             var s = new Tone.Sampler(
                 newT, {
-                    baseUrl: t.baseUrl + t.instruments + "/"
+                    baseUrl: t.baseUrl + t.instruments + "/",
+                    onload: t.onload
                 }
             )
 
@@ -144,6 +153,7 @@ var SampleLibrary = {
         'G3': 'G3.[mp3|ogg]',
         'A1': 'A1.[mp3|ogg]',
         'A2': 'A2.[mp3|ogg]'
+
     },
 
     'cello': {
@@ -182,6 +192,7 @@ var SampleLibrary = {
         'D#3': 'Ds3.[mp3|ogg]',
         'D#4': 'Ds4.[mp3|ogg]',
         'E2': 'E2.[mp3|ogg]'
+
     },
 
     'clarinet': {
@@ -196,6 +207,7 @@ var SampleLibrary = {
         'A#3': 'As3.[mp3|ogg]',
         'A#4': 'As4.[mp3|ogg]',
         'D2': 'D2.[mp3|ogg]'
+
     },
 
     'contrabass': {
@@ -212,6 +224,7 @@ var SampleLibrary = {
         'A1': 'A1.[mp3|ogg]',
         'A#0': 'As0.[mp3|ogg]',
         'B2': 'B2.[mp3|ogg]'
+
     },
 
     'flute': {
@@ -225,6 +238,7 @@ var SampleLibrary = {
         'E5': 'E5.[mp3|ogg]',
         'A3': 'A3.[mp3|ogg]',
         'A4': 'A4.[mp3|ogg]'
+
     },
 
     'french-horn': {
@@ -237,7 +251,8 @@ var SampleLibrary = {
         'A0': 'A0.[mp3|ogg]',
         'A2': 'A2.[mp3|ogg]',
         'C1': 'C1.[mp3|ogg]',
-        'C3': 'C3.[mp3|ogg]'
+        'C3': 'C3.[mp3|ogg]',
+
     },
 
     'guitar-acoustic': {
@@ -278,6 +293,7 @@ var SampleLibrary = {
         'E3': 'E3.[mp3|ogg]',
         'F1': 'F1.[mp3|ogg]',
         'F2': 'F2.[mp3|ogg]'
+
     },
 
 
@@ -332,6 +348,7 @@ var SampleLibrary = {
         'E4': 'E4.[mp3|ogg]',
         'E5': 'E5.[mp3|ogg]'
     },
+
 
     'harmonium': {
         'C2': 'C2.[mp3|ogg]',
@@ -395,6 +412,7 @@ var SampleLibrary = {
         'B5': 'B5.[mp3|ogg]',
         'B6': 'B6.[mp3|ogg]',
         'C3': 'C3.[mp3|ogg]'
+
     },
 
     'organ': {
@@ -542,6 +560,7 @@ var SampleLibrary = {
         'D4': 'D4.[mp3|ogg]',
         'D#2': 'Ds2.[mp3|ogg]',
         'D#3': 'Ds3.[mp3|ogg]'
+
     },
 
     'trombone': {
@@ -562,6 +581,7 @@ var SampleLibrary = {
         'G#2': 'Gs2.[mp3|ogg]',
         'A#0': 'As0.[mp3|ogg]',
         'A#1': 'As1.[mp3|ogg]'
+
     },
 
     'trumpet': {
@@ -576,6 +596,7 @@ var SampleLibrary = {
         'A4': 'A4.[mp3|ogg]',
         'A#3': 'As3.[mp3|ogg]',
         'C3': 'C3.[mp3|ogg]'
+
     },
 
     'tuba': {
@@ -588,6 +609,7 @@ var SampleLibrary = {
         'F1': 'F1.[mp3|ogg]',
         'F2': 'F2.[mp3|ogg]',
         'A#0': 'As0.[mp3|ogg]'
+
     },
 
     'violin': {
@@ -605,6 +627,7 @@ var SampleLibrary = {
         'G4': 'G4.[mp3|ogg]',
         'G5': 'G5.[mp3|ogg]',
         'G6': 'G6.[mp3|ogg]'
+        
     },
 
     'xylophone': {
@@ -616,6 +639,8 @@ var SampleLibrary = {
         'C4': 'C4.[mp3|ogg]',
         'C5': 'C5.[mp3|ogg]',
         'C6': 'C6.[mp3|ogg]'
+
     }
+
 
 }

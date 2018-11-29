@@ -13,7 +13,10 @@ const chanceStartRun = 0.5;
 const chanceEndRun = 0.7;
 const chanceAscendRun = 0.5;
                 
-var currPitchIndex = 0, currOctave = 4;
+var currPitchIndex = 0;
+var currOctave = 4;
+var run = false;
+var runDirection = true;
 
 /********************
     UI VARIABLES
@@ -24,35 +27,39 @@ var noteIndexUI = document.getElementById("note-bar1");
 var notesUI = document.getElementById("note-bar2");
 var notesString = "";
 var notesIndex = 0;
-var run = false;
-var runDirection = true;
 
 var wav_suite = SampleLibrary.load({
     instruments: [
-    "bass-electric",
-    "bassoon",
-    "cello",
-    "clarinet",
-    "contrabass",
-    "flute",
-    "french-horn",
-    "guitar-acoustic",
-    "guitar-electric",
-    "harmonium",
-    "harp",
-    "organ",
+    //"bass-electric",
+    //"bassoon",
+    //"cello",
+    //"clarinet",
+    //"contrabass",
+    //"flute",
+    //"french-horn",
+    //"guitar-acoustic",
+    //"guitar-electric",
+    //"harmonium",
+    //"harp",
+    //"organ",
     "piano",
-    "saxophone",
-    "trombone",
-    "trumpet",
-    "tuba",
-    "violin",
-    "xylophone"
-    ]});
-    
-// must call .toMaster() on all instruments
-wav_suite["piano"].toMaster();
-wav_suite["saxophone"].toMaster();
+    "saxophone"
+    //"trombone",
+    //"trumpet",
+    //"tuba",
+    //"violin",
+    //"xylophone"
+    ],
+    baseUrl: "https://cgoecknerwald.github.io/procedural-soundscape/assets/tonejs-instruments/samples/",
+});
+Tone.Buffer.on("load", function() {
+    console.log("loaded");
+    wav_suite["piano"].toMaster();
+    wav_suite["saxophone"].toMaster();
+});
+Tone.Buffer.on("error", function() {
+    console.log("error");
+});
 
 Tone.Transport.bpm.value = 100;
 
