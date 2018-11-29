@@ -1,13 +1,32 @@
 import * as synth_instruments from './instruments.js'
 import * as chords from './chords.js'
 
-// Choose a random entry from the array
-function pickRandom(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
 
+/********************
+   MUSIC VARIABLES
+********************/
 // Note: Everything assumes 4/4 time
 const Tone = window.Tone;
+
+const chanceAscend = 0.5;
+const chanceStartRun = 0.5;
+const chanceEndRun = 0.7;
+const chanceAscendRun = 0.5;
+                
+var currPitchIndex = 0, currOctave = 4;
+
+/********************
+    UI VARIABLES
+********************/
+var backgroundInitialized = false;
+var backgroundImageIndex = -1;
+var noteIndexUI = document.getElementById("note-bar1");
+var notesUI = document.getElementById("note-bar2");
+var notesString = "";
+var notesIndex = 0;
+var run = false;
+var runDirection = true;
+
 var wav_suite = SampleLibrary.load({
     instruments: [
     "bass-electric",
@@ -37,6 +56,10 @@ wav_suite["saxophone"].toMaster();
 
 Tone.Transport.bpm.value = 100;
 
+/********************
+   MUSIC FUNCITONS
+********************/
+
 // Converts input note length from a float (1 = quarter, 0.5 = eighth, etc.)
 // to Tone's string format ("4n", "8n", etc.).
 // Cannot handle triplet notes or double dots.
@@ -59,19 +82,11 @@ function getNoteTime(time) {
     var sixteenths = (time - bars - quarters) * 4;
     return bars + ":" + quarters + ":" + sixteenths;
 }
-const chanceAscend = 0.5;
-const chanceStartRun = 0.5;
-const chanceEndRun = 0.7;
-const chanceAscendRun = 0.5;
-                
-var currPitchIndex = 0, currOctave = 4;
 
-var noteIndexUI = document.getElementById("note-index");
-var notesUI = document.getElementById("notes");
-var notesString = "";
-var notesIndex = 0;
-var run = false;
-var runDirection = true; // true = up;
+// Choose a random entry from the array
+function pickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
 
 function generateNotes(rhythm, totalTime, multiplier) {
     var notes = [];
@@ -121,7 +136,6 @@ function generateNotes(rhythm, totalTime, multiplier) {
             notes.push({"time" : time, "pitch" : pitch, "length" : length});
             notesString += pitch + " " + length + ", ";
         }
-        // console.log(time + " " + pitch + " " + length);
     }
     return notes;
 }
@@ -133,25 +147,22 @@ function createMeasure(maxLength, offset) {
     // create a full, half, or quarter measure
     var sectionLength = Math.random() * Math.floor(Math.log2(maxLength) + 1);
     sectionLength = Math.pow(2, Math.floor(sectionLength));
-    // console.log(maxLength + " " + offset + " " + sectionLength);
     
     if (run && Math.random() < chanceEndRun) {
         run = false;
-        //console.log("run finished");
     } else if (!run && Math.random() < chanceStartRun) {
         run = true;
         if (Math.random() < chanceAscendRun) {
             runDirection = true;
-            //console.log("start upwards run");
         } else {
             runDirection = false;
-            //console.log("start downwards run");
         }
     }
     
     var notes = generateNotes(pickRandom(chords.rhythms), offset, sectionLength / 4);
     new Tone.Part(function(time, value) {
         wav_suite["saxophone"].triggerAttackRelease(value.pitch, value.length, time);
+        console.log("Updating note index.");
         noteIndexUI.innerHTML = ++notesIndex;
     }, notes).start("+0");
     
@@ -164,6 +175,7 @@ function createMeasure(maxLength, offset) {
 // Randomize, one measure at a time
 var loop = new Tone.Loop(function() {
     createMeasure(4, 0);
+    console.log("Updating notes.");
     notesUI.innerHTML = notesString;
     notesString = "";
     notesIndex = 0;
@@ -176,13 +188,19 @@ var bassLoop = new Tone.Loop(function() {
     wav_suite["piano"].triggerAttackRelease("G3", "8n", "+2n.", 0.5);
 }, "1m").start(0);
 
+/********************
+    UI FUNCTIONS
+********************/
+
 // Select random background on update-background button press.
 document.getElementById("update-background").addEventListener("click", function(){
+    console.log("Update background button toggled.");
     updateBackground();
 });
 
 function updateBackground() {
-    console.log("Update background button toggled.");
+    console.log("Updating background.");
+    backgroundInitialized = true;
     const num_backgrounds = 49;
     // Returns integers [0, num_backgrounds - 1] (assumes 0-indexing of backgrounds)
     var rand = Math.floor(Math.random() * num_backgrounds);
@@ -191,8 +209,6 @@ function updateBackground() {
     document.body.style.backgroundColor = "transparent";
     document.body.style.backgroundImage = "url(\'" + new_bkg + "\')";
 }
-
-// <body onload="setbackground();">
 
 // Toggle audio button
 document.getElementById("play-pause-button").addEventListener("click", function(){
@@ -210,6 +226,10 @@ document.getElementById("play-pause-button").addEventListener("click", function(
         this.className = "is-playing";
         // Replace fa-play with fa-pause icon
         this.innerHTML = "<i class=\"fa fa-pause\"></i>";
+        // Update the background only IFF it has not been initialized.
+        if (!backgroundInitialized) {
+            updateBackground();
+        }
         Tone.Transport.start();
     }
 });

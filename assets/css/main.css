@@ -30,10 +30,10 @@ button, input[type="submit"], input[type="reset"]  {
     font-size: 20vmin;
 	height: 100%;
 }
+
 button:hover {
     color: #02a6f2;
 } 
-
 
 /* 
 
@@ -58,6 +58,7 @@ PANELLING (CONTAINERS)
 }
 .grid-panel {
     background-color: black;
+    opacity: 0.92;
     text-align: center;
     display: table-cell;
     overflow: hidden;
@@ -72,6 +73,7 @@ PANELLING (CONTAINERS)
 .grid-fullrow {
     grid-column: 1 / span 5;
 	background-color: black;
+    opacity: 0.92;
 	overflow: hidden;
 	min-width: 0;
 	text-align: center;
@@ -101,8 +103,8 @@ PANELLING (CONTAINERS)
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: white;
-	color: black;
+	background-color: black;
+	color: white;
 	margin: 40px;
 	padding: 10px;
 }
