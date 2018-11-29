@@ -9,3 +9,6 @@
 - https://github.com/nbrosowsky/tonejs-instruments (WAVs of publicly available instrument samples)
 - https://medium.com/@lukepura/basics-of-making-music-with-tone-js-5b294a92b240
 - Licensing a no-licensed repository (wheelibin's synthaesthesia)
+  - https://choosealicense.com/no-permission/
+  - https://github.com/wheelibin/synaesthesia/commit/5d27951bef5078c72f9c73a65983374879c9c920
+- Adding MIT license for ourselves

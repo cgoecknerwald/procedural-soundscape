@@ -183,16 +183,13 @@ document.getElementById("update-background").addEventListener("click", function(
 
 function updateBackground() {
     console.log("Update background button toggled.");
-    console.log(document.body.style.backgroundImage);
-    const num_backgrounds = 38;
+    const num_backgrounds = 49;
     // Returns integers [0, num_backgrounds - 1] (assumes 0-indexing of backgrounds)
     var rand = Math.floor(Math.random() * num_backgrounds);
-    var new_bkg = "https://cgoecknerwald.github.io/procedural-soundscape/assets/backgrounds/bkg" + rand.toString() + ".jpg";
+    var new_bkg = "assets/backgrounds/bg" + rand.toString() + ".jpg";
     console.log("New background: " + new_bkg);
     document.body.style.backgroundColor = "transparent";
     document.body.style.backgroundImage = "url(\'" + new_bkg + "\')";
-    console.log(document.body.style.backgroundColor);
-    console.log(document.body.style.backgroundImage);
 }
 
 // <body onload="setbackground();">
