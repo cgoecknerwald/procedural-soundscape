@@ -108,3 +108,28 @@ PANELLING (CONTAINERS)
 	margin: 40px;
 	padding: 10px;
 }
+
+/* 
+
+LOADING SCREEN
+
+*/
+#loading-screen {
+    height: 100vh;
+    width: 100vw;
+    text-align: center;
+}
+
+.loading-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 30vh;
+    padding-bottom: 10vh;
+}
+
+.loading-text {
+	color: white;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+}

@@ -179,6 +179,7 @@ export function init() {
     console.log("Loading tonejs-instruments...");
     Tone.Buffer.on("load", function() {
         console.log("Successfully loaded tonejs-instruments.");
+        UI.loadPage();
         wav_suite["piano"].toMaster();
         wav_suite["saxophone"].toMaster();
     });

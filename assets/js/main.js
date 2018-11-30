@@ -54,6 +54,11 @@ document.getElementById("play-pause-button").addEventListener("click", function(
 // Display BPM
 document.getElementById("bpm-value").innerHTML = Tone.Transport.bpm.value;
 
+export function loadPage() {
+    document.getElementById("page-content").style.display = "grid";
+    document.getElementById("loading-screen").style.display = "none";
+}
+
 export function updateNoteIndex() {
     noteIndexUI.innerHTML = ++notesIndex;
 }

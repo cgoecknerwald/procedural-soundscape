@@ -10,8 +10,19 @@
 		<link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet"> 
 	</head>
 
-	<body>
-		<div class="grid-container">
+	<body><div>
+        <!-- Loading Screen -->
+        <div id="loading-screen">
+            <div class="loading-title">
+                <div><h1>Procedural Soundscape</h1></div>
+                <div><h2>Claire Goeckner-Wald & Amy Xiong</h2></div>
+            </div>
+            <div class="loading-text">Loading...</div>
+        </div></div>
+        
+        
+        <!-- Main Content -->
+		<div id="page-content" style="display:none;" class="grid-container">
 			<div class="grid-panel">
 				<button id="play-pause-button">
 					<i class="fa fa-play"></i>
@@ -47,7 +58,7 @@
 			</div>
 		</div>
 
-
+        
 		<!-- Force Module Preload -->
 		<!-- Ref: https://developers.google.com/web/fundamentals/primers/modules -->
 		<link rel="modulepreload" href="./assets/js/instruments.js">
