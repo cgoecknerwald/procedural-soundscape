@@ -160,14 +160,14 @@ export function init() {
         ],
         baseUrl: "https://cgoecknerwald.github.io/procedural-soundscape/assets/tonejs-instruments/samples/",
     });
-    console.log("loading");
+    console.log("Loading tonejs-instruments...");
     Tone.Buffer.on("load", function() {
-        console.log("loaded");
+        console.log("Successfully loaded tonejs-instruments.");
         wav_suite["piano"].toMaster();
         wav_suite["saxophone"].toMaster();
     });
     Tone.Buffer.on("error", function() {
-        console.log("error");
+        console.log("Error: failed to load tonejs-instruments.");
     });
 
     Tone.Transport.bpm.value = 100;
