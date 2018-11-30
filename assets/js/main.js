@@ -51,6 +51,9 @@ document.getElementById("play-pause-button").addEventListener("click", function(
     }
 });
 
+// Display BPM
+document.getElementById("bpm-value").innerHTML = Tone.Transport.bpm.value;
+
 export function updateNoteIndex() {
     noteIndexUI.innerHTML = ++notesIndex;
 }
