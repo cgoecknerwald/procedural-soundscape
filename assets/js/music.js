@@ -20,8 +20,8 @@ export function init() {
     const chanceAscendRun = 0.5;
     const chanceRepeat = 0.5;
                     
-    var currPitchIndex = 0;
-    var currOctave = 4;
+    var currPitchIndex = 5;
+    var currOctave = 3;
     var run = false;
     var runDirection = true;
     
@@ -197,9 +197,9 @@ export function init() {
     }, "1m").start(0);
 
     var bassLoop = new Tone.Loop(function() {
-        wav_suite["piano"].triggerAttackRelease("G3", "8n", "+0", 1);
-        wav_suite["piano"].triggerAttackRelease("G3", "8n", "+4n", 0.5);
-        wav_suite["piano"].triggerAttackRelease("G3", "8n", "+2n", 0.5);
-        wav_suite["piano"].triggerAttackRelease("G3", "8n", "+2n.", 0.5);
+        wav_suite["piano"].triggerAttackRelease("G2", "8n", "+0", 1);
+        wav_suite["piano"].triggerAttackRelease("G2", "8n", "+4n", 0.5);
+        wav_suite["piano"].triggerAttackRelease("G2", "8n", "+2n", 0.5);
+        wav_suite["piano"].triggerAttackRelease("G2", "8n", "+2n.", 0.5);
     }, "1m").start(0);
 }
