@@ -125,10 +125,7 @@ function generateNotes(rhythm, totalTime, multiplier) {
             pitch = chords.pitches[pitchIndex] + octave;
             
             if ((octave < chords.minOctave || octave > chords.maxOctave) && run) {
-                // stay on the same note for runs that go out of bounds
-                pitch = chords.pitches[currPitchIndex] + currOctave;
-                octave = currOctave;
-                pitchIndex = currPitchIndex;
+                run = false;
             }
         } while (octave < chords.minOctave || octave > chords.maxOctave);
         currPitchIndex = pitchIndex;
@@ -161,15 +158,17 @@ function createMeasure(maxLength, offset) {
         run = true;
         if (Math.random() < chanceAscendRun) {
             runDirection = true;
+            // console.log("start upwards run");
         } else {
             runDirection = false;
+            // console.log("start downwards run");
         }
     }
     
     var notes = generateNotes(pickRandom(chords.rhythms), offset, sectionLength / 4);
     new Tone.Part(function(time, value) {
         wav_suite["saxophone"].triggerAttackRelease(value.pitch, value.length, time);
-        console.log("Updating note index.");
+        // console.log("Updating note index.");
         noteIndexUI.innerHTML = ++notesIndex;
     }, notes).start("+0");
     
@@ -182,7 +181,7 @@ function createMeasure(maxLength, offset) {
 // Randomize, one measure at a time
 var loop = new Tone.Loop(function() {
     createMeasure(4, 0);
-    console.log("Updating notes.");
+    // console.log("Updating notes.");
     notesUI.innerHTML = notesString;
     notesString = "";
     notesIndex = 0;
