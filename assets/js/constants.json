@@ -1,0 +1,69 @@
+/*
+EXAMPLE JSON OBJECT:
+
+{
+    "index": 0
+    "bpm": 80
+    "primary_color": "darkblue"
+    "secondary_color": "blue"
+    "accent_color": "lightblue"
+    "drums": [
+        "OpenHat",
+        "DampenedOpenHat",
+        "Shaker"
+    ]
+    "pads": [
+        "Tiny",
+        "FM_ElectricCello",
+        "SimpleSine",
+        "SoftSquareFm",
+        "PossiblePiano"
+    ]
+    "effects": [
+        "Laser"
+    ]
+    "chords": [
+        "bass-electric",
+        "bassoon",
+        "cello",
+        "clarinet",
+        "contrabass",
+        "flute",
+        "french-horn",
+        "guitar-acoustic",
+        "guitar-electric",
+        "harmonium",
+        "harp",
+        "organ",
+        "piano",
+        "saxophone",
+        "trombone",
+        "trumpet",
+        "tuba",
+        "violin",
+        "xylophone"
+    ]
+    "melody": [
+        "bass-electric",
+        "bassoon",
+        "cello",
+        "clarinet",
+        "contrabass",
+        "flute",
+        "french-horn",
+        "guitar-acoustic",
+        "guitar-electric",
+        "harmonium",
+        "harp",
+        "organ",
+        "piano",
+        "saxophone",
+        "trombone",
+        "trumpet",
+        "tuba",
+        "violin",
+        "xylophone"
+    ]
+}
+*/
+

@@ -9,6 +9,10 @@ export class Instrument {
   }
 }
 
+/********************
+        PADS
+********************/
+
 // Standard rounded synth feel
 export class Tiny extends Instrument {
   constructor(volume = 10) {
@@ -120,15 +124,6 @@ export class SoftSquareFm extends Instrument {
   }
 }
 
-// Goofy retro laser noise
-export class Laser extends Instrument {
-  constructor(volume = 28) {
-    super(new Tone.MembraneSynth({ pitchDecay: 0.1 }), volume);
-    var comp = new Tone.Compressor(-30, 12).toMaster();
-    this.synth.connect(comp);
-  }
-}
-
 // Synthy piano replacement
 export class PossiblePiano extends Instrument {
   constructor(volume = 24) {
@@ -153,11 +148,29 @@ export class PossiblePiano extends Instrument {
   }
 }
 
+/********************
+        DRUMS
+********************/
+
 export class OpenHat extends Instrument {
   constructor(volume = 10, frequency) {
     super(
       new Tone.MetalSynth({
         frequency: frequency
+      }),
+      volume
+    );
+  }
+}
+
+export class DampenedOpenHat extends Instrument {
+  constructor(volume = 8, frequency) {
+    super(
+      new Tone.MetalSynth({
+        frequency: frequency,
+        modulationIndex: 32,
+        resonance: 1000,
+        octaves: 1.5
       }),
       volume
     );
@@ -182,16 +195,15 @@ export class Shaker extends Instrument {
   }
 }
 
-export class DampenedOpenHat extends Instrument {
-  constructor(volume = 8, frequency) {
-    super(
-      new Tone.MetalSynth({
-        frequency: frequency,
-        modulationIndex: 32,
-        resonance: 1000,
-        octaves: 1.5
-      }),
-      volume
-    );
+/********************
+      EFFECTS
+********************/
+
+// Goofy retro laser noise
+export class Laser extends Instrument {
+  constructor(volume = 28) {
+    super(new Tone.MembraneSynth({ pitchDecay: 0.1 }), volume);
+    var comp = new Tone.Compressor(-30, 12).toMaster();
+    this.synth.connect(comp);
   }
 }
