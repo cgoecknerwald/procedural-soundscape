@@ -18,7 +18,7 @@ export function init() {
     const chanceStartRun = 0.5;
     const chanceEndRun = 0.7;
     const chanceAscendRun = 0.5;
-    const chanceRepeat = 1;
+    const chanceRepeat = 0.5;
                     
     var currPitchIndex = 0;
     var currOctave = 4;
@@ -98,7 +98,6 @@ export function init() {
                 notes.push({"time" : time, "pitch" : pitch, "length" : length});
             }
         }
-        UI.setNotesString(notes);
         return notes;
     }
 
@@ -124,6 +123,23 @@ export function init() {
         }
         
         var notes = generateNotes(pickRandom(chords.rhythms), offset, sectionLength / 4);
+        
+        // possibly repeat
+        if (sectionLength * 2 <= maxLength && Math.random() < chanceRepeat) {
+            // console.log("repeat " + sectionLength);
+            var len = notes.length;
+            for (var i = 0; i < len; i++) {
+                var oldTime = notes[i].time;
+                var newTime = oldTime.slice(0, 2) + (parseInt(oldTime[2]) + sectionLength);
+                newTime += oldTime.slice(3);
+                notes.push({"time": newTime, "pitch": notes[i].pitch, "length" : notes[i].length});
+            }
+            
+            sectionLength *= 2;
+        }
+        
+        UI.setNotesString(notes);
+        
         new Tone.Part(function(time, value) {
             wav_suite["saxophone"].triggerAttackRelease(value.pitch, value.length, time);
             // console.log("Updating note index.");
