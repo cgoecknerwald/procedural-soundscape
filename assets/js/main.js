@@ -70,7 +70,9 @@ export function resetNotesUI() {
 }
 
 export function setNotesString(notes) {
-    notes.forEach(function(note) {
-        notesString += note.pitch + " " + note.length + ", ";
-    });
+    if (notesString != "") notesString += ", ";
+    notesString += notes[0].pitch + " " + notes[0].length;
+    for (var i = 1; i < notes.length; i++) {
+        notesString += ", " + notes[i].pitch + " " + notes[i].length;
+    }
 }
