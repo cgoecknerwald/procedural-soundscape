@@ -6,6 +6,16 @@
 \usepackage{etoolbox}
 % BibTex styling
 \usepackage{natbib}
+% For URL hyperlinks (including in references.bib)
+\usepackage{hyperref}
+
+% For monospacing (for package names, variable names, etc.)
+\newcommand{\code}{\texttt}
+
+% Better inline directory listings (slightly gray)
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\lightcode}[1]{\colorbox{light-gray}{\texttt{#1}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Page dimensions %%%%%
@@ -59,7 +69,7 @@
 
 A short overview of your project idea, why it is interesting and what you would like to learn from it.
 
-Test citation: \cite{tonejs-instruments}
+Example citation: \cite{tonejs-instruments}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Detailed Description and Features %%%
@@ -74,6 +84,9 @@ Audio requirements (and probably also requirements necessary to run the files)
 \subsection{Technical challenges}
 \subsection{Technological Review}
 Discuss relevant github repos and projects and articles
+
+Wheelibin's synaesthesia (drum kit and synths). We based our chords.js and rhythms.js off of synaesthesia. Tambien's Jazz.Computer but they had a very strange music set-up with interpolation and mediators between synths. We attempted to replicate by playing mulitple synths simulataneously but the resulting 'piano' was very tinny and sounded like Scottish bagpipes. We got mostly drums synths and pads from Yotamm.
+
 \subsection{Licensing}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,8 +96,19 @@ Discuss relevant github repos and projects and articles
 \section{Implementation}
 \subsection{Technical Design}
 Technical design and reasons for choosing this design
+
+We've decided to use tone.js instead of audiosynth.js by Keith William Horwood. We also chose tone.js over SuperCollider, Flocking.js, PureData, because of web integration ease. Flocking also had web integration but a smaller online community and seemed less robust and less abstracted. Audiosynth.js did not have looping technologies. We briefly considered integrating with audiosynth.js but it proved to be too difficult.
+
+We looked at Karplus-Strong String Synthesis but determined it was only relevant if we used audiosynth.js.
+
 \subsection{Implementation Issues}
 Implementation issues, note any particular technical or audio difficulties and work-arounds
+
+We looked into playing and modifying audiofiles (MP3s or WAVs) but the integration with Tone.js seemed too complicated \cite{tonejs-issue}. This threw us off track for several weeks as we searched for good synths to use (we found none). Claire had switched to DuckDuckGo during the project, which has a much less 'intelligent' search algorithm, which would not return the repo "tonejs-instruments" from a search for "tone js instruments" \cite{tonejs-instruments}. In \lightcode{tonejs-instruments}, they use publicly available WAVs from about a dozen instruments, including saxophone and piano (but no drums). Google, however, did, so eventually it was found. We relied heavily on this repo. https://github.com/Tonejs/Tone.js/issues/290 references why we can't use .wav files in Tone.js (simply not supported, it seems). 
+
+We discussed moving instruments synths into instruments.js, out of main.js. Moving roots/scales/chord progressions/rhythms/min \& max on octaves in chords.js
+
+Licensing a no-licensed repository (wheelibin's synaesthesia) \cite{synaesthesia-license}. Choose-a-license, hosted and run by GitHub, was very helpful \cite{choose-license-none}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%% Analysis & Conclusion %%%%%%%%%%
