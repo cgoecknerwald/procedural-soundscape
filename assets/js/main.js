@@ -76,3 +76,7 @@ export function setNotesString(notes) {
         notesString += ", " + notes[i].pitch + " " + notes[i].length;
     }
 }
+
+export function setKey(tonic, scale) {
+    document.getElementById("key-value").innerHTML = tonic + " " + scale.replace("_", " ");
+}

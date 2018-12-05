@@ -13,12 +13,12 @@ const roots = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
 export const scales = {
   Major: [2, 2, 1, 2, 2, 2],
   Minor: [2, 1, 2, 2, 1, 2],
-  HarmonicMinor: [2, 1, 2, 2, 1, 3],
-  MelodicMinor: [2, 1, 2, 2, 2, 2],
-  PentatonicMajor: [2, 2, 3, 2],
-  PentatonicMinor: [3, 2, 2, 3],
-  PentatonicBlues: [3, 2, 1, 1],
-  PentatonicNeutral: [2, 3, 2],
+  Harmonic_Minor: [2, 1, 2, 2, 1, 3],
+  Melodic_Minor: [2, 1, 2, 2, 2, 2],
+  Pentatonic_Major: [2, 2, 3, 2],
+  Pentatonic_Minor: [3, 2, 2, 3],
+  Pentatonic_Blues: [3, 2, 1, 1],
+  Pentatonic_Neutral: [2, 3, 2],
   Ionian: [2, 2, 1, 2, 2, 2],
   Aeolian: [2, 1, 2, 2, 1, 2],
   Dorian: [2, 1, 2, 2, 2, 1],
@@ -26,7 +26,7 @@ export const scales = {
   Phrygian: [1, 2, 2, 2, 1, 2],
   Lydian: [2, 2, 2, 1, 2, 2],
   Locrian: [1, 2, 2, 1, 2, 2],
-  Dominant7th: [2, 2, 1, 2, 2, 1],
+  Dominant_7th: [2, 2, 1, 2, 2, 1],
   Blues: [3, 2, 1, 1, 3]
   //   Dimhalf: [1, 2, 1, 2, 1, 2],
   //   Dimwhole: [2, 1, 2, 1, 2, 1],
@@ -75,14 +75,15 @@ export const chordProgressions = [
 
 const chords = [[1, 3, 5], [1, 3, 5, 7], [1, 3, 5, 9], [1, 3, 5, 7, 9], [1, 3, 5, 7, 9, 11]];
 
+
+// USED OWN FUNCTIONS
+
 export function pickRandomTonicIndex() {
     return Math.floor(Math.random() * roots.length);
 }
 
-export function pickRandomScaleType() {
-    var keys = Object.keys(scales);
-    var scale = keys[Math.floor(Math.random() * keys.length)];
-    return scales[scale];
+export function getPitchFromIndex(index) {
+    return roots[index];
 }
 
 export function generateAvailableNotes(tonicIndex, intervals, minOctave, maxOctave) {
@@ -121,8 +122,16 @@ export function generateAvailableNotes(tonicIndex, intervals, minOctave, maxOcta
 }
 
 
+// USED WHEELIBIN FUNCTIONS
+
+export const getRandomScaleType = () => {
+  var keys = Object.keys(scales);
+  var randomType = keys[(keys.length * Math.random()) << 0];
+  return { type: randomType, intervals: scales[randomType] };
+};
 
 
+// CURRENTLY UNUSED WHEELIBIN FUNCTIONS
 
 export const getRandomRootNote = () => {
   return roots[utils.randomIntBetween(0, roots.length - 1)];
@@ -145,12 +154,6 @@ export const actualNotesFromScale = (tonic, scale, lowOctave, highOctave) => {
     notes = [...notes, ...octaveScale];
   }
   return notes;
-};
-
-export const getRandomScaleType = () => {
-  var keys = Object.keys(scales);
-  var randomType = keys[(keys.length * Math.random()) << 0];
-  return { type: randomType, intervals: scales[randomType] };
 };
 
 export const getChordProgressionForKey = (key, progression, chordTypesToUse) => {
