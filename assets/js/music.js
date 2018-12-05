@@ -19,11 +19,17 @@ export function init() {
     const chanceEndRun = 0.7;
     const chanceAscendRun = 0.5;
     const chanceRepeat = 0.5;
+    
+    // Initialize scale & key
+    var tonicIndex = chords.pickRandomTonicIndex();
+    var intervals = chords.pickRandomScaleType();
+    //console.log(tonicIndex + " " + intervals);
+    var availableNotes = chords.generateAvailableNotes(tonicIndex, intervals, chords.minOctave, chords.maxOctave);
+    //console.log(availableNotes);
                     
-    var currPitchIndex = 5;
-    var currOctave = 3;
     var run = false;
     var runDirection = true;
+    var currPitchIndex = availableNotes.length / 2;
     
     // Converts input note length from a float (1 = quarter, 0.5 = eighth, etc.)
     // to Tone's string format ("4n", "8n", etc.).
@@ -52,51 +58,55 @@ export function init() {
     function pickRandom(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
     }
+    
+    function isValidIndex(i, arr) {
+        return i >= 0 && i < arr.length;
+    }
+    
+
 
     function generateNotes(rhythm, totalTime, multiplier) {
         var notes = [];
+        var isValidNotesIndex = (i) => isValidIndex(i, availableNotes);
         
         // determine note length, timing, & pitch, for each note in the rhythm
         for (var i = 0; i < rhythm.length; i++) {
             // randomize pitch
-            var pitchIndex, pitch, octave;
-            do {
-                var interval;
-                if (run) {
-                    interval = (runDirection ? 1 : -1);
-                } else {
-                    interval = pickRandom(chords.intervals);
-                    if (Math.random() > chanceAscend) {
-                        interval *= -1;
-                    }
-                }
-                
+            var pitchIndex;
+            if (run) {
+                var interval = (runDirection ? 1 : -1);
                 pitchIndex = currPitchIndex + interval;
-                octave = currOctave;
-                if (pitchIndex < 0) {
-                    pitchIndex += chords.pitches.length;
-                    octave--;
-                } else if (pitchIndex >= chords.pitches.length) {
-                    pitchIndex -= chords.pitches.length;
-                    octave++;
-                }
-                pitch = chords.pitches[pitchIndex] + octave;
-                
-                if ((octave < chords.minOctave || octave > chords.maxOctave) && run) {
+                if (!isValidNotesIndex(pitchIndex)) {
                     run = false;
                 }
-            } while (octave < chords.minOctave || octave > chords.maxOctave);
+            }
+            
+            if (!run) {
+                // generate all possible next notes, then randomly pick one of them
+                var possibilities = [];
+                chords.intervals.forEach(function(s) {
+                    var index = currPitchIndex + s;
+                    if (isValidNotesIndex(index)) {
+                        possibilities.push(index);
+                    }
+                    
+                    index = currPitchIndex - s;
+                    if (isValidNotesIndex(index)) {
+                        possibilities.push(index);
+                    }
+                });
+                pitchIndex = pickRandom(possibilities);
+            }
+            var pitch = availableNotes[pitchIndex];
             currPitchIndex = pitchIndex;
-            currOctave = octave;
             
             // determine note length and timing
             var length = getNoteLength(rhythm[i] * multiplier)
             var time = getNoteTime(totalTime);
             totalTime += rhythm[i] * multiplier;
             
-            if (pitch != "") {
-                notes.push({"time" : time, "pitch" : pitch, "length" : length});
-            }
+            notes.push({"time" : time, "pitch" : pitch, "length" : length});
+            //console.log(time + " " + pitch + " " + length);
         }
         return notes;
     }
@@ -152,6 +162,7 @@ export function init() {
         }
     }
 
+    // Load instruments and start Tone
     var wav_suite = SampleLibrary.load({
         instruments: [
         //"bass-electric",
@@ -202,4 +213,5 @@ export function init() {
         wav_suite["piano"].triggerAttackRelease("G2", "8n", "+2n", 0.5);
         wav_suite["piano"].triggerAttackRelease("G2", "8n", "+2n.", 0.5);
     }, "1m").start(0);
+        
 }

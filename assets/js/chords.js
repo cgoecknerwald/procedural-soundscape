@@ -75,6 +75,55 @@ export const chordProgressions = [
 
 const chords = [[1, 3, 5], [1, 3, 5, 7], [1, 3, 5, 9], [1, 3, 5, 7, 9], [1, 3, 5, 7, 9, 11]];
 
+export function pickRandomTonicIndex() {
+    return Math.floor(Math.random() * roots.length);
+}
+
+export function pickRandomScaleType() {
+    var keys = Object.keys(scales);
+    var scale = keys[Math.floor(Math.random() * keys.length)];
+    return scales[scale];
+}
+
+export function generateAvailableNotes(tonicIndex, intervals, minOctave, maxOctave) {
+    var scaleIndices = [tonicIndex];
+    var noteIndex = tonicIndex;
+    intervals.forEach(function(s) {
+        noteIndex += s;
+        if (noteIndex >= roots.length) {
+            noteIndex -= roots.length;
+        }
+        scaleIndices.push(noteIndex);
+    });
+    
+    var notes = [];
+    var octave = minOctave;
+    var prevPitch = tonicIndex;
+    var currPitch = tonicIndex;
+    var i = 0;
+    while (octave <= maxOctave) {
+        notes.push(roots[currPitch] + octave);
+        
+        // get next pitch
+        i++;
+        if (i >= scaleIndices.length) {
+            i -= scaleIndices.length;
+        }
+        
+        prevPitch = currPitch;
+        currPitch = scaleIndices[i];
+        if (currPitch < prevPitch) {
+            octave++;
+        }
+    }
+    
+    return notes;
+}
+
+
+
+
+
 export const getRandomRootNote = () => {
   return roots[utils.randomIntBetween(0, roots.length - 1)];
 };
