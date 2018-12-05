@@ -1,9 +1,11 @@
 \documentclass[12pt,a4paper]{article}
 
-\usepackage{graphics,graphicx}
-\usepackage{pgfgantt}
-\usepackage{dramatist}  
+% Graphic (images) styling
+\usepackage{graphicx}
+% Verbatim code / psuedocode styling
 \usepackage{etoolbox}
+% BibTex styling
+\usepackage{natbib}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Page dimensions %%%%%
@@ -56,6 +58,8 @@
 \section{Introduction}
 
 A short overview of your project idea, why it is interesting and what you would like to learn from it.
+
+Test citation: \cite{tonejs-instruments}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Detailed Description and Features %%%
@@ -132,11 +136,8 @@ Include resources here.
 %% References section: %
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{References}
-
-% List references here
-
-\noindent [1] Reference example.
+\bibliography{references}
+\bibliographystyle{plain}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% End of document %%%%%
