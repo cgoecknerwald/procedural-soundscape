@@ -2,8 +2,18 @@ import * as synth_instruments from './instruments.js'
 import * as chords from './chords.js'
 import * as UI from './main.js'
 
+const chanceAscend = 0.5;
+const chanceStartRun = 0.5;
+const chanceEndRun = 0.7;
+const chanceAscendRun = 0.5;
+const chanceRepeat = 0.5;
+
+var tonic, scale;
+
+// Should be called after init()
 export function start() {
     window.Tone.Transport.start();
+    UI.setKey(tonic, scale);
 }
 
 export function stop() {
@@ -13,23 +23,20 @@ export function stop() {
 export function init() {
     // Note: Everything assumes 4/4 time
     const Tone = window.Tone;
-
-    const chanceAscend = 0.5;
-    const chanceStartRun = 0.5;
-    const chanceEndRun = 0.7;
-    const chanceAscendRun = 0.5;
-    const chanceRepeat = 0.5;
     
     // Initialize scale & key
     var tonicIndex = chords.pickRandomTonicIndex();
-    var intervals = chords.pickRandomScaleType();
+    tonic = chords.getPitchFromIndex(tonicIndex);
+    var scaleType = chords.getRandomScaleType();
+    var intervals = scaleType.intervals;
+    scale = scaleType.type;
     //console.log(tonicIndex + " " + intervals);
     var availableNotes = chords.generateAvailableNotes(tonicIndex, intervals, chords.minOctave, chords.maxOctave);
     //console.log(availableNotes);
                     
     var run = false;
     var runDirection = true;
-    var currPitchIndex = availableNotes.length / 2;
+    var currPitchIndex = Math.floor(availableNotes.length / 2);
     
     // Converts input note length from a float (1 = quarter, 0.5 = eighth, etc.)
     // to Tone's string format ("4n", "8n", etc.).
@@ -62,8 +69,6 @@ export function init() {
     function isValidIndex(i, arr) {
         return i >= 0 && i < arr.length;
     }
-    
-
 
     function generateNotes(rhythm, totalTime, multiplier) {
         var notes = [];
