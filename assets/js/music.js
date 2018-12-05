@@ -7,7 +7,7 @@ export function start() {
 }
 
 export function stop() {
-    window.Tone.Transport.stop();
+    window.Tone.Transport.pause();
 }
 
 export function init() {
