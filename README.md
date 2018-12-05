@@ -34,12 +34,12 @@ Check out the [demo](https://cgoecknerwald.github.io/procedural-soundscape).
 - [Photo 18](https://unsplash.com/photos/ehQNfr7odvs) by Joel Vodell on Unsplash
 - [Photo 19](https://unsplash.com/photos/LzgK6IMoSZM) by Kupono Kuwamura on Unsplash
 - [Photo 20](https://unsplash.com/photos/3dUpL1h97CQ) by Lurm on Unsplash
-- [Photo 21](https://unsplash.com/photos/FMiOX4tkUh0) by Maksim Shutov on Unsplash
+- [Photo 21](https://unsplash.com/photos/xFTNsGW1isI) by Joanna Kosinska on Unsplash
 - [Photo 22](https://unsplash.com/photos/S0sD0DbArgk) by Matt Mariannelli on Unsplash
 - [Photo 23](https://unsplash.com/photos/KBUqsvMIhLc) by Matthew Brindle on Unsplash
 - [Photo 24](https://unsplash.com/photos/SGwvtNLmDeU) by Mockaroon.com on Unsplash
 - [Photo 25](https://unsplash.com/photos/eS7HrvG0mcA) by Nathan Anderson on Unsplash
-- [Photo 26](https://unsplash.com/photos/fcZIyU-nbFE) by Nathan Anderson on Unsplash
+- [Photo 26](https://unsplash.com/photos/UrgYjACxvaI) by Judson Moore on Unsplash
 - [Photo 27](https://unsplash.com/photos/Jo5FUEkhB_4) by Nathan Duck on Unsplash
 - [Photo 28](https://unsplash.com/photos/VfhCCVr5tgg) by Neven Krcmarek on Unsplash
 - [Photo 29](https://unsplash.com/photos/yJWFCqXJplw) by Paweł Czerwiński on Unsplash
