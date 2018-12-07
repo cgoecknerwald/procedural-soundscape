@@ -12,7 +12,7 @@ const roots = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
 
 export const scales = {
   Major: [2, 2, 1, 2, 2, 2],
-  Minor: [2, 1, 2, 2, 1, 2],
+  Natural_Minor: [2, 1, 2, 2, 1, 2],
   Harmonic_Minor: [2, 1, 2, 2, 1, 3],
   Melodic_Minor: [2, 1, 2, 2, 2, 2],
   Pentatonic_Major: [2, 2, 3, 2],

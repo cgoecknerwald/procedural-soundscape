@@ -171,7 +171,7 @@ export function init() {
     // Load instruments and start Tone
     var wav_suite = SampleLibrary.load({
         instruments: [
-        //"bass-electric",
+        "bass-electric",
         //"bassoon",
         //"cello",
         //"clarinet",
@@ -183,8 +183,8 @@ export function init() {
         //"harmonium",
         //"harp",
         //"organ",
-        "piano",
-        "saxophone"
+        //"piano",
+        "saxophone",
         //"trombone",
         //"trumpet",
         //"tuba",
@@ -197,8 +197,8 @@ export function init() {
     Tone.Buffer.on("load", function() {
         console.log("Successfully loaded tonejs-instruments.");
         UI.loadPage();
-        wav_suite["piano"].toMaster();
         wav_suite["saxophone"].toMaster();
+        wav_suite["bass-electric"].toMaster();
     });
     Tone.Buffer.on("error", function() {
         console.log("Error: failed to load tonejs-instruments.");
@@ -214,6 +214,12 @@ export function init() {
         createMeasure(4, 0);
         // console.log("Updating notes.");
     }, "1m").start(0);
+    
+    var bassLoop = new Tone.Sequence(function(time, hit) {
+        if (hit == 1) {
+            wav_suite["bass-electric"].triggerAttackRelease(tonic + "3", "8n");
+        }
+    }, rhythms.randomBassRhythm(), "4n").start("1m");
     
     var initialCountdown = new Tone.Loop(function() {
         UI.countdownNotesUI();

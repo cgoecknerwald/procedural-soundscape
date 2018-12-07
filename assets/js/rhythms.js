@@ -1,4 +1,4 @@
-const kicks = [
+/*const kicks = [
   [1, 0, 0, 0],
   [1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
   [1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
@@ -43,12 +43,20 @@ const openHats = [
 ];
 
 const motifs = [[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]];
+*/
+
+const bass = [
+    [1, 1, 1, 1],
+    [1, 0, 0, 0],
+    [1, 0, 1, 0],
+    [0, 1, 0, 1]
+];
 
 function randomFromArray(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export const randomMotifRythym = () => {
+/*export const randomMotifRythym = () => {
   return randomFromArray(motifs);
 };
 
@@ -62,16 +70,16 @@ export const randomSnareRythym = () => {
 
 export const randomKickRythym = () => {
   return randomFromArray(kicks);
-};
+};*/
 
-export const randomBassRythym = () => {
+export const randomBassRhythm = () => {
   return randomFromArray(bass);
 };
 
-export const randomShakerRythym = () => {
+/*export const randomShakerRythym = () => {
   return randomFromArray(shakers);
 };
 
 export const randomOpenHatRythym = () => {
   return randomFromArray(openHats);
-};
+};*/
