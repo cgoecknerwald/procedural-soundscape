@@ -67,9 +67,10 @@
 
 \section{Introduction}
 
-A short overview of your project idea, why it is interesting and what you would like to learn from it.
+\textbf{A short overview of your project idea, why it is interesting and what you would like to learn from it.}
 
-Example citation: \cite{tonejs-instruments}
+\subsection{Final Summary}
+We built a website with a procedural-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. While we did not integrate the soundscape with live variables, we did integrate it with a synesthetic background image. It would not be terribly difficult to integrate the soundscape with live variables at this point, but we chose not to due to time constraints. (Amy: discuss musical `palette' here.) We chose to use \lightcode{tonejs-instruments} because it integrated open-source WAV files from real instruments with \lightcode{Tone.js} \cite{tonejs-instruments}. We tested the final product in both Mozilla Firefox Quantum 63.0 and Google Chrome 70.0. Rather than using Google App Engine, or similar, we simply hosted the website for free on Claire's personal GitHub site, \href{https://cgoecknerwald.github.io/procedural-soundscape}{cgoecknerwald.github.io/procedural-soundscape}. This greatly simplified the workflow, as we could easily push HTML/CS/JS to the GitHub repository, and it would then be immediately updated online with no extra work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Detailed Description and Features %%%
@@ -78,16 +79,20 @@ Example citation: \cite{tonejs-instruments}
 \section{Detailed Description and Features}
 
 \subsection{Description}
-Precise description of features
+\textbf{Precise description of features}
+
+
 \subsection{Technical requirements}
-Audio requirements (and probably also requirements necessary to run the files)
+\textbf{Audio requirements (and probably also requirements necessary to run the files)}
 \subsection{Technical challenges}
 \subsection{Technological Review}
-Discuss relevant github repos and projects and articles
+\textbf{Discuss relevant github repos and projects and articles}
 
-Wheelibin's synaesthesia (drum kit and synths). We based our chords.js and rhythms.js off of synaesthesia. Tambien's Jazz.Computer but they had a very strange music set-up with interpolation and mediators between synths. We attempted to replicate by playing mulitple synths simulataneously but the resulting 'piano' was very tinny and sounded like Scottish bagpipes. We got mostly drums synths and pads from Yotamm.
+Wheelibin's \lightcode{synaesthesia} (drum kit and synths). We based our chords.js and rhythms.js off of \lightcode{synaesthesia}. Tambien's \lightcode{Jazz.computer} but they had a very strange music set-up with interpolation and mediators between synths. We attempted to replicate by playing mulitple synths simulataneously but the resulting 'piano' was very tinny and sounded like Scottish bagpipes. We got mostly drums synths and pads from Yotamm.
 
 \subsection{Licensing}
+
+We chose to license with the MIT License.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% Implementation %%%%%%%%%%%%%
@@ -95,18 +100,60 @@ Wheelibin's synaesthesia (drum kit and synths). We based our chords.js and rhyth
 
 \section{Implementation}
 \subsection{Technical Design}
-Technical design and reasons for choosing this design
+\textbf{Technical design and reasons for choosing this design}
 
 We've decided to use tone.js instead of audiosynth.js by Keith William Horwood. We also chose tone.js over SuperCollider, Flocking.js, PureData, because of web integration ease. Flocking also had web integration but a smaller online community and seemed less robust and less abstracted. Audiosynth.js did not have looping technologies. We briefly considered integrating with audiosynth.js but it proved to be too difficult.
 
 We looked at Karplus-Strong String Synthesis but determined it was only relevant if we used audiosynth.js.
 
+\subsubsection{Tone.js}
+
+\begin{quote}
+Tone.js is a Web Audio framework for creating interactive music in the browser. The architecture of Tone.js aims to be familiar to both musicians and audio programmers looking to create web-based audio applications. On the high-level, Tone offers common DAW (digital audio workstation) features like a global transport for scheduling events and prebuilt synths and effects. For signal-processing programmers (coming from languages like Max/MSP), Tone provides a wealth of high performance, low latency building blocks and DSP modules to build your own synthesizers, effects, and complex control signals. \cite{tonejs}
+\end{quote}
+
+\subsubsection{Flocking.js}
+
+\begin{quote}
+Flocking is a JavaScript audio synthesis framework designed for artists and musicians who are building creative and experimental Web-based sound projects. It runs in Firefox, Chrome, Safari, Edge, and Node.js on Mac OS X, Windows, Linux, iOS, and Android.
+
+Flocking is different. Its goal is to promote a uniquely community-minded approach to instrument design and composition. In Flocking, unit generators and synths are specified declaratively as JSON, making it easy to save, share, and manipulate your synthesis algorithms. Send your synths via Ajax, save them for later using HTML5 local data storage, or algorithmically produce new instruments on the fly.
+
+Because it's just JSON, every instrument you build using Flocking can be easily modified and extended by others without forcing them to fork or cut and paste your code. This declarative approach will also help make it easier to create new authoring, performance, metaprogramming, and social tools on top of Flocking.
+
+Flocking was inspired by the SuperCollider desktop synthesis environment. If you're familiar with SuperCollider, you'll feel at home with Flocking. \cite{flocking}
+\end{quote}
+
+\subsubsection{Audiosynth.js}
+
+\begin{quote}
+Dynamic waveform audio synthesizer, written in Javascript. Generate musical notes dynamically and play them in your browser using the HTML5 Audio Element. No static files required. (Besides the source, of course!) \cite{audiosynth}
+\end{quote}
+
+\subsubsection{Supercollider}
+
+\begin{quote}
+SuperCollider is a platform for audio synthesis and algorithmic composition, used by musicians, artists, and researchers working with sound. It is free and open source software available for Windows, macOS, and Linux. \cite{supercollider}
+\end{quote}
+
+\subsubsection{PureData}
+
+\begin{quote}
+Pure Data is an open source visual programming environment that runs on anything from personal computers to embedded devices (ie Raspberry Pi) and smartphones (via libpd, DroidParty (Android), and PdParty (iOS). It is a major branch of the family of patcher programming languages known as Max (Max/FTS, ISPW Max, Max/MSP, etc), originally developed by Miller Puckette at IRCAM.
+
+Pd enables musicians, visual artists, performers, researchers, and developers to create software graphically without writing lines of code. Pd can be used to process and generate sound, video, 2D/3D graphics, and interface sensors, input devices, and MIDI. Pd can easily work over local and remote networks to integrate wearable technology, motor systems, lighting rigs, and other equipment. It is suitable for learning basic multimedia processing and visual programming methods as well as for realizing complex systems for large-scale projects.
+
+Algorithmic functions are represented in Pd by visual boxes called objects placed within a patching window called a canvas. Data flow between objects are achieved through visual connections called patch cords. Each object performs a specific task, which can vary in complexity from very low-level mathematical operations to complicated audio or video functions such as reverberation, FFT transformations, or video decoding. Objects include core Pd vanilla objects, external objects or externals (Pd objects compiled from C or C++), and abstractions (Pd patches loaded as objects). \cite{puredata}
+\end{quote}
+
 \subsection{Implementation Issues}
-Implementation issues, note any particular technical or audio difficulties and work-arounds
+\textbf{Implementation issues, note any particular technical or audio difficulties and work-arounds}
 
 We looked into playing and modifying audiofiles (MP3s or WAVs) but the integration with Tone.js seemed too complicated \cite{tonejs-issue}. This threw us off track for several weeks as we searched for good synths to use (we found none). Claire had switched to DuckDuckGo during the project, which has a much less 'intelligent' search algorithm, which would not return the repo "tonejs-instruments" from a search for "tone js instruments" \cite{tonejs-instruments}. In \lightcode{tonejs-instruments}, they use publicly available WAVs from about a dozen instruments, including saxophone and piano (but no drums). Google, however, did, so eventually it was found. We relied heavily on this repo. https://github.com/Tonejs/Tone.js/issues/290 references why we can't use .wav files in Tone.js (simply not supported, it seems). 
 
 We discussed moving instruments synths into instruments.js, out of main.js. Moving roots/scales/chord progressions/rhythms/min \& max on octaves in chords.js
+
+\subsection{Licensing}
 
 Licensing a no-licensed repository (wheelibin's synaesthesia) \cite{synaesthesia-license}. Choose-a-license, hosted and run by GitHub, was very helpful \cite{choose-license-none}.
 
@@ -116,11 +163,11 @@ Licensing a no-licensed repository (wheelibin's synaesthesia) \cite{synaesthesia
 
 \section{Analysis \& Conclusion}
 \subsection{Original Goals}
-How close did you come to achieving original goals?
+\textbf{How close did you come to achieving original goals?}
 \subsection{Regrets}
-What would you do differently if you knew at the start what you know now. 
+\textbf{What would you do differently if you knew at the start what you know now.}
 \subsection{Next step}
-What would be your next steps if you were to continue working on the project.
+\textbf{What would be your next steps if you were to continue working on the project.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% Code %%%%%%%%%%%
@@ -143,7 +190,7 @@ Description:
 
 \section{Contact}
 
-Example contact.
+Claire Goeckner-Wald (claire@caltech.edu) or Amy Xiong (axiong@caltech.edu)
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% Appendix %%%%%%%
@@ -152,9 +199,60 @@ Example contact.
 \section{Appendix}
 Include resources here.
 
-\begin{itemize}
-	\item Item example.
-\end{itemize}
+\subsection{Original Proposal}
+We aim to build a procedurally-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. The ideal end-product is jazz-esque music that can respond in live time to environmental variables. We selected jazz as our target because we believe it will be easier to procedurally generate due to the improvisational and diverse nature of jazz. We will initially follow this \href{http://www.procjam.com/tutorials/en/music/}{Procedural Music Generation tutorial}. To begin, we select a `palette' of frequencies and sounds that function well together. Then, we will add rhythm and beat to generate our base product. After this is accomplished, we may add additional complexities such as palette-changes, instrument modifications, etc. We may additionally attempt to link these complexities to environmental variables for an interactive soundscape.
+
+We will use SuperCollider for the sound synthesis and algorithmic composition. We will begin with \href{http://doc.sccode.org/Classes/MdaPiano.html}{MdaPiano} for a piano synthesizer. We will also add drums, saxophone, bass, and other instruments, as appropriate. Ideally we will have large suite of instrument synthesizers. We have considered creating a web application for this project, a la \href{Soft Murmur}{https://asoftmurmur.com/} and similar websites, which allow the client to modify the mixture directly. If we chose to do this, we might use \href{https://console.cloud.google.com/projectselector/appengine}{Google App Engine}. 
+
+\subsection{MIT License}
+
+\begin{quote}
+\begin{verbatim}
+Copyright (c) <year> <copyright holders>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+\end{verbatim}
+\cite{mit-license}
+\end{quote}
+
+\subsection{The GNU General Public License v3.0}
+
+\begin{quote}
+\begin{verbatim}
+<one line to give the program's name and a brief idea of what it does.>
+Copyright (C) <year>  <name of author>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+\end{verbatim}
+\cite{gplv3}
+\end{quote}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %% References section: %
