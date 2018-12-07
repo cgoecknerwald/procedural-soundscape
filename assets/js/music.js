@@ -1,4 +1,5 @@
 import * as synth_instruments from './instruments.js'
+import * as rhythms from './rhythms.js'
 import * as chords from './chords.js'
 import * as UI from './main.js'
 
@@ -202,7 +203,9 @@ export function init() {
     Tone.Buffer.on("error", function() {
         console.log("Error: failed to load tonejs-instruments.");
     });
-
+    
+    var openhat = new synth_instruments.OpenHat(8, Tone.Frequency(tonic + "2").toFrequency());
+    var shaker = new synth_instruments.Shaker(8, Tone.Frequency(tonic + "2").toFrequency());
     Tone.Transport.bpm.value = 100;
 
     // Randomize, one measure at a time
@@ -211,12 +214,21 @@ export function init() {
         // console.log("Updating notes.");
         UI.resetNotesUI();
     }, "1m").start(0);
-
-    var bassLoop = new Tone.Loop(function() {
-        wav_suite["piano"].triggerAttackRelease("G2", "8n", "+0", 1);
-        wav_suite["piano"].triggerAttackRelease("G2", "8n", "+4n", 0.5);
-        wav_suite["piano"].triggerAttackRelease("G2", "8n", "+2n", 0.5);
-        wav_suite["piano"].triggerAttackRelease("G2", "8n", "+2n.", 0.5);
-    }, "1m").start(0);
+    
+    var openhatLoop = new Tone.Sequence(function(time, hit) {
+        if (hit == 1) {
+            openhat.triggerAttackRelease("16n", time);
+        }
+    }, rhythms.randomOpenHatRythym(), "16n");
+    openhatLoop.loop = true;
+    openhatLoop.start(0);
+    
+    var shakerLoop = new Tone.Sequence(function(time, hit) {
+        if (hit == 1) {
+            shaker.triggerAttackRelease("16n", time);
+        }
+    }, rhythms.randomShakerRythym(), "16n");
+    shakerLoop.loop = true;
+    shakerLoop.start(0);
         
 }

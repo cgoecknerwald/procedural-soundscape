@@ -191,6 +191,7 @@ export class Shaker extends Instrument {
         resonance: 3000,
         octaves: 1.5
       }),
+      volume
     );
   }
 }

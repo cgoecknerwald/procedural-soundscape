@@ -44,30 +44,34 @@ const openHats = [
 
 const motifs = [[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]];
 
+function randomFromArray(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
 export const randomMotifRythym = () => {
-  return utils.randomFromArray(motifs);
+  return randomFromArray(motifs);
 };
 
 export const randomHiHatRythym = () => {
-  return utils.randomFromArray(hiHats);
+  return randomFromArray(hiHats);
 };
 
 export const randomSnareRythym = () => {
-  return utils.randomFromArray(snares);
+  return randomFromArray(snares);
 };
 
 export const randomKickRythym = () => {
-  return utils.randomFromArray(kicks);
+  return randomFromArray(kicks);
 };
 
 export const randomBassRythym = () => {
-  return utils.randomFromArray(bass);
+  return randomFromArray(bass);
 };
 
 export const randomShakerRythym = () => {
-  return utils.randomFromArray(shakers);
+  return randomFromArray(shakers);
 };
 
 export const randomOpenHatRythym = () => {
-  return utils.randomFromArray(openHats);
+  return randomFromArray(openHats);
 };
