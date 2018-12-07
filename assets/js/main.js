@@ -6,6 +6,7 @@ var noteIndexUI = document.getElementById("note-bar1");
 var notesUI = document.getElementById("note-bar2");
 var notesString = "";
 var notesIndex = 0;
+var countdown = 4;
 
 // Initialize music
 music.init();
@@ -64,7 +65,9 @@ export function updateNoteIndex() {
 }
 
 export function resetNotesUI() {
-    notesUI.innerHTML = notesString;
+    if (notesString != "") {
+        notesUI.innerHTML = notesString;
+    }
     notesString = "";
     notesIndex = 0;
 }
@@ -74,6 +77,12 @@ export function setNotesString(notes) {
     notesString += notes[0].pitch + " " + notes[0].length;
     for (var i = 1; i < notes.length; i++) {
         notesString += ", " + notes[i].pitch + " " + notes[i].length;
+    }
+}
+
+export function countdownNotesUI() {
+    if (countdown > 0) {
+        notesUI.innerHTML = countdown-- + "...";
     }
 }
 

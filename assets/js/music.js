@@ -160,7 +160,7 @@ export function init() {
             wav_suite["saxophone"].triggerAttackRelease(value.pitch, value.length, time);
             // console.log("Updating note index.");
             UI.updateNoteIndex();
-        }, notes).start("+0");
+        }, notes).start("+1m");
         
         // If a full measure hasn't been generated yet, generate the remaining part
         if (sectionLength < maxLength) {
@@ -204,18 +204,25 @@ export function init() {
         console.log("Error: failed to load tonejs-instruments.");
     });
     
-    var openhat = new synth_instruments.OpenHat(8, Tone.Frequency(tonic + "2").toFrequency());
-    var shaker = new synth_instruments.Shaker(8, Tone.Frequency(tonic + "2").toFrequency());
+    //var openhat = new synth_instruments.OpenHat(8, Tone.Frequency(tonic + "2").toFrequency());
+    //var shaker = new synth_instruments.Shaker(8, Tone.Frequency(tonic + "2").toFrequency());
     Tone.Transport.bpm.value = 100;
 
     // Randomize, one measure at a time
     var loop = new Tone.Loop(function() {
+        UI.resetNotesUI();
         createMeasure(4, 0);
         // console.log("Updating notes.");
-        UI.resetNotesUI();
     }, "1m").start(0);
     
-    var openhatLoop = new Tone.Sequence(function(time, hit) {
+    var initialCountdown = new Tone.Loop(function() {
+        UI.countdownNotesUI();
+        //console.log("countdown");
+    }, "4n");
+    initialCountdown.iterations = 4;
+    initialCountdown.start(0);
+    
+    /*var openhatLoop = new Tone.Sequence(function(time, hit) {
         if (hit == 1) {
             openhat.triggerAttackRelease("16n", time);
         }
@@ -229,6 +236,6 @@ export function init() {
         }
     }, rhythms.randomShakerRythym(), "16n");
     shakerLoop.loop = true;
-    shakerLoop.start(0);
+    shakerLoop.start(0);*/
         
 }
