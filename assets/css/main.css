@@ -58,7 +58,7 @@ PANELLING (CONTAINERS)
 }
 .grid-panel {
     background-color: black;
-    opacity: 0.92;
+    opacity: 0.88;
     text-align: center;
     display: table-cell;
     overflow: hidden;
@@ -73,7 +73,7 @@ PANELLING (CONTAINERS)
 .grid-fullrow {
     grid-column: 1 / span 5;
 	background-color: black;
-    opacity: 0.92;
+    opacity: 0.88;
 	overflow: hidden;
 	min-width: 0;
 	text-align: center;
