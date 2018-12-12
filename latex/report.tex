@@ -25,10 +25,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \textheight=247mm
-\textwidth=180mm
+\textwidth=160mm
 \topmargin=-7mm
-\oddsidemargin=-10mm
-\evensidemargin=-10mm
+\oddsidemargin=-2mm
+\evensidemargin=-8mm
 \parindent 10pt
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -147,6 +147,52 @@ Pd enables musicians, visual artists, performers, researchers, and developers to
 
 Algorithmic functions are represented in Pd by visual boxes called objects placed within a patching window called a canvas. Data flow between objects are achieved through visual connections called patch cords. Each object performs a specific task, which can vary in complexity from very low-level mathematical operations to complicated audio or video functions such as reverberation, FFT transformations, or video decoding. Objects include core Pd vanilla objects, external objects or externals (Pd objects compiled from C or C++), and abstractions (Pd patches loaded as objects). \cite{puredata}
 \end{quote}
+
+\subsection{User Interface}
+We wanted to make our user interface fun without being confusing, or being so difficult to implement that it distracts from the work of sound design. We settled on a semi-transparent paneling design that would allow us to compartmentalize the different functions while showing off a collection of highly-textured backgrounds.
+
+\begin{figure}
+\centering\includegraphics[width=0.8\textwidth]{images/loading.png}
+\caption{The loading screen as seen on Firefox Quantum 63.0. During this screen, fonts and WAV files are loading.}
+\end{figure}
+
+\begin{figure}
+\centering\includegraphics[width=0.8\textwidth]{images/loaded.png}
+\caption{The pre-interaction screen as seen on Firefox Quantum 63.0. This screen occurs after loading is finished, but before the user has interacted with the interface. To begin, users can interact with the play/pause button and the reload/refresh button.}
+\end{figure}
+
+\begin{figure}
+\centering\includegraphics[width=0.8\textwidth]{images/ui.png}
+\caption{The post-interaction user interface as seen on Firefox Quantum 63.0. Users can interact with the play/pause button and the reload/refresh button.}
+\end{figure}
+
+\subsubsection{Actions}
+
+There are two actions a user make take: toggle play-pause button or toggle refresh button. Toggling the play-pause button functions exactly as expected - if the music is playing, it stops the music. If the music is not playing, it restarts the music exactly where it left off (or, at the beginning, if toggled for the first time). Toggling the refresh button updates the background, BPM, and key. It necessarily restarts the music, as well.
+
+The first time that either the play-pause button or refresh button is toggled, the program initializes a background, BPM, and key. These three qualities are \textit{unlinked}, meaning they change independently of each other. We considered using a \lightcode{constants.json} file to build dependencies between the backgrounds and the type of music. However, given the large variety of backgrounds we wished to use, we found that this functionality would be cumbersome without adding significant value to the project. 
+
+The program also features a count-down because we generate notes a full measure in advance (so that we may display them on screen). Without this extrapolative generation, we may encounter an issue with \lightcode{Tone.js} where the first note is not scheduled in advance of being played, causing the first note to be `dropped,' or not played at all.
+
+\subsubsection{Displays}
+
+There are 3 different kinds of dynamic information displays to the user: the notes, the BPM, and the key. 
+
+The notes are scheduled a full measure in advance, which allows us to display them on screen. The function \lightcode{emphasizeNote()} uses the index of the currently sounded note to updated the displayed HTML. In this way, the user can visually track the notes (or rests!) as they are sent live to \lightcode{Tone.js}.
+
+
+\subsubsection{Backgrounds}
+
+The project features approximately 50 unique backgrounds (the number fluctuates when we delete one we don't like). The backgrounds were selected for their flat, textured appeal from \href{https://unsplash.com/about}{Unsplash} \cite{unsplash}. Unsplash was used for its selection of ``Over 550,000 free (\href{https://unsplash.com/license}{do-whatever-you-want}) high-resolution photos brought to you by the world’s most generous community of photographers,'' with a very generous \href{https://unsplash.com/license}{license}.
+
+\begin{figure}
+\centering\includegraphics[width=0.48\textwidth]{images/bg1.png}
+\centering\includegraphics[width=0.48\textwidth]{images/bg2.png}
+\centering\includegraphics[width=0.48\textwidth]{images/bg3.png}
+\centering\includegraphics[width=0.48\textwidth]{images/bg4.png}
+\caption{Various backgrounds.}
+\end{figure}
+
 
 \pagebreak
 \subsection{File Directory Structure}
