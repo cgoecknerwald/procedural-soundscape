@@ -1,5 +1,7 @@
 \documentclass[12pt,a4paper]{article}
 
+% File directory tree
+\usepackage{dirtree}
 % Graphic (images) styling
 \usepackage{graphicx}
 % Verbatim code / psuedocode styling
@@ -145,6 +147,61 @@ Pd enables musicians, visual artists, performers, researchers, and developers to
 
 Algorithmic functions are represented in Pd by visual boxes called objects placed within a patching window called a canvas. Data flow between objects are achieved through visual connections called patch cords. Each object performs a specific task, which can vary in complexity from very low-level mathematical operations to complicated audio or video functions such as reverberation, FFT transformations, or video decoding. Objects include core Pd vanilla objects, external objects or externals (Pd objects compiled from C or C++), and abstractions (Pd patches loaded as objects). \cite{puredata}
 \end{quote}
+
+\pagebreak
+\subsection{File Directory Structure}
+
+\dirtree{%
+.1 procedural-soundscape.
+.2 assets.
+.3 backgrounds.
+.4 bg0.jpg.
+.4 bg1.jpg.
+.4 \dots.
+.4 bgN.jpg.
+.3 css.
+.4 main.css.
+.3 js.
+.4 chords.js.
+.4 constants.json.
+.4 instruments.js.
+.4 LICENSE-Brosowsky.md.
+.4 LICENSE-Mann.md.
+.4 LICENSE-Wheeler.md.
+.4 main.js.
+.4 music.js.
+.4 rhythms.js.
+.4 Tone.js.
+.4 Tonejs-Instruments.js.
+.3 samples.
+.4 bass-electric.
+.4 clarinet.
+.4 french-horn.
+.4 guitar-nylon.
+.4 organ.
+.4 trombone.
+.4 violin.
+.4 bassoon.
+.4 contrabass.
+.4 guitar-acoustic.
+.4 harmonium.
+.4 piano.
+.4 trumpet.
+.4 xylophone.
+.4 cello.
+.4 flute.
+.4 guitar-electric.
+.4 harp.
+.4 saxophone.
+.4 tuba.
+.2 latex.
+.3 report.tex.
+.3 report.pdf.
+.3 references.bib.
+.2 index.html.
+.2 README.md.
+.2 LICENSE.md. 
+}
 
 \subsection{Implementation Issues}
 \textbf{Implementation issues, note any particular technical or audio difficulties and work-arounds}
