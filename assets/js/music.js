@@ -191,7 +191,7 @@ export function init() {
         //"violin",
         //"xylophone"
         ],
-        baseUrl: "https://cgoecknerwald.github.io/procedural-soundscape/assets/tonejs-instruments/samples/",
+        baseUrl: "https://cgoecknerwald.github.io/procedural-soundscape/assets/samples/",
     });
     console.log("Loading tonejs-instruments...");
     Tone.Buffer.on("load", function() {
