@@ -1,8 +1,8 @@
 \documentclass[12pt,a4paper]{article}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%% Packages %%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % File directory tree
 \usepackage{dirtree}
@@ -17,9 +17,9 @@
 % BibTex styling
 \usepackage{natbib}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%% Commands %%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % For monospacing (for package names, variable names, etc.)
 \newcommand{\code}{\texttt}
@@ -39,10 +39,10 @@
   }}%
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% Page dimensions %%%%%
-%%%%%%  DO NOT CHANGE  %%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Page dimensions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  DO NOT CHANGE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \textheight=247mm
 \textwidth=160mm
@@ -51,17 +51,17 @@
 \evensidemargin=-8mm
 \parindent 10pt
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% Start of document %%%%% 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Start of document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 \pagestyle{plain}
 \pagenumbering{arabic}
- 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% Title of proposal %%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Title of proposal %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{center}
 {\LARGE{\bf
@@ -82,15 +82,15 @@
 % Type a concise abstract of your proposal here (optional).
 \tableofcontents
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%% Introduction %%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Introduction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
 \section{Executive Summary}
 
 \textbf{A short overview of your project idea, why it is interesting and what you would like to learn from it.}
 
-We built a website with a procedural-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. While we did not integrate the soundscape with live variables, we did integrate it with a synesthetic background image. It would not be terribly difficult to integrate the soundscape with live variables at this point, but we chose not to due to time constraints. (Amy: discuss musical `palette' here.) We chose to use \lightcode{tonejs-instruments} because it integrated open-source WAV files from real instruments with \lightcode{Tone.js} \cite{tonejs-instruments}. We tested the final product in both Mozilla Firefox Quantum 63.0 and Google Chrome 70.0. Rather than using Google App Engine, or similar, we simply hosted the website for free on Claire's personal GitHub site, \href{https://cgoecknerwald.github.io/procedural-soundscape}{cgoecknerwald.github.io/procedural-soundscape}. This greatly simplified the workflow, as we could easily push HTML/CS/JS to the GitHub repository, and it would then be immediately updated online with no extra work.
+We built a website with a procedural-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. While we did not integrate the soundscape with live variables, we did integrate it with a synesthetic background image. It would not be terribly difficult to integrate the soundscape with live variables at this point, but we chose not to due to time constraints. (Amy: discuss musical `palette' here.) We chose to use \lightcode{tonejs-instruments} because it integrated open-source \code{WAV}-format files from real instruments with \lightcode{Tone.js} \cite{tonejs-instruments}. We tested the final product in both Mozilla Firefox Quantum 63.0 and Google Chrome 70.0. Rather than using Google App Engine, or similar, we simply hosted the website for free on Claire's personal GitHub site, \href{https://cgoecknerwald.github.io/procedural-soundscape}{cgoecknerwald.github.io/procedural-soundscape}. This greatly simplified the workflow, as we could easily push HTML/CS/JS to the GitHub repository, and it would then be immediately updated online with no extra work.
 
 \subsection{Description}
 \textbf{Brief description of features}
@@ -119,24 +119,34 @@ We did not test at all on Internet Explorer, only Firefox and Chrome. We had iss
 We chose to license our repository with the MIT License.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Technical Design}
 \textbf{In-depth technical design and reasons for choosing this design}
 
-\subsection{Sound Design Tool Choice}
+\subsection{Sound Design Tool Discussion}
+We've decided to use \lightcode{Tone.js} instead of \lightcode{Audiosynth.js} by Keith William Horwood. We also chose \lightcode{Tone.js} over \lightcode{SuperCollider}, \lightcode{Flocking.js}, \lightcode{PureData}, because of web integration ease. \lightcode{Flocking.js} also had web integration but a smaller online community and seemed less robust and less abstracted. \lightcode{Audiosynth.js} did not have looping technologies. We briefly considered integrating our whole product with \lightcode{Audiosynth.js} but it proved to be too difficult.
 
-We've decided to use tone.js instead of audiosynth.js by Keith William Horwood. We also chose tone.js over SuperCollider, Flocking.js, PureData, because of web integration ease. Flocking also had web integration but a smaller online community and seemed less robust and less abstracted. Audiosynth.js did not have looping technologies. We briefly considered integrating with audiosynth.js but it proved to be too difficult.
-
-We looked at Karplus-Strong String Synthesis but determined it was only relevant if we used audiosynth.js.
-
-\subsubsection{Tone.js}
+\subsubsection{PureData}
+\lightcode{PureData} was far too low-level (and therefore tedious and slow) for our plans.
 
 \begin{quote}
-Tone.js is a Web Audio framework for creating interactive music in the browser. The architecture of Tone.js aims to be familiar to both musicians and audio programmers looking to create web-based audio applications. On the high-level, Tone offers common DAW (digital audio workstation) features like a global transport for scheduling events and prebuilt synths and effects. For signal-processing programmers (coming from languages like Max/MSP), Tone provides a wealth of high performance, low latency building blocks and DSP modules to build your own synthesizers, effects, and complex control signals. \cite{tonejs}
+Pure Data is an open source visual programming environment that runs on anything from personal computers to embedded devices (ie Raspberry Pi) and smartphones (via libpd, DroidParty (Android), and PdParty (iOS). It is a major branch of the family of patcher programming languages known as Max (Max/FTS, ISPW Max, Max/MSP, etc), originally developed by Miller Puckette at IRCAM.
+
+Pd enables musicians, visual artists, performers, researchers, and developers to create software graphically without writing lines of code. Pd can be used to process and generate sound, video, 2D/3D graphics, and interface sensors, input devices, and MIDI. Pd can easily work over local and remote networks to integrate wearable technology, motor systems, lighting rigs, and other equipment. It is suitable for learning basic multimedia processing and visual programming methods as well as for realizing complex systems for large-scale projects.
+
+Algorithmic functions are represented in Pd by visual boxes called objects placed within a patching window called a canvas. Data flow between objects are achieved through visual connections called patch cords. Each object performs a specific task, which can vary in complexity from very low-level mathematical operations to complicated audio or video functions such as reverberation, FFT transformations, or video decoding. Objects include core Pd vanilla objects, external objects or externals (Pd objects compiled from C or C++), and abstractions (Pd patches loaded as objects). \cite{puredata}
+\end{quote}
+
+\subsubsection{SuperCollider}
+SuperCollider seemed okay at first, but we could not see an easy way to integrate it with HTML/JS/CSS (knowing that we wanted to build a web application).
+
+\begin{quote}
+SuperCollider is a platform for audio synthesis and algorithmic composition, used by musicians, artists, and researchers working with sound. It is free and open source software available for Windows, macOS, and Linux. \cite{supercollider}
 \end{quote}
 
 \subsubsection{Flocking.js}
+\lightcode{Flocking.js} was a strong contender for our choice of sound design technology.
 
 \begin{quote}
 Flocking is a JavaScript audio synthesis framework designed for artists and musicians who are building creative and experimental Web-based sound projects. It runs in Firefox, Chrome, Safari, Edge, and Node.js on Mac OS X, Windows, Linux, iOS, and Android.
@@ -154,31 +164,33 @@ Flocking was inspired by the SuperCollider desktop synthesis environment. If you
 Dynamic waveform audio synthesizer, written in Javascript. Generate musical notes dynamically and play them in your browser using the HTML5 Audio Element. No static files required. (Besides the source, of course!) \cite{audiosynth}
 \end{quote}
 
-\subsubsection{Supercollider}
+
+\subsubsection{Tone.js}
+In the end, we chose \lightcode{Tone.js} out of all three Javascript sound design frameworks for its robust online community (and therefore support).
 
 \begin{quote}
-SuperCollider is a platform for audio synthesis and algorithmic composition, used by musicians, artists, and researchers working with sound. It is free and open source software available for Windows, macOS, and Linux. \cite{supercollider}
+Tone.js is a Web Audio framework for creating interactive music in the browser. The architecture of Tone.js aims to be familiar to both musicians and audio programmers looking to create web-based audio applications. On the high-level, Tone offers common DAW (digital audio workstation) features like a global transport for scheduling events and prebuilt synths and effects. For signal-processing programmers (coming from languages like Max/MSP), Tone provides a wealth of high performance, low latency building blocks and DSP modules to build your own synthesizers, effects, and complex control signals. \cite{tonejs}
 \end{quote}
 
-\subsubsection{PureData}
-
-\begin{quote}
-Pure Data is an open source visual programming environment that runs on anything from personal computers to embedded devices (ie Raspberry Pi) and smartphones (via libpd, DroidParty (Android), and PdParty (iOS). It is a major branch of the family of patcher programming languages known as Max (Max/FTS, ISPW Max, Max/MSP, etc), originally developed by Miller Puckette at IRCAM.
-
-Pd enables musicians, visual artists, performers, researchers, and developers to create software graphically without writing lines of code. Pd can be used to process and generate sound, video, 2D/3D graphics, and interface sensors, input devices, and MIDI. Pd can easily work over local and remote networks to integrate wearable technology, motor systems, lighting rigs, and other equipment. It is suitable for learning basic multimedia processing and visual programming methods as well as for realizing complex systems for large-scale projects.
-
-Algorithmic functions are represented in Pd by visual boxes called objects placed within a patching window called a canvas. Data flow between objects are achieved through visual connections called patch cords. Each object performs a specific task, which can vary in complexity from very low-level mathematical operations to complicated audio or video functions such as reverberation, FFT transformations, or video decoding. Objects include core Pd vanilla objects, external objects or externals (Pd objects compiled from C or C++), and abstractions (Pd patches loaded as objects). \cite{puredata}
-\end{quote}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Technological Review}
 \textbf{Discuss relevant github repos and projects and articles}
+We looked at Karplus-Strong String Synthesis but determined it was only relevant if we used \lightcode{Audiosynth.js} \cite{karplus-strong}.
 
-This would be the place to discuss the different repos we sourced from after choosing Tone.js and tonejs-instruments.
+\subsubsection{Tambien's Tone.js}
+For the reasons discussed in `2. Sound Design Tool Discussion' above, we ultimately chose \lightcode{Tone.js} as our main sound design package.
 
-Wheelibin's \lightcode{synaesthesia} (drum kit and synths). We based our chords.js and rhythms.js off of \lightcode{synaesthesia}. Tambien's \lightcode{Jazz.computer} but they had a very strange music set-up with interpolation and mediators between synths. We attempted to replicate by playing mulitple synths simulataneously but the resulting 'piano' was very tinny and sounded like Scottish bagpipes. We got mostly drums synths and pads from Yotamm.
+\subsubsection{Nbrosowsky's tonejs-instruments}
+The package \lightcode{tonejs-instruments} was instrumental (haha) in our final project. It features all soundclips in \code{WAV}, \code{MP3}, and \code{OGG} formats.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Wheelibin's synaesthesia}
+We modified his drum kit and synths. We based our \code{assets/jschords.js} and \code{assets/js/rhythms.js} off of \lightcode{synaesthesia}.
+
+\subsubsection{Tambien's jazz.computer}
+We got mostly drums synths and pads from \code{tambien} (Yotam Mann, creator of \lightcode{Tone.js})'s \href{http://jazz.computer/}{\lightcode{jazz.computer}} (works best in Chrome or Safari). \code{Tambien}'s \href{http://jazz.computer/}{\lightcode{jazz.computer}} but they had a very strange music set-up with interpolation and mediators between synths. We attempted to replicate by playing mulitple synths simulataneously but the resulting 'piano' was very tinny and sounded like Scottish bagpipes.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Musical Review}
 
 The first challenge was in getting \lightcode{Tone.js} to produce random music that would play forever.
@@ -223,15 +235,15 @@ We have the function \lightcode{createMeasure(maxLength, offset)} to create note
 
 \subsubsection{Pitch Generation}
 
-Pitches are also randomly generated. When the website is first loaded, it randomly picks a tonic note and a scale type to build a scale (e.g. C Major, A-flat Minor, D-sharp Dorian). Note pitches are chosen only from this scale. 
+Pitches are also randomly generated. When the website is first loaded, it randomly picks a tonic note and a scale type to build a scale (e.g. C Major, A-flat Minor, D-sharp Dorian). Note pitches are chosen only from this scale.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{User Interface}
 We wanted to make our user interface fun without being confusing, or being so difficult to implement that it distracts from the work of sound design. We settled on a semi-transparent paneling design that would allow us to compartmentalize the different functions while showing off a collection of highly-textured backgrounds.
 
 \begin{figure}
 \centering\includegraphics[width=0.8\textwidth]{images/loading.png}
-\caption{The loading screen as seen on Firefox Quantum 63.0. During this screen, fonts and WAV files are loading.}
+\caption{The loading screen as seen on Firefox Quantum 63.0. During this screen, fonts, and \code{WAV} soundfiles are loading.}
 \end{figure}
 
 \begin{figure}
@@ -248,13 +260,13 @@ We wanted to make our user interface fun without being confusing, or being so di
 
 There are two actions a user make take: toggle play-pause button or toggle refresh button. Toggling the play-pause button functions exactly as expected - if the music is playing, it stops the music. If the music is not playing, it restarts the music exactly where it left off (or, at the beginning, if toggled for the first time). Toggling the refresh button updates the background, BPM, and key. It necessarily restarts the music, as well.
 
-The first time that either the play-pause button or refresh button is toggled, the program initializes a background, BPM, and key. These three qualities are \textit{unlinked}, meaning they change independently of each other. We considered using a \lightcode{constants.json} file to build dependencies between the backgrounds and the type of music. However, given the large variety of backgrounds we wished to use, we found that this functionality would be cumbersome without adding significant value to the project. 
+The first time that either the play-pause button or refresh button is toggled, the program initializes a background, BPM, and key. These three qualities are \textit{unlinked}, meaning they change independently of each other. We considered using a \lightcode{constants.json} file to build dependencies between the backgrounds and the type of music. However, given the large variety of backgrounds we wished to use, we found that this functionality would be cumbersome without adding significant value to the project.
 
 The program also features a count-down because we generate notes a full measure in advance (so that we may display them on screen). Without this extrapolative generation, we may encounter an issue with \lightcode{Tone.js} where the first note is not scheduled in advance of being played, causing the first note to be `dropped,' or not played at all.
 
 \subsubsection{Displays}
 
-There are 3 different kinds of dynamic information displays to the user: the notes, the BPM, and the key. 
+There are 3 different kinds of dynamic information displays to the user: the notes, the BPM, and the key.
 
 The notes are scheduled a full measure in advance, which allows us to display them on screen. The function \lightcode{emphasizeNote()} uses the index of the currently sounded note to updated the displayed HTML. In this way, the user can visually track the notes (or rests!) as they are sent live to \lightcode{Tone.js}.
 
@@ -272,7 +284,7 @@ The project features approximately 50 unique backgrounds (the number fluctuates 
 \end{figure}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Must use \clearpage instead of \newpage or \pagebreak, to clear figure environs
 \clearpage
 \subsection{File Directory Structure}
@@ -326,10 +338,10 @@ The project features approximately 50 unique backgrounds (the number fluctuates 
 .3 references.bib.
 .2 index.html.
 .2 README.md.
-.2 LICENSE.md. 
+.2 LICENSE.md.
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Codebase}
 
 The entire codebase (and the original \code{LaTeX} files for this very report) can be found on Claire's GitHub repository: \href{https://github.com/cgoecknerwald/procedural-soundscape}{github.com/cgoecknerwald/procedural-soundscape}. The web application is live at \href{https://cgoecknerwald.github.io/procedural-soundscape/}{cgoecknerwald.github.io/procedural-soundscape/}.
@@ -348,18 +360,18 @@ The entire codebase (and the original \code{LaTeX} files for this very report) c
 	\item \code{function()}: description of function
 \end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementation Issues}
 \textbf{Implementation issues, note any particular technical or audio difficulties and work-arounds}
 
-We looked into playing and modifying audiofiles (MP3s or WAVs) but the integration with Tone.js seemed too complicated \cite{tonejs-issue}. This threw us off track for several weeks as we searched for good synths to use (we found none). Claire had switched to DuckDuckGo during the project, which has a much less 'intelligent' search algorithm, which would not return the repo "tonejs-instruments" from a search for ``tone js instruments'' \cite{tonejs-instruments}. In \lightcode{tonejs-instruments}, they use publicly available WAVs from about a dozen instruments, including saxophone and piano (but no drums). Google, however, did, so eventually it was found. We relied heavily on this repo. \href{https://github.com/Tonejs/Tone.js/issues/290}{This issue} references why we can't use \code{WAV}-format files in Tone.js (simply not supported, it seems). 
+We looked into playing and modifying audiofiles (such as \code{MP3}s or \code{WAV}s) but the integration with Tone.js seemed too complicated \cite{tonejs-issue}. This threw us off track for several weeks as we searched for good synths to use (we found none). Claire had switched to \href{https://duckduckgo.com/}{DuckDuckGo} during the project, which has a much less 'intelligent' search algorithm, which would not return the repo \lightcode{tonejs-instruments} from a search for ``tone js instruments''. Google, however, did, so eventually it was found. In \lightcode{tonejs-instruments}, they use publicly available \code{WAV}s from about a dozen instruments, including saxophone and piano (but no drums) \cite{tonejs-instruments}.  We relied heavily on this repo due to its realistic sound qualities. Originally, we believe that \href{https://github.com/Tonejs/Tone.js/issues/290}{this issue} references why we can't use \code{WAV}-format files in Tone.js. However, that issue seems to be outdated, incorrect, or misread.
 
-We discussed moving instruments synths into \lightcode{instruments.js}, out of \lightcode{main.js}. Moving roots/scales/chord progressions/rhythms/min \& max on octaves in \lightcode{chords.js}. Generally, speak on modularization of code (and why that is important).
+We discussed moving instruments synths into \lightcode{instruments.js}, out of \lightcode{main.js}. Moving roots/scales/chord progressions/rhythms/min \& max on octaves in \lightcode{chords.js}. (Amy: Generally, speak on constant refactorization and modularization of code (and why that is important).)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Licensing}
 
-As all open-source contributors should be, we were careful to correctly attribute credit (and liability!) to repositories and sources we borrowed from. We relied on one repository, by Github user \code{wheelibin}, that did not have a license. As Github-hosted \href{https://choosealicense.com/}{\textit{Choose A License}}, hosted and run by GitHub, was very helpful in guiding us (and \code{wheelibin}) through the licensing process. Failure to license an open-source project can lead to unsavory legal troubles. 
+As all open-source contributors should be, we were careful to correctly attribute credit (and liability!) to repositories and sources we borrowed from. We relied on one repository, by Github user \code{wheelibin}, that did not have a license. As Github-hosted \href{https://choosealicense.com/}{\textit{Choose A License}}, hosted and run by GitHub, was very helpful in guiding us (and \code{wheelibin}) through the licensing process. Failure to license an open-source project can lead to unsavory legal troubles.
 
 \begin{quote}
 When you make a creative work (which includes code), the work is under exclusive copyright by default. Unless you include a license that specifies otherwise, nobody else can copy, distribute, or modify your work without being at risk of take-downs, shake-downs, or litigation. Once the work has other contributors (each a copyright holder), “nobody” starts including you. \\
@@ -368,12 +380,12 @@ If you find software that doesn’t have a license, that generally means you hav
 \end{quote}
 
 
-Thankfully, \code{wheelibin} was responsive to \href{https://github.com/wheelibin/synaesthesia/issues/2}{our request} via GitHub's issue tracker to license his repository. He ended up using the MIT license by adding it to his \lightcode{README.md} \cite{synaesthesia-license}. Once he had done so, we were free to use and modify his work, so long as we included the original license along with our distribution. 
+Thankfully, \code{wheelibin} was responsive to \href{https://github.com/wheelibin/synaesthesia/issues/2}{our request} via GitHub's issue tracker to license his repository. He ended up using the MIT license by adding it to his \lightcode{README.md} \cite{synaesthesia-license}. Once he had done so, we were free to use and modify his work, so long as we included the original license along with our distribution.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%% Analysis & Conclusion %%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Analysis & Conclusion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Analysis \& Conclusion}
 \subsection{Original Goals}
@@ -399,21 +411,19 @@ In general, we felt that we had taken appropriate steps throughout.
 	\item Add more pleasant, fading background image transition.
 	\item Fix the saxophone from \lightcode{tonejs-instruments}. Currently, it gets a wispy / airy / reedy tone in the upper ranges, such that you can hear the reed from the instrument. This is probably caused by a high-pitched soundfile that is interpolated to the intermediate pitch range. Ideally, we would remove the soundfile that contains this wispiness, and \lightcode{tonejs-instruments} would successfully extrapolate pitches without it.
 	\item Add a music notation system using standard bar notation. This can be done with moderately complex CSS and JS implementation, as demonstrated \href{https://codepen.io/laviperchik/pen/mIACq}{here} on Codepen. \cite{css-musical-notes}
-	\item Spend more time trying to get \lightcode{Tone.js}'s \code{MetalSynth} function to work appropriately. At the beginning, we seemed to have a perfectly fine \code{Kick}, \code{OpenHat}, and \code{DampedOpenHat} functionality. However, it either broke due to some yet-unidentified internal conflict (such as a clash between two \lightcode{Tone.js} implementations), or we simply had much better taste in synths by the time we began to use it in our music. Either way, we were not satisfied enough to use the synth. 
+	\item Spend more time trying to get \lightcode{Tone.js}'s \code{MetalSynth} function to work appropriately. At the beginning, we seemed to have a perfectly fine \code{Kick}, \code{OpenHat}, and \code{DampedOpenHat} functionality. However, it either broke due to some yet-unidentified internal conflict (such as a clash between two \lightcode{Tone.js} implementations), or we simply had much better taste in synths by the time we began to use it in our music. Either way, we were not satisfied enough to use the synth.
 \end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%% Contact %%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Contact %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contact}
 
 Claire Goeckner-Wald (claire@caltech.edu) or Amy Xiong (axiong@caltech.edu).
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%% Appendix %%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Appendix %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Appendix}
 
 \subsection{Original Proposal}
@@ -421,7 +431,7 @@ The original proposal, submitted Monday, 22 October 2018:
 \begin{quote}
 We aim to build a procedurally-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. The ideal end-product is jazz-esque music that can respond in live time to environmental variables. We selected jazz as our target because we believe it will be easier to procedurally generate due to the improvisational and diverse nature of jazz. We will initially follow this \href{http://www.procjam.com/tutorials/en/music/}{Procedural Music Generation tutorial}. To begin, we select a `palette' of frequencies and sounds that function well together. Then, we will add rhythm and beat to generate our base product. After this is accomplished, we may add additional complexities such as palette-changes, instrument modifications, etc. We may additionally attempt to link these complexities to environmental variables for an interactive soundscape.
 
-We will use SuperCollider for the sound synthesis and algorithmic composition. We will begin with \href{http://doc.sccode.org/Classes/MdaPiano.html}{MdaPiano} for a piano synthesizer. We will also add drums, saxophone, bass, and other instruments, as appropriate. Ideally we will have large suite of instrument synthesizers. We have considered creating a web application for this project, a la \href{https://asoftmurmur.com/}{Soft Murmur} and similar websites, which allow the client to modify the mixture directly. If we chose to do this, we might use \href{https://console.cloud.google.com/projectselector/appengine}{Google App Engine}. 
+We will use SuperCollider for the sound synthesis and algorithmic composition. We will begin with \href{http://doc.sccode.org/Classes/MdaPiano.html}{MdaPiano} for a piano synthesizer. We will also add drums, saxophone, bass, and other instruments, as appropriate. Ideally we will have large suite of instrument synthesizers. We have considered creating a web application for this project, a la \href{https://asoftmurmur.com/}{Soft Murmur} and similar websites, which allow the client to modify the mixture directly. If we chose to do this, we might use \href{https://console.cloud.google.com/projectselector/appengine}{Google App Engine}.
 \end{quote}
 
 \subsection{MIT License}
@@ -470,16 +480,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see $\langle$https://www.gnu.org/licenses/$\rangle$. \cite{gplv3}
 \end{quote}
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-%% References section: %
-%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%% References section: %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \bibliography{references}
 \bibliographystyle{plain}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% End of document %%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% End of document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
 
