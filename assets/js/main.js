@@ -112,7 +112,14 @@ export function setNotesString(notes) {
     for (var i = 1; i < notes.length; i++) {
         unicode_pitch = unicoder(notes[i].pitch);
         unicode_length = unicoder(notes[i].length);
-        notesString += ", " + unicode_pitch + " " + unicode_length;
+        
+        notesString += ", ";
+        if (unicode_pitch == "") { // rest
+            notesString += unicode_pitch;
+        } else {
+            notesString += unicode_pitch + " ";
+        }
+        notesString += unicode_length;
     }
 }
 

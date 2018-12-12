@@ -8,6 +8,7 @@ const chanceStartRun = 0.5;
 const chanceEndRun = 0.7;
 const chanceAscendRun = 0.5;
 const chanceRepeat = 0.5;
+const chanceRest = 0.3;
 
 var tonic, scale;
 
@@ -77,6 +78,17 @@ export function init() {
         
         // determine note length, timing, & pitch, for each note in the rhythm
         for (var i = 0; i < rhythm.length; i++) {
+            // determine note length and timing
+            var length = getNoteLength(rhythm[i] * multiplier)
+            var time = getNoteTime(totalTime);
+            totalTime += rhythm[i] * multiplier;
+            
+            // possible rest
+            if ((length == "2n" || length == "4n") && Math.random() < chanceRest) {
+                notes.push({"time" : time, "pitch" : "", "length" : length});
+                continue;
+            }
+            
             // randomize pitch
             var pitchIndex;
             if (run) {
@@ -105,11 +117,6 @@ export function init() {
             }
             var pitch = availableNotes[pitchIndex];
             currPitchIndex = pitchIndex;
-            
-            // determine note length and timing
-            var length = getNoteLength(rhythm[i] * multiplier)
-            var time = getNoteTime(totalTime);
-            totalTime += rhythm[i] * multiplier;
             
             notes.push({"time" : time, "pitch" : pitch, "length" : length});
             //console.log(time + " " + pitch + " " + length);
