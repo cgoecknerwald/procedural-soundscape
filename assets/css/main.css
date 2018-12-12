@@ -22,7 +22,7 @@ BUTTONS
 
 */
 button, input[type="submit"], input[type="reset"]  {
-	color: #02a6f2; /* White text */
+	color: #02a6f2; /* Blue button */
 	cursor: pointer; /* Mouse pointer on hover */
 	background: transparent;
 	border: transparent;
@@ -31,7 +31,7 @@ button, input[type="submit"], input[type="reset"]  {
 }
 
 button:hover {
-	color: #02a6f2;
+	color: #59C9FD; /* Lighter blue on hover */
 } 
 
 /* 

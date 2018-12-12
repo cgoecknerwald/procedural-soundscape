@@ -4,6 +4,7 @@ var backgroundInitialized = false;
 var backgroundImageIndex = -1;
 var noteIndexUI = document.getElementById("note-bar1");
 var notesUI = document.getElementById("note-bar2");
+var prevNotesString = "";
 var notesString = "";
 var notesIndex = 0;
 var countdown = 4;
@@ -60,14 +61,20 @@ export function loadPage() {
     document.getElementById("loading-screen").style.display = "none";
 }
 
-export function updateNoteIndex() {
-    noteIndexUI.innerHTML = ++notesIndex;
+export function emphasizeNote() {
+    notesIndex++;
+    /* Surround the active note with <span style="color: #02a6f2">EXAMPLE_NOTE</span> */
+    var notes = prevNotesString.split(", ");
+    /* notesIndex is 1-indexed. */
+    notes[notesIndex - 1] = "<span style=\"color: #02a6f2\">" + notes[notesIndex - 1] + "</span>";
+    notesUI.innerHTML = notes.join(",&nbsp;");
 }
 
 export function resetNotesUI() {
     if (notesString != "") {
         notesUI.innerHTML = notesString;
     }
+    prevNotesString = notesString;
     notesString = "";
     notesIndex = 0;
 }
@@ -76,17 +83,18 @@ export function resetNotesUI() {
 function unicoder(strinput) {
     /* Change sharps and flats to unicode */
     strinput = strinput.replace("#", "&#x266F;").replace("b", "&#x266D;");
-    /* Change music lengths to music notes */
-    /* 16n */
-    strinput = strinput.replace("16n", "&#119137;");
-    /* 8n or 8n. */
-    strinput = strinput.replace("8n.", "&#119136;").replace("8n", "&#119136;");
-    /* 4n or 4n. */
-    strinput = strinput.replace("4n.", "&#119135;").replace("4n", "&#119135;");
-    /* 2n or 2n. */
-    strinput = strinput.replace("2n.", "&#119134;").replace("2n", "&#119134;");
-    /* 1m (1 measure) */    
-    strinput = strinput.replace("1m", "&#119133;");
+    // Temporarily unavailable due to font conflict:
+    // /* Change music lengths to music notes */
+    // /* 16n */
+    // strinput = strinput.replace("16n", "&#119137;");
+    // /* 8n or 8n. */
+    // strinput = strinput.replace("8n.", "&#119136;").replace("8n", "&#119136;");
+    // /* 4n or 4n. */
+    // strinput = strinput.replace("4n.", "&#119135;").replace("4n", "&#119135;");
+    // /* 2n or 2n. */
+    // strinput = strinput.replace("2n.", "&#119134;").replace("2n", "&#119134;");
+    // /* 1m (1 measure) */    
+    // strinput = strinput.replace("1m", "&#119133;");
 
     return strinput;
 }

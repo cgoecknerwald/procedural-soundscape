@@ -159,7 +159,7 @@ export function init() {
         new Tone.Part(function(time, value) {
             wav_suite["saxophone"].triggerAttackRelease(value.pitch, value.length, time);
             // console.log("Updating note index.");
-            UI.updateNoteIndex();
+            UI.emphasizeNote();
         }, notes).start("+1m");
         
         // If a full measure hasn't been generated yet, generate the remaining part
@@ -172,24 +172,24 @@ export function init() {
     var wav_suite = SampleLibrary.load({
         instruments: [
         "bass-electric",
-        //"bassoon",
-        //"cello",
-        //"clarinet",
-        //"contrabass",
-        //"flute",
-        //"french-horn",
-        //"guitar-acoustic",
-        //"guitar-electric",
-        //"harmonium",
-        //"harp",
-        //"organ",
-        //"piano",
+        // "bassoon",
+        // "cello",
+        // "clarinet",
+        // "contrabass",
+        // "flute",
+        // "french-horn",
+        // "guitar-acoustic",
+        // "guitar-electric",
+        // "harmonium",
+        // "harp",
+        // "organ",
+        // "piano",
         "saxophone",
-        //"trombone",
-        //"trumpet",
-        //"tuba",
-        //"violin",
-        //"xylophone"
+        // "trombone",
+        // "trumpet",
+        // "tuba",
+        // "violin",
+        // "xylophone"
         ],
         baseUrl: "https://cgoecknerwald.github.io/procedural-soundscape/assets/samples/",
     });
@@ -204,8 +204,8 @@ export function init() {
         console.log("Error: failed to load tonejs-instruments.");
     });
     
-    //var openhat = new synth_instruments.OpenHat(8, Tone.Frequency(tonic + "2").toFrequency());
-    //var shaker = new synth_instruments.Shaker(8, Tone.Frequency(tonic + "2").toFrequency());
+    // var openhat = new synth_instruments.OpenHat(8, Tone.Frequency(tonic + "2").toFrequency());
+    // var shaker = new synth_instruments.Shaker(8, Tone.Frequency(tonic + "2").toFrequency());
     Tone.Transport.bpm.value = 100;
 
     // Randomize, one measure at a time
@@ -228,7 +228,9 @@ export function init() {
     initialCountdown.iterations = 4;
     initialCountdown.start(0);
     
-    /*var openhatLoop = new Tone.Sequence(function(time, hit) {
+    /*
+
+    var openhatLoop = new Tone.Sequence(function(time, hit) {
         if (hit == 1) {
             openhat.triggerAttackRelease("16n", time);
         }
@@ -242,6 +244,7 @@ export function init() {
         }
     }, rhythms.randomShakerRythym(), "16n");
     shakerLoop.loop = true;
-    shakerLoop.start(0);*/
-        
+    shakerLoop.start(0);
+
+    */    
 }
