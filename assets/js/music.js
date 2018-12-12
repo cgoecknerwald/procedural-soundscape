@@ -223,7 +223,7 @@ export function init() {
     
     var initialCountdown = new Tone.Loop(function() {
         UI.countdownNotesUI();
-        //console.log("countdown");
+        // console.log("countdown");
     }, "4n");
     initialCountdown.iterations = 4;
     initialCountdown.start(0);

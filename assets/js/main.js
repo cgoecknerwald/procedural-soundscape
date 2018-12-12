@@ -72,14 +72,43 @@ export function resetNotesUI() {
     notesIndex = 0;
 }
 
+/* Helper function changes alphanumerical representations to unicode representations. */
+function unicoder(strinput) {
+    /* Change sharps and flats to unicode */
+    strinput = strinput.replace("#", "&#x266F;").replace("b", "&#x266D;");
+    /* Change music lengths to music notes */
+    /* 16n */
+    strinput = strinput.replace("16n", "&#119137;");
+    /* 8n or 8n. */
+    strinput = strinput.replace("8n.", "&#119136;").replace("8n", "&#119136;");
+    /* 4n or 4n. */
+    strinput = strinput.replace("4n.", "&#119135;").replace("4n", "&#119135;");
+    /* 2n or 2n. */
+    strinput = strinput.replace("2n.", "&#119134;").replace("2n", "&#119134;");
+    /* 1m (1 measure) */    
+    strinput = strinput.replace("1m", "&#119133;");
+
+    return strinput;
+}
+
 export function setNotesString(notes) {
-    if (notesString != "") notesString += ", ";
-    notesString += notes[0].pitch + " " + notes[0].length;
+    if (notesString != "") {
+        notesString += ", ";
+    }
+
+    /* Handle first note separately to avoid trailing commas */
+    var unicode_pitch = unicoder(notes[0].pitch);
+    var unicode_length = unicoder(notes[0].length);
+    notesString += unicode_pitch + " " + unicode_length;
+
     for (var i = 1; i < notes.length; i++) {
-        notesString += ", " + notes[i].pitch + " " + notes[i].length;
+        unicode_pitch = unicoder(notes[i].pitch);
+        unicode_length = unicoder(notes[i].length);
+        notesString += ", " + unicode_pitch + " " + unicode_length;
     }
 }
 
+/* Due to a first-note dropping error, we schedule notes 1 measure in advance. */
 export function countdownNotesUI() {
     if (countdown > 0) {
         notesUI.innerHTML = countdown-- + "...";
@@ -87,5 +116,6 @@ export function countdownNotesUI() {
 }
 
 export function setKey(tonic, scale) {
-    document.getElementById("key-value").innerHTML = tonic + " " + scale.replace("_", " ");
+    var key = unicoder(tonic);
+    document.getElementById("key-value").innerHTML = key + " " + scale.replace("_", " ");
 }

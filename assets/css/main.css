@@ -1,21 +1,20 @@
 body {
-    /* Background color is fallback */
-    background-color: black;
-    background-size: cover;
+	/* Background color is fallback */
+	background-color: black;
+	background-size: cover;
 }
 
 h1 {
-    color: white;
-    font-family: 'Monoton', cursive;
-    font-size: 40px;
+	color: white;
+	font-family: 'Monoton', cursive;
+	font-size: 40px;
 }
 
 h2, h3, p, body {
 	color: white;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 24px;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 24px; /* best: 24px */
 }
-
 
 /* 
 
@@ -23,16 +22,16 @@ BUTTONS
 
 */
 button, input[type="submit"], input[type="reset"]  {
-    color: #02a6f2; /* White text */
-    cursor: pointer; /* Mouse pointer on hover */
-    background: transparent;
-    border: transparent;
-    font-size: 20vmin;
+	color: #02a6f2; /* White text */
+	cursor: pointer; /* Mouse pointer on hover */
+	background: transparent;
+	border: transparent;
+	font-size: 20vmin;
 	height: 100%;
 }
 
 button:hover {
-    color: #02a6f2;
+	color: #02a6f2;
 } 
 
 /* 
@@ -42,38 +41,38 @@ PANELLING (CONTAINERS)
 */
 
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
 }
 .grid-container {
-    width: 100vw;
-    height: 100vh;
-    display: grid;
-    grid-template: repeat(3, 1fr) / repeat(5, 1fr);
-    margin: 0px;
-    border: 0px;
-    min-height: 0;
-    min-width: 0;
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template: repeat(3, 1fr) / repeat(5, 1fr);
+	margin: 0px;
+	border: 0px;
+	min-height: 0;
+	min-width: 0;
 }
 .grid-panel {
-    background-color: black;
-    opacity: 0.88;
-    text-align: center;
-    display: table-cell;
-    overflow: hidden;
-    min-width: 0;
+	background-color: black;
+	opacity: 0.88;
+	text-align: center;
+	display: table-cell;
+	overflow: hidden;
+	min-width: 0;
 }
 .grid-nopanel {
-    background-color: transparent;
-    text-align: center;
-    display: table-cell;
-    min-width: 0;
+	background-color: transparent;
+	text-align: center;
+	display: table-cell;
+	min-width: 0;
 }
 .grid-fullrow {
-    grid-column: 1 / span 5;
+	grid-column: 1 / span 5;
 	background-color: black;
-    opacity: 0.88;
+	opacity: 0.88;
 	overflow: hidden;
 	min-width: 0;
 	text-align: center;
@@ -115,21 +114,21 @@ LOADING SCREEN
 
 */
 #loading-screen {
-    height: 100vh;
-    width: 100vw;
-    text-align: center;
+	height: 100vh;
+	width: 100vw;
+	text-align: center;
 }
 
 .loading-title {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: 30vh;
-    padding-bottom: 10vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-top: 30vh;
+	padding-bottom: 10vh;
 }
 
 .loading-text {
 	color: white;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 16px;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 16px;
 }
