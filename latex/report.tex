@@ -90,7 +90,7 @@
 
 \textbf{A short overview of your project idea, why it is interesting and what you would like to learn from it.}
 
-We built a website with a procedural-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. While we did not integrate the soundscape with live variables, we did integrate it with a synesthetic background image. It would not be terribly difficult to integrate the soundscape with live variables at this point, but we chose not to due to time constraints. (Amy: discuss musical `palette' here.) We chose to use \lightcode{tonejs-instruments} because it integrated open-source \code{WAV}-format files from real instruments with \lightcode{Tone.js} \cite{tonejs-instruments}. We tested the final product in both Mozilla Firefox Quantum 63.0 and Google Chrome 70.0. Rather than using Google App Engine, or similar, we simply hosted the website for free on Claire's personal GitHub site, \href{https://cgoecknerwald.github.io/procedural-soundscape}{cgoecknerwald.github.io/procedural-soundscape}. This greatly simplified the workflow, as we could easily push HTML/CS/JS to the GitHub repository, and it would then be immediately updated online with no extra work.
+We built a website with a procedural-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. While we did not integrate the soundscape with live variables, we did integrate it with a synesthetic background image. It would not be terribly difficult to integrate the soundscape with live variables at this point, but we chose not to due to time constraints. (Amy: discuss musical `palette' here.) We chose to use \lightcode{tonejs-instruments} because it integrated open-source \code{WAV}-format files from real instruments with \lightcode{Tone.js} \cite{tonejs-instruments}. We tested the final product in both the latest version of \href{https://www.mozilla.org/en-US/firefox/}{Mozilla Firefox} (Mozilla Firefox Quantum 63.0) and \href{https://www.google.com/chrome/index.html}{Google Chrome} (Google Chrome 70.0). Rather than using \href{https://cloud.google.com/appengine/}{Google App Engine}, or similar, we simply hosted the website for free on Claire's personal GitHub site, \href{https://cgoecknerwald.github.io/procedural-soundscape}{cgoecknerwald.github.io/procedural-soundscape}. This greatly simplified the workflow, as we could easily push HTML/CS/JS to the GitHub repository, and it would then be immediately updated online with no extra work.
 
 \subsection{Description}
 \textbf{Brief description of features}
@@ -112,8 +112,10 @@ The entire codebase (and the original \code{LaTeX} files for this very report) c
 	\item User output: Any functioning speakers will do.
 \end{itemize}
 
+Since Firefox and Chrome use unique browser engines -- Gecko and Blink, respectively -- we reasoned that this would be sufficient coverage. Brief trials with Safari, which uses WebKit, have been successful, as well. We did not test at all on Internet Explorer.
+
 \subsection{Technical Challenges}
-We did not test at all on Internet Explorer, only Firefox and Chrome. We had issues with \lightcode{Tone.js}.
+We had issues with \lightcode{Tone.js}, namely with building realistic synths.
 
 \subsection{Licensing}
 We chose to license our repository with the MIT License.
@@ -139,7 +141,7 @@ Algorithmic functions are represented in Pd by visual boxes called objects place
 \end{quote}
 
 \subsubsection{SuperCollider}
-SuperCollider seemed okay at first, but we could not see an easy way to integrate it with HTML/JS/CSS (knowing that we wanted to build a web application).
+\lightcode{SuperCollider} seemed okay at first, but we could not see an easy way to integrate it with HTML/JS/CSS (knowing that we wanted to build a web application).
 
 \begin{quote}
 SuperCollider is a platform for audio synthesis and algorithmic composition, used by musicians, artists, and researchers working with sound. It is free and open source software available for Windows, macOS, and Linux. \cite{supercollider}
@@ -174,7 +176,8 @@ Tone.js is a Web Audio framework for creating interactive music in the browser. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Technological Review}
-\textbf{Discuss relevant github repos and projects and articles}
+\textbf{Discuss relevant github repos and projects and articles.}
+
 We looked at Karplus-Strong String Synthesis but determined it was only relevant if we used \lightcode{Audiosynth.js} \cite{karplus-strong}.
 
 \subsubsection{Tambien's Tone.js}
@@ -196,13 +199,11 @@ We got mostly drums synths and pads from \code{tambien} (Yotam Mann, creator of 
 The first challenge was in getting \lightcode{Tone.js} to produce random music that would play forever.
 
 \subsubsection{Scheduling}
-\lightcode{Tone.js}'s has a scheduling system for producing music. \lightcode{Tone.js} had scheduling components that allowed you to play a series of notes in a row (e.g. \lightcode{Tone.Part}).
+\lightcode{Tone.js}'s has a scheduling system for producing music. \lightcode{Tone.js} had scheduling components that allowed you to play a series of notes in a row (e.g. \href{https://tonejs.github.io/docs/r12/Part}{\lightcode{Tone.Part}}).
 
 \lightcode{Tone.js} can only repeat in regular intervals. It could not, for example, calculate the amount of time a section of music would take, then automatically repeat after that section was finished. This meant we had to make each randomly-generated section of music be of the same length, in order for them to fit together without breaks in the music. We thus decided to generate music one measure at a time.
 
-\lightcode{Tone.js} allows you to have multiple notes playing at the same time. Thus, you must specify both the duration of the note and when it should be played, not just one or the other. We had to thus separately track the time elapsed as we randomly generated our notes, in order to be able to know when to schedule the next note.
-
-\lightcode{triggerAttackRelease(note, duration, time)}
+\lightcode{Tone.js} allows you to have multiple notes playing at the same time. Thus, you must specify both the duration of the note and when it should be played, not just one or the other. We had to thus separately track the time elapsed as we randomly generated our notes, in order to be able to know when to schedule the next note. More on \code{triggerAttackRelease(note, duration, time)}...
 
 \subsubsection{Rhythm}
 
@@ -222,7 +223,7 @@ quarter quarter quarter quarter & \Vier \Vier \Vier \Vier \\
 \end{tabular}
 \end{center}
 
-All rhythm constants are stored in \lightcode{assets/js/rhythms.js}.
+All rhythm constants are stored in \code{assets/js/rhythms.js}.
 
 Note that each of these rhythms take up exactly one measure (in \setmeter{4}{4} time).
 We then augmented this set by using the same patterns with shorter notes. We halved all the note lengths to get an equivalent set of rhythm patterns that take up half a measure, and then halved the lengths again to get another set that take up one quarter note.
@@ -231,7 +232,7 @@ We generate music one measure at a time, but within each measure, we generate th
 
 For example, we might generate a measure of music by first generating four sixteenth-notes (a one-quarter-note rhythm pattern), then one half-note (a one-half-note rhythm pattern), then finally two eighth-notes (a one-quarter-note rhythm pattern again). We cannot, however, generate first four sixteenth-notes, then four quarter-notes, as that will last longer than one measure. We also cannot generate four sixteenth-notes, then one half-note, then stop, since that will last shorter than one measure.
 
-We have the function \lightcode{createMeasure(maxLength, offset)} to create notes with a single rhythm pattern. The parameters specify the maximum length of music to generate (1-4 quarter notes) and the offset into the measure the notes should start at (0-3 quarter notes in). The function first randomly decides what length of music to generate (1, 2, or 4 quarter notes of music) that falls within the maximum length. It randomly picks one of the 8 possible rhythms. The shorter rhythms (half-note-length or quarter-note-length) are obtained by dividing the note lengths according to whether it's generating 1, 2, or 4 quarter notes of music.
+We have the function \code{createMeasure(maxLength, offset)} to create notes with a single rhythm pattern. The parameters specify the maximum length of music to generate (1-4 quarter notes) and the offset into the measure the notes should start at (0-3 quarter notes in). The function first randomly decides what length of music to generate (1, 2, or 4 quarter notes of music) that falls within the maximum length. It randomly picks one of the 8 possible rhythms. The shorter rhythms (half-note-length or quarter-note-length) are obtained by dividing the note lengths according to whether it's generating 1, 2, or 4 quarter notes of music.
 
 \subsubsection{Pitch Generation}
 
@@ -268,7 +269,7 @@ The program also features a count-down because we generate notes a full measure 
 
 There are 3 different kinds of dynamic information displays to the user: the notes, the BPM, and the key.
 
-The notes are scheduled a full measure in advance, which allows us to display them on screen. The function \lightcode{emphasizeNote()} uses the index of the currently sounded note to updated the displayed HTML. In this way, the user can visually track the notes (or rests!) as they are sent live to \lightcode{Tone.js}.
+The notes are scheduled a full measure in advance, which allows us to display them on screen. The function \code{emphasizeNote()} uses the index of the currently sounded note to updated the displayed HTML. In this way, the user can visually track the notes (or rests!) as they are sent live to \lightcode{Tone.js}.
 
 
 \subsubsection{Backgrounds}
@@ -361,12 +362,23 @@ The entire codebase (and the original \code{LaTeX} files for this very report) c
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Workflow}
+
+Rather than using \href{https://cloud.google.com/appengine/}{Google App Engine}, or similar, we simply hosted the website for free on Claire's personal GitHub site, \href{https://cgoecknerwald.github.io/procedural-soundscape}{cgoecknerwald.github.io/procedural-soundscape}. This greatly simplified the workflow, as we could easily push HTML/CS/JS to the GitHub repository, and it would then be immediately updated online with no extra work.
+
+\begin{itemize}
+	\item \href{https://github.com/cgoecknerwald/procedural-soundscape/commits/master}{Commit history}: one can view the entirety of commits to this project over time.
+	\item \href{https://github.com/cgoecknerwald/procedural-soundscape/issues}{Issue tracking}: We kept track of bugs and wishful enhancements with the issue tracker. At this time, we have 5 open issues and 8 closed issues.
+	\item \href{https://github.com/cgoecknerwald/procedural-soundscape/projects}{Project management}: We at times used two \href{https://en.wikipedia.org/wiki/Kanban_(development)}{Kanban}-inspired workflow management boards. One board represented primarily the user interface work, and the other represented primarily the sound design work. In general, however, we relied mostly on verbal in-person communication and issue tracking for workflow.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementation Issues}
 \textbf{Implementation issues, note any particular technical or audio difficulties and work-arounds}
 
 We looked into playing and modifying audiofiles (such as \code{MP3}s or \code{WAV}s) but the integration with Tone.js seemed too complicated \cite{tonejs-issue}. This threw us off track for several weeks as we searched for good synths to use (we found none). Claire had switched to \href{https://duckduckgo.com/}{DuckDuckGo} during the project, which has a much less 'intelligent' search algorithm, which would not return the repo \lightcode{tonejs-instruments} from a search for ``tone js instruments''. Google, however, did, so eventually it was found. In \lightcode{tonejs-instruments}, they use publicly available \code{WAV}s from about a dozen instruments, including saxophone and piano (but no drums) \cite{tonejs-instruments}.  We relied heavily on this repo due to its realistic sound qualities. Originally, we believe that \href{https://github.com/Tonejs/Tone.js/issues/290}{this issue} references why we can't use \code{WAV}-format files in Tone.js. However, that issue seems to be outdated, incorrect, or misread.
 
-We discussed moving instruments synths into \lightcode{instruments.js}, out of \lightcode{main.js}. Moving roots/scales/chord progressions/rhythms/min \& max on octaves in \lightcode{chords.js}. (Amy: Generally, speak on constant refactorization and modularization of code (and why that is important).)
+We discussed moving instruments synths into \code{assets/js/instruments.js}, out of \code{assets/js/main.js}. Moving roots/scales/chord progressions/rhythms/min \& max on octaves in \code{assets/js/chords.js}. (Amy: Generally, speak on constant refactorization and modularization of code (and why that is important).)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Licensing}
@@ -380,7 +392,7 @@ If you find software that doesn’t have a license, that generally means you hav
 \end{quote}
 
 
-Thankfully, \code{wheelibin} was responsive to \href{https://github.com/wheelibin/synaesthesia/issues/2}{our request} via GitHub's issue tracker to license his repository. He ended up using the MIT license by adding it to his \lightcode{README.md} \cite{synaesthesia-license}. Once he had done so, we were free to use and modify his work, so long as we included the original license along with our distribution.
+Thankfully, \code{wheelibin} was responsive to \href{https://github.com/wheelibin/synaesthesia/issues/2}{our request} via GitHub's issue tracker to license his repository. He ended up using the MIT license by adding it to his \code{README.md} \cite{synaesthesia-license}. Once he had done so, we were free to use and modify his work, so long as we included the original license along with our distribution.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -411,7 +423,7 @@ In general, we felt that we had taken appropriate steps throughout.
 	\item Add more pleasant, fading background image transition.
 	\item Fix the saxophone from \lightcode{tonejs-instruments}. Currently, it gets a wispy / airy / reedy tone in the upper ranges, such that you can hear the reed from the instrument. This is probably caused by a high-pitched soundfile that is interpolated to the intermediate pitch range. Ideally, we would remove the soundfile that contains this wispiness, and \lightcode{tonejs-instruments} would successfully extrapolate pitches without it.
 	\item Add a music notation system using standard bar notation. This can be done with moderately complex CSS and JS implementation, as demonstrated \href{https://codepen.io/laviperchik/pen/mIACq}{here} on Codepen. \cite{css-musical-notes}
-	\item Spend more time trying to get \lightcode{Tone.js}'s \code{MetalSynth} function to work appropriately. At the beginning, we seemed to have a perfectly fine \code{Kick}, \code{OpenHat}, and \code{DampedOpenHat} functionality. However, it either broke due to some yet-unidentified internal conflict (such as a clash between two \lightcode{Tone.js} implementations), or we simply had much better taste in synths by the time we began to use it in our music. Either way, we were not satisfied enough to use the synth.
+	\item Spend more time trying to get \lightcode{Tone.js}'s \code{MetalSynth} function to work appropriately. At the beginning, we seemed to have a perfectly fine synths for \code{Kick}, \code{HiHat}, \code{OpenHat}, and \code{DampedOpenHat} functionality. However, it either broke due to some yet-unidentified internal conflict (such as a clash between two \lightcode{Tone.js} implementations), or we simply had much better taste in synths by the time we began to use it in our music. Either way, we were not satisfied enough to use the synth.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -419,7 +431,7 @@ In general, we felt that we had taken appropriate steps throughout.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contact}
 
-Claire Goeckner-Wald (claire@caltech.edu) or Amy Xiong (axiong@caltech.edu).
+Claire Goeckner-Wald (\href{mailto://claire@caltech.edu}{claire@caltech.edu}) or Amy Xiong (\href{mailto://axiong@caltech.edu}{axiong@caltech.edu}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Appendix %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
