@@ -1,5 +1,7 @@
 import * as music from './music.js'
 
+const INITIAL_COUNTDOWN = 4;
+
 var backgroundInitialized = false;
 var backgroundImageIndex = -1;
 var noteIndexUI = document.getElementById("note-bar1");
@@ -7,7 +9,7 @@ var notesUI = document.getElementById("note-bar2");
 var prevNotesString = "";
 var notesString = "";
 var notesIndex = 0;
-var countdown = 4;
+var countdown = INITIAL_COUNTDOWN;
 
 // Initialize music
 music.init();
@@ -15,8 +17,10 @@ music.init();
 // Select random background on update-background button press.
 document.getElementById("update-background").addEventListener("click", function(){
     console.log("Update background button toggled.");
+    pause();
     updateBackground();
-    music.updateScale();
+    music.restart();
+    countdown = INITIAL_COUNTDOWN;
 });
 
 function updateBackground() {
@@ -37,10 +41,7 @@ document.getElementById("play-pause-button").addEventListener("click", function(
     var audio = document.getElementById('testAudio');
     if (this.className == 'is-playing') {
         // No longer playing
-        this.className = "";
-        // Replace fa-pause with fa-play icon
-        this.innerHTML = "<i class=\"fa fa-play\"></i>"
-        music.stop();
+        pause();
     } else {
         // Now playing
         this.className = "is-playing";
@@ -53,6 +54,14 @@ document.getElementById("play-pause-button").addEventListener("click", function(
         music.start();
     }
 });
+
+function pause() {
+    var pauseButton = document.getElementById("play-pause-button");
+    pauseButton.className = "";
+    // Replace fa-pause with fa-play icon
+    pauseButton.innerHTML = "<i class=\"fa fa-play\"></i>"
+    music.stop();
+}
 
 export function loadPage() {
     document.getElementById("page-content").style.display = "grid";
@@ -68,12 +77,18 @@ export function emphasizeNote() {
     notesUI.innerHTML = notes.join(",&nbsp;");
 }
 
-export function resetNotesUI() {
+export function updateNotesUI() {
     if (notesString != "") {
         notesUI.innerHTML = notesString;
     }
     prevNotesString = notesString;
     notesString = "";
+    notesIndex = 0;
+}
+
+export function resetNotesUI() {
+    notesUI.innerHTML = "Claire Goeckner-Wald & Amy Xiong";
+    notesString = prevNotesString = "";
     notesIndex = 0;
 }
 

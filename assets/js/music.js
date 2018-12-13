@@ -11,7 +11,7 @@ const chanceRepeat = 0.5;
 const chanceRest = 0.3;
 
 var tonic, scale;
-export var scaleNotes;
+export var scaleNotes, wav_suite;
 
 // Should be called after init()
 export function start() {
@@ -22,53 +22,21 @@ export function stop() {
     Tone.Transport.pause();
 }
 
-export function updateBPM() {
-    var bpm = Math.floor(Math.random() * 9) * 5 + 80;
-    Tone.Transport.bpm.value = bpm;
-    UI.setBPM(bpm);
-}
-
-export function updateScale() {
-    // Pick scale & key
-    var tonicIndex = chords.pickRandomTonicIndex();
-    tonic = chords.getPitchFromIndex(tonicIndex);
-    var scaleType = chords.getRandomScaleType();
-    var intervals = scaleType.intervals;
-    scale = scaleType.type;
-    
-    scaleNotes = chords.generateAvailableNotes(tonicIndex, intervals, chords.minOctave, chords.maxOctave);
-    UI.setKey(tonic, scale);
-}
-
 export function init() {
-    var wav_suite = loadInstruments();
-    updateBPM();
-    updateScale();
+    loadInstruments();
+    initMusic();
+}
 
-    // Randomize melody, one measure at a time
-    var loop = new Tone.Loop(function() {
-        UI.resetNotesUI();
-        createMeasure(4, 0, wav_suite["saxophone"]);
-    }, "1m").start(0);
-    
-    // Simple bass loop
-    var bassLoop = new Tone.Sequence(function(time, hit) {
-        if (hit == 1) {
-            wav_suite["bass-electric"].triggerAttackRelease(tonic + "3", "8n", "+1m");
-        }
-    }, rhythms.randomBassRhythm(), "4n").start(0);
-    
-    // One measure countdown before the melody starts
-    var initialCountdown = new Tone.Loop(function() {
-        UI.countdownNotesUI();
-    }, "4n");
-    initialCountdown.iterations = 4;
-    initialCountdown.start(0);
+export function restart() {
+    Tone.Transport.stop();
+    Tone.Transport.cancel();
+    UI.resetNotesUI();
+    initMusic();
 }
 
 function loadInstruments() {
     // Load instruments and start Tone
-    var wav_suite = SampleLibrary.load({
+    wav_suite = SampleLibrary.load({
         instruments: [
         "bass-electric",
         // "bassoon",
@@ -102,40 +70,49 @@ function loadInstruments() {
     Tone.Buffer.on("error", function() {
         console.log("Error: failed to load tonejs-instruments.");
     });
-    return wav_suite;
 }
 
-// Converts input note length from a float (1 = quarter, 0.5 = eighth, etc.)
-// to Tone's string format ("4n", "8n", etc.).
-// Cannot handle triplet notes or double dots.
-function getNoteLength(length) {
-    var exp = Math.log2(length);
-    if (exp % 1 == 0 && length < 4) {
-        return Math.pow(2, -exp + 2) + "n";
-    } else if (length % 4 == 0) {
-        return Math.floor(length / 4) + "m";
-    } else { // assume dotted
-        return getNoteLength(2 * length / 3) + ".";
-    }
+function initMusic() {
+    updateBPM();
+    updateScale();
+
+    // Randomize melody, one measure at a time
+    var loop = new Tone.Loop(function() {
+        UI.updateNotesUI();
+        createMeasure(4, 0, wav_suite["saxophone"]);
+    }, "1m").start(0);
+    
+    // Simple bass loop
+    var bassLoop = new Tone.Sequence(function(time, hit) {
+        if (hit == 1) {
+            wav_suite["bass-electric"].triggerAttackRelease(tonic + "3", "8n");
+        }
+    }, rhythms.randomBassRhythm(), "4n").start("1m");
+    
+    // One measure countdown before the melody starts
+    var initialCountdown = new Tone.Loop(function() {
+        UI.countdownNotesUI();
+    }, "4n");
+    initialCountdown.iterations = 4;
+    initialCountdown.start(0);
 }
 
-// Converts input time from a float (0 as start of measure, 1 as first quarter)
-// to Tone's bars:quarters:sixteenths format.
-function getNoteTime(time) {
-    var bars = Math.floor(time / 4);
-    var quarters = Math.floor(time - bars);
-    var sixteenths = (time - bars - quarters) * 4;
-    return bars + ":" + quarters + ":" + sixteenths;
+function updateBPM() {
+    var bpm = Math.floor(Math.random() * 9) * 5 + 80;
+    Tone.Transport.bpm.value = bpm;
+    UI.setBPM(bpm);
 }
 
-// Choose a random entry from the array
-function pickRandom(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
-
-// Returns whether or not i is a valid index for array arr
-function isValidIndex(i, arr) {
-    return i >= 0 && i < arr.length;
+function updateScale() {
+    // Pick scale & key
+    var tonicIndex = chords.pickRandomTonicIndex();
+    tonic = chords.getPitchFromIndex(tonicIndex);
+    var scaleType = chords.getRandomScaleType();
+    var intervals = scaleType.intervals;
+    scale = scaleType.type;
+    
+    scaleNotes = chords.generateAvailableNotes(tonicIndex, intervals, chords.minOctave, chords.maxOctave);
+    UI.setKey(tonic, scale);
 }
 
 // Create a full, half, or quarter measure of randomly-generated music.
@@ -149,7 +126,14 @@ function createMeasure(maxLength, offset, instrument) {
     if (typeof createMeasure.availableNotes == 'undefined' || offset == 0) {
         createMeasure.availableNotes = scaleNotes;
     }
-    var notes = generateNotes(pickRandom(chords.rhythms), offset, sectionLength / 4, createMeasure.availableNotes);
+    var notes = generateNotes(pickRandom(chords.rhythms), offset, sectionLength / 4, 
+                                createMeasure.availableNotes);
+                                
+    if (offset == 0 && updatedBPM > 0) {
+        Tone.Transport.bpm.value = updatedBPM;
+        UI.setBPM(updatedBPM);
+        updatedBPM = -1;
+    }
     
     // possibly repeat
     if (sectionLength * 2 <= maxLength && Math.random() < chanceRepeat) {
@@ -249,4 +233,37 @@ function generateNotes(rhythm, totalTime, multiplier, availableNotes) {
         notes.push({"time" : time, "pitch" : pitch, "length" : length});
     }
     return notes;
+}
+
+// Converts input note length from a float (1 = quarter, 0.5 = eighth, etc.)
+// to Tone's string format ("4n", "8n", etc.).
+// Cannot handle triplet notes or double dots.
+function getNoteLength(length) {
+    var exp = Math.log2(length);
+    if (exp % 1 == 0 && length < 4) {
+        return Math.pow(2, -exp + 2) + "n";
+    } else if (length % 4 == 0) {
+        return Math.floor(length / 4) + "m";
+    } else { // assume dotted
+        return getNoteLength(2 * length / 3) + ".";
+    }
+}
+
+// Converts input time from a float (0 as start of measure, 1 as first quarter)
+// to Tone's bars:quarters:sixteenths format.
+function getNoteTime(time) {
+    var bars = Math.floor(time / 4);
+    var quarters = Math.floor(time - bars);
+    var sixteenths = (time - bars - quarters) * 4;
+    return bars + ":" + quarters + ":" + sixteenths;
+}
+
+// Choose a random entry from the array
+function pickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Returns whether or not i is a valid index for array arr
+function isValidIndex(i, arr) {
+    return i >= 0 && i < arr.length;
 }
