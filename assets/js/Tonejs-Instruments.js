@@ -1,6 +1,6 @@
 /**
 * @fileoverview A sample library and quick-loader for tone.js
-* 
+*
 * @author N.P. Brosowsky (nbrosowsky@gmail.com)
 * https://github.com/nbrosowsky/tonejs-instruments
 */
@@ -11,7 +11,7 @@ var SampleLibrary = {
     baseUrl: '/samples/',
     list: ['bass-electric','bassoon','cello','clarinet','contrabass','flute','french-horn','guitar-acoustic','guitar-electric','guitar-nylon', 'harmonium','harp','organ','piano','saxophone','trombone','trumpet','tuba','violin','xylophone'],
     onload: null,
-  
+
     setExt: function (newExt) {
         var i
         for (i = 0; i <= this.list.length - 1; i++) {
@@ -316,7 +316,7 @@ var SampleLibrary = {
         'C6': 'C6.[mp3|ogg]',
         'C#2': 'Cs2.[mp3|ogg]'
     },
-    
+
     'guitar-nylon': {
         'F#2': 'Fs2.[mp3|ogg]',
         'F#3': 'Fs3.[mp3|ogg]',
@@ -627,7 +627,7 @@ var SampleLibrary = {
         'G4': 'G4.[mp3|ogg]',
         'G5': 'G5.[mp3|ogg]',
         'G6': 'G6.[mp3|ogg]'
-        
+
     },
 
     'xylophone': {
