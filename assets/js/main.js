@@ -53,9 +53,6 @@ document.getElementById("play-pause-button").addEventListener("click", function(
     }
 });
 
-// Display BPM
-document.getElementById("bpm-value").innerHTML = Tone.Transport.bpm.value;
-
 export function loadPage() {
     document.getElementById("page-content").style.display = "grid";
     document.getElementById("loading-screen").style.display = "none";
@@ -133,4 +130,8 @@ export function countdownNotesUI() {
 export function setKey(tonic, scale) {
     var key = unicoder(tonic);
     document.getElementById("key-value").innerHTML = key + " " + scale.replace("_", " ");
+}
+
+export function setBPM(bpm) {
+    document.getElementById("bpm-value").innerHTML = bpm;
 }
