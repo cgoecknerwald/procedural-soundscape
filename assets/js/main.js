@@ -16,6 +16,7 @@ music.init();
 document.getElementById("update-background").addEventListener("click", function(){
     console.log("Update background button toggled.");
     updateBackground();
+    music.updateScale();
 });
 
 function updateBackground() {

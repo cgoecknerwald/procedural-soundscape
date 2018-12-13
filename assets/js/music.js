@@ -56,9 +56,10 @@ export function init() {
     // Simple bass loop
     var bassLoop = new Tone.Sequence(function(time, hit) {
         if (hit == 1) {
-            wav_suite["bass-electric"].triggerAttackRelease(tonic + "3", "8n");
+            wav_suite["bass-electric"].triggerAttackRelease(tonic + "3", "8n", "+1m");
+            console.log(tonic);
         }
-    }, rhythms.randomBassRhythm(), "4n").start("1m");
+    }, rhythms.randomBassRhythm(), "4n").start(0);
     
     // One measure countdown before the melody starts
     var initialCountdown = new Tone.Loop(function() {
@@ -148,6 +149,9 @@ function createMeasure(maxLength, offset, instrument) {
     var sectionLength = Math.random() * Math.floor(Math.log2(maxLength) + 1);
     sectionLength = Math.pow(2, Math.floor(sectionLength));
     
+    if (typeof createMeasure.availableNotes == 'undefined' || offset == 0) {
+        createMeasure.availableNotes = scaleNotes;
+    }
     var notes = generateNotes(pickRandom(chords.rhythms), offset, sectionLength / 4, createMeasure.availableNotes);
     
     // possibly repeat
@@ -166,7 +170,7 @@ function createMeasure(maxLength, offset, instrument) {
     UI.setNotesString(notes);
     
     new window.Tone.Part(function(time, value) {
-        instrument.triggerAttackRelease(value.pitch, value.length, time);
+        //instrument.triggerAttackRelease(value.pitch, value.length, time);
         UI.emphasizeNote();
     }, notes).start("+1m");
     
