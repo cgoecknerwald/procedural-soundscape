@@ -93,7 +93,7 @@ function unicoder(strinput) {
     // strinput = strinput.replace("4n.", "&#119135;").replace("4n", "&#119135;");
     // /* 2n or 2n. */
     // strinput = strinput.replace("2n.", "&#119134;").replace("2n", "&#119134;");
-    // /* 1m (1 measure) */    
+    // /* 1m (1 measure) */
     // strinput = strinput.replace("1m", "&#119133;");
 
     return strinput;
@@ -112,7 +112,7 @@ export function setNotesString(notes) {
     for (var i = 1; i < notes.length; i++) {
         unicode_pitch = unicoder(notes[i].pitch);
         unicode_length = unicoder(notes[i].length);
-        
+
         notesString += ", ";
         if (unicode_pitch == "") { // rest
             notesString += unicode_pitch;

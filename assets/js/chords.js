@@ -96,7 +96,7 @@ export function generateAvailableNotes(tonicIndex, intervals, minOctave, maxOcta
         }
         scaleIndices.push(noteIndex);
     });
-    
+
     var notes = [];
     var octave = minOctave;
     var prevPitch = tonicIndex;
@@ -104,20 +104,20 @@ export function generateAvailableNotes(tonicIndex, intervals, minOctave, maxOcta
     var i = 0;
     while (octave <= maxOctave) {
         notes.push(roots[currPitch] + octave);
-        
+
         // get next pitch
         i++;
         if (i >= scaleIndices.length) {
             i -= scaleIndices.length;
         }
-        
+
         prevPitch = currPitch;
         currPitch = scaleIndices[i];
         if (currPitch < prevPitch) {
             octave++;
         }
     }
-    
+
     return notes;
 }
 

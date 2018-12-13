@@ -16,7 +16,7 @@ h2, h3, p, body {
 	font-size: 24px; /* best: 24px */
 }
 
-/* 
+/*
 
 BUTTONS
 
@@ -32,9 +32,9 @@ button, input[type="submit"], input[type="reset"]  {
 
 button:hover {
 	color: #59C9FD; /* Lighter blue on hover */
-} 
+}
 
-/* 
+/*
 
 PANELLING (CONTAINERS)
 
@@ -108,7 +108,7 @@ PANELLING (CONTAINERS)
 	padding: 10px;
 }
 
-/* 
+/*
 
 LOADING SCREEN
 
