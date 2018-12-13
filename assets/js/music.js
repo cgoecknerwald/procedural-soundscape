@@ -81,14 +81,14 @@ function initMusic() {
         UI.updateNotesUI();
         createMeasure(4, 0, wav_suite["saxophone"]);
     }, "1m").start(0);
-    
+
     // Simple bass loop
     var bassLoop = new Tone.Sequence(function(time, hit) {
         if (hit == 1) {
             wav_suite["bass-electric"].triggerAttackRelease(tonic + "3", "8n");
         }
     }, rhythms.randomBassRhythm(), "4n").start("1m");
-    
+
     // One measure countdown before the melody starts
     var initialCountdown = new Tone.Loop(function() {
         UI.countdownNotesUI();
@@ -122,19 +122,13 @@ function createMeasure(maxLength, offset, instrument) {
     // create a full, half, or quarter measure
     var sectionLength = Math.random() * Math.floor(Math.log2(maxLength) + 1);
     sectionLength = Math.pow(2, Math.floor(sectionLength));
-    
+
     if (typeof createMeasure.availableNotes == 'undefined' || offset == 0) {
         createMeasure.availableNotes = scaleNotes;
     }
     var notes = generateNotes(pickRandom(chords.rhythms), offset, sectionLength / 4, 
                                 createMeasure.availableNotes);
-                                
-    if (offset == 0 && updatedBPM > 0) {
-        Tone.Transport.bpm.value = updatedBPM;
-        UI.setBPM(updatedBPM);
-        updatedBPM = -1;
-    }
-    
+
     // possibly repeat
     if (sectionLength * 2 <= maxLength && Math.random() < chanceRepeat) {
         var len = notes.length;
@@ -144,17 +138,17 @@ function createMeasure(maxLength, offset, instrument) {
             newTime += oldTime.slice(3);
             notes.push({"time": newTime, "pitch": notes[i].pitch, "length" : notes[i].length});
         }
-        
+
         sectionLength *= 2;
     }
-    
+
     UI.setNotesString(notes);
-    
+
     new Tone.Part(function(time, value) {
         instrument.triggerAttackRelease(value.pitch, value.length, time);
         UI.emphasizeNote();
     }, notes).start("+1m");
-    
+
     // If a full measure hasn't been generated yet, generate the remaining part
     if (sectionLength < maxLength) {
         createMeasure(maxLength - sectionLength, offset + sectionLength, instrument);
@@ -164,7 +158,7 @@ function createMeasure(maxLength, offset, instrument) {
 function generateNotes(rhythm, totalTime, multiplier, availableNotes) {
     var notes = [];
     var isValidNotesIndex = (i) => isValidIndex(i, availableNotes);
-    
+
     // initialize static variables
     if (typeof generateNotes.currPitchIndex == 'undefined') {
         generateNotes.currPitchIndex = Math.floor(availableNotes.length / 2);
@@ -175,7 +169,7 @@ function generateNotes(rhythm, totalTime, multiplier, availableNotes) {
     if (typeof runDirection == 'undefined') {
         generateNotes.runDirection = true;
     }
-    
+
     // possibly start or stop a run
     if (generateNotes.run && Math.random() < chanceEndRun) {
         generateNotes.run = false;
@@ -187,20 +181,20 @@ function generateNotes(rhythm, totalTime, multiplier, availableNotes) {
             generateNotes.runDirection = false;
         }
     }
-    
+
     // determine note length, timing, & pitch, for each note in the rhythm
     for (var i = 0; i < rhythm.length; i++) {
         // determine note length and timing
         var length = getNoteLength(rhythm[i] * multiplier)
         var time = getNoteTime(totalTime);
         totalTime += rhythm[i] * multiplier;
-        
+
         // possibly rest
         if ((length == "2n" || length == "4n") && Math.random() < chanceRest) {
             notes.push({"time" : time, "pitch" : "", "length" : length});
             continue;
         }
-        
+
         // randomize pitch
         var pitchIndex;
         if (generateNotes.run) {
@@ -210,7 +204,7 @@ function generateNotes(rhythm, totalTime, multiplier, availableNotes) {
                 generateNotes.run = false;
             }
         }
-        
+
         if (!generateNotes.run) {
             // generate all possible next notes, then randomly pick one of them
             var possibilities = [];
@@ -219,7 +213,7 @@ function generateNotes(rhythm, totalTime, multiplier, availableNotes) {
                 if (isValidNotesIndex(index)) {
                     possibilities.push(index);
                 }
-                
+
                 index = generateNotes.currPitchIndex - s;
                 if (isValidNotesIndex(index)) {
                     possibilities.push(index);
@@ -229,7 +223,7 @@ function generateNotes(rhythm, totalTime, multiplier, availableNotes) {
         }
         var pitch = availableNotes[pitchIndex];
         generateNotes.currPitchIndex = pitchIndex;
-        
+
         notes.push({"time" : time, "pitch" : pitch, "length" : length});
     }
     return notes;
