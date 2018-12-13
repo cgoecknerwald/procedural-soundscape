@@ -15,11 +15,11 @@ export var scaleNotes;
 
 // Should be called after init()
 export function start() {
-    window.Tone.Transport.start();
+    Tone.Transport.start();
 }
 
 export function stop() {
-    window.Tone.Transport.pause();
+    Tone.Transport.pause();
 }
 
 export function updateBPM() {
@@ -41,8 +41,6 @@ export function updateScale() {
 }
 
 export function init() {
-    const Tone = window.Tone;
-    
     var wav_suite = loadInstruments();
     updateBPM();
     updateScale();
@@ -57,7 +55,6 @@ export function init() {
     var bassLoop = new Tone.Sequence(function(time, hit) {
         if (hit == 1) {
             wav_suite["bass-electric"].triggerAttackRelease(tonic + "3", "8n", "+1m");
-            console.log(tonic);
         }
     }, rhythms.randomBassRhythm(), "4n").start(0);
     
@@ -96,13 +93,13 @@ function loadInstruments() {
         baseUrl: "https://cgoecknerwald.github.io/procedural-soundscape/assets/samples/",
     });
     console.log("Loading tonejs-instruments...");
-    window.Tone.Buffer.on("load", function() {
+    Tone.Buffer.on("load", function() {
         console.log("Successfully loaded tonejs-instruments.");
         UI.loadPage();
         wav_suite["saxophone"].toMaster();
         wav_suite["bass-electric"].toMaster();
     });
-    window.Tone.Buffer.on("error", function() {
+    Tone.Buffer.on("error", function() {
         console.log("Error: failed to load tonejs-instruments.");
     });
     return wav_suite;
@@ -169,8 +166,8 @@ function createMeasure(maxLength, offset, instrument) {
     
     UI.setNotesString(notes);
     
-    new window.Tone.Part(function(time, value) {
-        //instrument.triggerAttackRelease(value.pitch, value.length, time);
+    new Tone.Part(function(time, value) {
+        instrument.triggerAttackRelease(value.pitch, value.length, time);
         UI.emphasizeNote();
     }, notes).start("+1m");
     
