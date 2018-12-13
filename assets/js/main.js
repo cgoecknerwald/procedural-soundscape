@@ -105,16 +105,17 @@ export function setNotesString(notes) {
     /* Handle first note separately to avoid trailing commas */
     var unicode_pitch = unicoder(notes[0].pitch);
     var unicode_length = unicoder(notes[0].length);
-    notesString += unicode_pitch + " " + unicode_length;
+    if (unicode_pitch != "") {
+        notesString += unicode_pitch + " ";
+    }
+    notesString += unicode_length;
 
     for (var i = 1; i < notes.length; i++) {
         unicode_pitch = unicoder(notes[i].pitch);
         unicode_length = unicoder(notes[i].length);
 
         notesString += ", ";
-        if (unicode_pitch == "") { // rest
-            notesString += unicode_pitch;
-        } else {
+        if (unicode_pitch != "") {
             notesString += unicode_pitch + " ";
         }
         notesString += unicode_length;
