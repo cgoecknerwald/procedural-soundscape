@@ -79,7 +79,7 @@ function initMusic() {
     // Randomize melody, one measure at a time
     var loop = new Tone.Loop(function() {
         UI.updateNotesUI();
-        createMeasure(4, 0, wav_suite["saxophone"]);
+        createMeasure(wav_suite["saxophone"]);
     }, "1m").start(0);
 
     // Simple bass loop
@@ -118,41 +118,48 @@ function updateScale() {
 // Create a full, half, or quarter measure of randomly-generated music.
 // Generate up to maxLength (in number of quarter notes) of music,
 // with given offset from the start of the measure.
-function createMeasure(maxLength, offset, instrument) {
+function createMeasure(instrument) {
+    var availableNotes = scaleNotes;
+    var lengthLeft = 4;
+    
+    while (lengthLeft > 0) {
     // create a full, half, or quarter measure
-    var sectionLength = Math.random() * Math.floor(Math.log2(maxLength) + 1);
-    sectionLength = Math.pow(2, Math.floor(sectionLength));
-
-    if (typeof createMeasure.availableNotes == 'undefined' || offset == 0) {
-        createMeasure.availableNotes = scaleNotes;
+        var sectionLength = Math.random() * Math.floor(Math.log2(lengthLeft) + 1);
+        sectionLength = Math.pow(2, Math.floor(sectionLength));
+        var repeat = sectionLength * 2 <= lengthLeft && Math.random() < chanceRepeat;
+        
+        var part = createSection(sectionLength, 4 - lengthLeft,
+                                instrument, availableNotes, repeat);
+                                
+        lengthLeft -= sectionLength;
+        if (repeat) {
+            lengthLeft -= sectionLength;
+        }
+        
+        part.start("+1m");
     }
-    var notes = generateNotes(pickRandom(chords.rhythms), offset, sectionLength / 4, 
-                                createMeasure.availableNotes);
+}
+
+function createSection(length, offset, instrument, availableNotes, repeat) {
+    var notes = generateNotes(pickRandom(chords.rhythms), offset, length / 4, availableNotes);
 
     // possibly repeat
-    if (sectionLength * 2 <= maxLength && Math.random() < chanceRepeat) {
+    if (repeat) {
         var len = notes.length;
         for (var i = 0; i < len; i++) {
             var oldTime = notes[i].time;
-            var newTime = oldTime.slice(0, 2) + (parseInt(oldTime[2]) + sectionLength);
+            var newTime = oldTime.slice(0, 2) + (parseInt(oldTime[2]) + length);
             newTime += oldTime.slice(3);
             notes.push({"time": newTime, "pitch": notes[i].pitch, "length" : notes[i].length});
         }
-
-        sectionLength *= 2;
     }
 
     UI.setNotesString(notes);
 
-    new Tone.Part(function(time, value) {
+    return new Tone.Part(function(time, value) {
         instrument.triggerAttackRelease(value.pitch, value.length, time);
         UI.emphasizeNote();
-    }, notes).start("+1m");
-
-    // If a full measure hasn't been generated yet, generate the remaining part
-    if (sectionLength < maxLength) {
-        createMeasure(maxLength - sectionLength, offset + sectionLength, instrument);
-    }
+    }, notes)
 }
 
 function generateNotes(rhythm, totalTime, multiplier, availableNotes) {
