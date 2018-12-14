@@ -77,13 +77,16 @@ export function emphasizeNote() {
     notesUI.innerHTML = notes.join(",&nbsp;");
 }
 
-export function updateNotesUI() {
+export function updateNotesUI(repeated) {
     if (notesString != "") {
         notesUI.innerHTML = notesString;
     }
     prevNotesString = notesString;
-    notesString = "";
     notesIndex = 0;
+    
+    if (!repeated) {
+        notesString = "";
+    }
 }
 
 export function resetNotesUI() {

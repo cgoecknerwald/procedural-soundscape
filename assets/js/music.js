@@ -8,10 +8,12 @@ const chanceStartRun = 0.5;
 const chanceEndRun = 0.7;
 const chanceAscendRun = 0.5;
 const chanceRepeat = 0.5;
+const chanceRepeatMeasure = 0.2;
 const chanceRest = 0.3;
 
 var tonic, scale;
 export var scaleNotes, wav_suite;
+export var restarted = false;
 
 // Should be called after init()
 export function start() {
@@ -28,6 +30,7 @@ export function init() {
 }
 
 export function restart() {
+    restarted = true;
     Tone.Transport.stop();
     Tone.Transport.cancel();
     UI.resetNotesUI();
@@ -78,7 +81,6 @@ function initMusic() {
 
     // Randomize melody, one measure at a time
     var loop = new Tone.Loop(function() {
-        UI.updateNotesUI();
         createMeasure(wav_suite["saxophone"]);
     }, "1m").start(0);
 
@@ -119,6 +121,19 @@ function updateScale() {
 // Generate up to maxLength (in number of quarter notes) of music,
 // with given offset from the start of the measure.
 function createMeasure(instrument) {
+    if (restarted) {
+        restarted = false;
+    } else if (Math.random() < chanceRepeatMeasure
+                && typeof createMeasure.allNotes != 'undefined'
+                && createMeasure.allNotes.length > 0) {
+        createPartsForMeasureNotes(createMeasure.allNotes, instrument);
+        UI.updateNotesUI(true);
+        return;
+    }
+    
+    UI.updateNotesUI(false);
+    createMeasure.allNotes = [];
+    
     var availableNotes = scaleNotes;
     var lengthLeft = 4;
     
@@ -128,19 +143,19 @@ function createMeasure(instrument) {
         sectionLength = Math.pow(2, Math.floor(sectionLength));
         var repeat = sectionLength * 2 <= lengthLeft && Math.random() < chanceRepeat;
         
-        var part = createSection(sectionLength, 4 - lengthLeft,
-                                instrument, availableNotes, repeat);
+        createMeasure.allNotes.push(createSectionNotes(sectionLength, 4 - lengthLeft,
+                                                        availableNotes, repeat));
                                 
         lengthLeft -= sectionLength;
         if (repeat) {
             lengthLeft -= sectionLength;
         }
-        
-        part.start("+1m");
     }
+    
+    createPartsForMeasureNotes(createMeasure.allNotes, instrument);
 }
 
-function createSection(length, offset, instrument, availableNotes, repeat) {
+function createSectionNotes(length, offset, availableNotes, repeat) {
     var notes = generateNotes(pickRandom(chords.rhythms), offset, length / 4, availableNotes);
 
     // possibly repeat
@@ -155,11 +170,16 @@ function createSection(length, offset, instrument, availableNotes, repeat) {
     }
 
     UI.setNotesString(notes);
+    return notes;
+}
 
-    return new Tone.Part(function(time, value) {
-        instrument.triggerAttackRelease(value.pitch, value.length, time);
-        UI.emphasizeNote();
-    }, notes)
+function createPartsForMeasureNotes(allNotes, instrument) {
+    for (var i = 0; i < allNotes.length; i++) {
+        new Tone.Part(function(time, value) {
+            instrument.triggerAttackRelease(value.pitch, value.length, time);
+            UI.emphasizeNote();
+        }, allNotes[i]).start("+1m");
+    }
 }
 
 function generateNotes(rhythm, totalTime, multiplier, availableNotes) {
