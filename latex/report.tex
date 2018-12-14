@@ -90,7 +90,7 @@
 
 \textbf{A short overview of your project idea, why it is interesting and what you would like to learn from it.}
 
-We built a website with a procedural-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. While we did not integrate the soundscape with live variables, we did integrate it with a synesthetic background image. It would not be terribly difficult to integrate the soundscape with live variables at this point, but we chose not to due to time constraints. (Amy: discuss musical `palette' here.) We chose to use \lightcode{tonejs-instruments} because it integrated open-source \code{WAV}-format files from real instruments with \lightcode{Tone.js} \cite{tonejs-instruments}. We tested the final product in both the latest version of \href{https://www.mozilla.org/en-US/firefox/}{Mozilla Firefox} (Mozilla Firefox Quantum 63.0) and \href{https://www.google.com/chrome/index.html}{Google Chrome} (Google Chrome 70.0). Rather than using \href{https://cloud.google.com/appengine/}{Google App Engine}, or similar, we simply hosted the website for free on Claire's personal GitHub site, \href{https://cgoecknerwald.github.io/procedural-soundscape}{cgoecknerwald.github.io/procedural-soundscape}. This greatly simplified the workflow, as we could easily push HTML/CS/JS to the GitHub repository, and it would then be immediately updated online with no extra work.
+We built a website with a procedural-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. While we did not integrate the soundscape with live variables, we did integrate it with a synesthetic background image. It would not be terribly difficult to integrate the soundscape with live variables at this point, but we chose not to due to time constraints. The music consists of a single melody line, played by a saxophone, and an underlying bass line, played by a electric bass. We generate music measure by measure, choosing notes and rhythms randomly from a preset selection (for notes, the preset is a randomly-chosen scale, and for rhythms, a set of 8 rhythms, which then may be lengthened or shortened). To make it sound more musical, we limit the intervals between consecutive notes, and include rests, repeats, and runs. The music can be paused, played, or restarted with new parameters. We chose to use \lightcode{tonejs-instruments} because it integrated open-source \code{WAV}-format files from real instruments with \lightcode{Tone.js} \cite{tonejs-instruments}. We tested the final product in both the latest version of \href{https://www.mozilla.org/en-US/firefox/}{Mozilla Firefox} (Mozilla Firefox Quantum 63.0) and \href{https://www.google.com/chrome/index.html}{Google Chrome} (Google Chrome 70.0). Rather than using \href{https://cloud.google.com/appengine/}{Google App Engine}, or similar, we simply hosted the website for free on Claire's personal GitHub site, \href{https://cgoecknerwald.github.io/procedural-soundscape}{cgoecknerwald.github.io/procedural-soundscape}. This greatly simplified the workflow, as we could easily push HTML/CS/JS to the GitHub repository, and it would then be immediately updated online with no extra work.
 
 \subsection{Description}
 \textbf{Brief description of features}
@@ -115,7 +115,7 @@ The entire codebase (and the original \code{LaTeX} files for this very report) c
 Since Firefox and Chrome use unique browser engines -- Gecko and Blink, respectively -- we reasoned that this would be sufficient coverage. Brief trials with Safari, which uses WebKit, have been successful, as well. We did not test at all on Internet Explorer.
 
 \subsection{Technical Challenges}
-We had issues with \lightcode{Tone.js}, namely with building realistic synths.
+We had issues with \lightcode{Tone.js}, namely with building realistic synths. Splitting our code into multiple files and including the recorded instrument files gave us CORS permission issues, for local testing. We ended up finding a workaround for Firefox, but not for Chrome, so we had to switch to Firefox for local testing.
 
 \subsection{Licensing}
 We chose to license our repository with the MIT License.
@@ -196,14 +196,12 @@ We got mostly drums synths and pads from \code{tambien} (Yotam Mann, creator of 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Musical Review}
 
-The first challenge was in getting \lightcode{Tone.js} to produce random music that would play forever.
-
 \subsubsection{Scheduling}
-\lightcode{Tone.js}'s has a scheduling system for producing music. \lightcode{Tone.js} had scheduling components that allowed you to play a series of notes in a row (e.g. \href{https://tonejs.github.io/docs/r12/Part}{\lightcode{Tone.Part}}).
+The first challenge was in getting \lightcode{Tone.js} to produce random music that would play forever. \lightcode{Tone.js}'s has a nice scheduling system for producing music, with scheduling components that allowed you to play a series of notes in a row (e.g. \href{https://tonejs.github.io/docs/r12/Part}{\lightcode{Tone.Part}}).
 
-\lightcode{Tone.js} can only repeat in regular intervals. It could not, for example, calculate the amount of time a section of music would take, then automatically repeat after that section was finished. This meant we had to make each randomly-generated section of music be of the same length, in order for them to fit together without breaks in the music. We thus decided to generate music one measure at a time.
+However, \lightcode{Tone.js} can only repeat in regular intervals. It could not, for example, calculate the amount of time a section of music would take, then automatically repeat after that section was finished. This meant we had to make each randomly-generated section of music be of the same length, in order for them to fit together without breaks in the music. We thus decided to generate music one full measure at a time.
 
-\lightcode{Tone.js} allows you to have multiple notes playing at the same time. Thus, you must specify both the duration of the note and when it should be played, not just one or the other. We had to thus separately track the time elapsed as we randomly generated our notes, in order to be able to know when to schedule the next note. More on \code{triggerAttackRelease(note, duration, time)}...
+\lightcode{Tone.js} also allows you to have multiple notes playing at the same time. As such, you must specify both the duration of the note and when it should be played, not just one or the other. We had to thus separately track the time elapsed as we randomly generated our notes, in order to be able to know when to schedule the next note.
 
 \subsubsection{Rhythm}
 
@@ -232,11 +230,37 @@ We generate music one measure at a time, but within each measure, we generate th
 
 For example, we might generate a measure of music by first generating four sixteenth-notes (a one-quarter-note rhythm pattern), then one half-note (a one-half-note rhythm pattern), then finally two eighth-notes (a one-quarter-note rhythm pattern again). We cannot, however, generate first four sixteenth-notes, then four quarter-notes, as that will last longer than one measure. We also cannot generate four sixteenth-notes, then one half-note, then stop, since that will last shorter than one measure.
 
-We have the function \code{createMeasure(maxLength, offset)} to create notes with a single rhythm pattern. The parameters specify the maximum length of music to generate (1-4 quarter notes) and the offset into the measure the notes should start at (0-3 quarter notes in). The function first randomly decides what length of music to generate (1, 2, or 4 quarter notes of music) that falls within the maximum length. It randomly picks one of the 8 possible rhythms. The shorter rhythms (half-note-length or quarter-note-length) are obtained by dividing the note lengths according to whether it's generating 1, 2, or 4 quarter notes of music.
+\lightcode{createMeasure} handles creating an individual measure. The function randomly decides what length of music to generate (1, 2, or 4 quarter notes of music) that falls within the time remaining in the measure, until it's filled up the entire measure. It then calls \lightcode{createSectionNotes} (which calls \lightcode{generateNotes}) with the specified length. These functions randomly pick one of the 8 possible rhythms (and they also handle pitch generation, runs, and repeats, described in later sections). The shorter rhythms (half-note-length or quarter-note-length) are obtained by dividing the note lengths according to whether it's generating 1, 2, or 4 quarter notes of music.  
+
+The bass line is much simpler. It has a set of four possible rhythms: 1. one note every beat, 2. one note on the first beat of the measure, 3. one note on the first and third beats, and 4. one note on the second and fourth beats. At the start of the music, one of these rhythms is randomly chosen and repeated every measure.
 
 \subsubsection{Pitch Generation}
 
 Pitches are also randomly generated. When the website is first loaded, it randomly picks a tonic note and a scale type to build a scale (e.g. C Major, A-flat Minor, D-sharp Dorian). Note pitches are chosen only from this scale.
+
+The bass line plays only the tonic of the scale. The melody line (possibly) changes pitch for every new note. Since in real music, the difference in pitch from one note to the next is usually just a small interval, our program randomly chooses a new pitch that is within three notes (in the scale) from the previous pitch. For example, if the scale is D major, the melody might move from D to G to F-sharp to E to E again. The melody could move from D to the A below, but never to the A above.
+
+To actually choose the next note, we start from a variable, \lightcode{currPitchIndex}, which records the index into the array of available notes for the current note. We then generate an array of the indices of all the possible next notes, in the distribution specified by our constant array of intervals. An index is randomly chosen from this array of possibilities, the index is used to obtain the next pitch, and \lightcode{currPitchIndex} is updated to this index, to be used for the next note.
+
+It's also common in music for there to exist a ``run" of notes. By a ``run", we mean a series of ascending or descending notes that follow the scale. Some examples would be G-A-B-C in C major, A-flat-G-F in F minor, etc. Thus, every time a new rhythm-and-note-pattern is generated, there's a random chance for the melody to start a run of notes. While in a run, the interval from one note to the next is no longer randomized, and is instead always fixed at 1 (for ascending runs) or -1 (for descending runs). While in a run, every time a new rhythm-and-note-pattern is generated, there is also a random chance to stop the run.
+
+We specified octave ranges for the pitch, as well. For the saxophone recordings, we found that only octaves 2 through 4 sounded good, and so all the melody pitches are restricted to these three octaves. If a run tries to go outside the octave bounds, we stop the run. Our original system for choosing the next note was to first randomly chose an interval, then calculate the pitch from \lightcode{currPitchIndex} and that interval. One of the motivations behind switching to the current approach (first generate all possible pitches from all possible intervals, then randomly choose a pitch) is that it handled staying within the octave range better. With the previous approach, we would simply re-generate the note until it fell within the correct octave range. This, however, is inefficient, and actually has the theoretical possibility of looping forever.
+
+\subsubsection{Repeats}
+
+Music contains a lot of repetition\textemdash in whole measures or phrases, in single notes, in melodic lines and rhythms. To increase the musicality of our music generator, we added some very simple repetition.
+
+Every time a new rhythm pattern is generated, there is a fixed chance that that rhythm pattern might be exactly repeated. If there isn't enough room in the measure to repeat the pattern (i.e. if repeating the pattern would extend past the end of the measure), then the pattern won't be repeated. In addition, every individual measure also has a fixed chance of repeating.
+
+\subsubsection{Randomness}
+
+All the randomness is produced by using \lightcode{Math.random()}.
+
+A series of constants control much of the randomness. These constants govern the chance the next note (while not in a run) will be higher than the previous note (set to 0.5), the chance to start a run (0.5), the chance to end the run (0.7), the chance the run will be an ascending run (0.5), the chance to repeat the previous rhythm-and-note pattern (0.3), the chance to repeat an entire measure (0.2), and the chance to have a rest instead of a note (0.3). Since these are constants, it's very easy for us to quickly change them, which then alters the character of the melody.
+
+For the rest of the randomness, all the options have equal chance. These include choosing one of the 8 rhythms for the melody, choosing the bass line rhythm, choosing which scale type and tonic to use, and choosing whether to generate 1, 2, or 4 quarter notes of music.
+
+The one exception is the intervals between notes in the melody (while not in a run). For this, our code randomly chooses an integer out of a constant array, and this integer determines the magnitude of the interval between the current note and the next note. Each element in the array has an equal chance of being chosen, but some numbers are duplicated, to give a distribution of intervals that we thought would sound best. The array: \lightcode{[0, 0, 1, 1, 1, 2, 2, 3]}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{User Interface}
@@ -378,7 +402,9 @@ Rather than using \href{https://cloud.google.com/appengine/}{Google App Engine},
 
 We looked into playing and modifying audiofiles (such as \code{MP3}s or \code{WAV}s) but the integration with Tone.js seemed too complicated \cite{tonejs-issue}. This threw us off track for several weeks as we searched for good synths to use (we found none). Claire had switched to \href{https://duckduckgo.com/}{DuckDuckGo} during the project, which has a much less 'intelligent' search algorithm, which would not return the repo \lightcode{tonejs-instruments} from a search for ``tone js instruments''. Google, however, did, so eventually it was found. In \lightcode{tonejs-instruments}, they use publicly available \code{WAV}s from about a dozen instruments, including saxophone and piano (but no drums) \cite{tonejs-instruments}.  We relied heavily on this repo due to its realistic sound qualities. Originally, we believe that \href{https://github.com/Tonejs/Tone.js/issues/290}{this issue} references why we can't use \code{WAV}-format files in Tone.js. However, that issue seems to be outdated, incorrect, or misread.
 
-We discussed moving instruments synths into \code{assets/js/instruments.js}, out of \code{assets/js/main.js}. Moving roots/scales/chord progressions/rhythms/min \& max on octaves in \code{assets/js/chords.js}. (Amy: Generally, speak on constant refactorization and modularization of code (and why that is important).)
+We discussed moving instruments synths into \code{assets/js/instruments.js}, out of \code{assets/js/main.js}. Moving roots/scales/chord progressions/rhythms/min \& max on octaves in \code{assets/js/chords.js}. As the music portion of the site grew more and more complicated, the file grew messier and messier, and it became hard to add to and still understand what was happening. Our \code{assets/js/main.js} (UI) and \code{assets/js/music.js} (music generation) files were actually originally one single file, since the UI and the music had to be synced together. This split was one of the first big modularization changes we made. We also took the time to break up \code{assets/js/music.js} into separate functions, to improve readability and comprehension. This modularization had its own problems, in that the functions had to share a lot of data between each other and with the UI. This data sharing problem was eventually solved somewhat satisfactorily through a combination of function static variables, refactoring so fewer functions needed the same data, and exported, effectively-global variables.
+
+We had a variety of other implementation challenges, some of which were touched in the Musical Review section. The bulk of the challenges came from scheduling all the events at the correct time. We wanted to schedule measures one measure ahead of time, for example, to resolve a bug where sometimes the first note of the measure would be dropped. This meant that we needed to include a countdown for the first measure after the user pressed the play button, but more importantly, it required careful work to synchronize the UI. We have a display of the notes that are currently playing, with the current note highlighted. We had to think carefully about where in the code to trigger the updates of the UI, given that what is being displayed is not what was most recently generated. Instead, what is displayed on the UI is what was generated last measure, and what was most recently generated is the next upcoming measure.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Licensing}
@@ -418,7 +444,8 @@ In general, we felt that we had taken appropriate steps throughout.
 \subsection{Continuation}
 \textbf{What would be your next steps if you were to continue working on the project.}
 \begin{itemize}
-	\item Flesh out the soundscape to make it more musical.
+	\item Flesh out the soundscape to make it more musical (e.g. phrasing, chord progressions).
+	\item Allow more parameters to vary from refresh to refresh (for example, changing the random chances of repeats, runs, etc.).
 	\item Preload background images to avoid white flashing.
 	\item Add more pleasant, fading background image transition.
 	\item Fix the saxophone from \lightcode{tonejs-instruments}. Currently, it gets a wispy / airy / reedy tone in the upper ranges, such that you can hear the reed from the instrument. This is probably caused by a high-pitched soundfile that is interpolated to the intermediate pitch range. Ideally, we would remove the soundfile that contains this wispiness, and \lightcode{tonejs-instruments} would successfully extrapolate pitches without it.
