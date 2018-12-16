@@ -130,7 +130,7 @@ We chose to license our repository with the MIT License.
 We've decided to use \lightcode{Tone.js} instead of \lightcode{Audiosynth.js} by Keith William Horwood. We also chose \lightcode{Tone.js} over \lightcode{SuperCollider}, \lightcode{Flocking.js}, \lightcode{PureData}, because of web integration ease. \lightcode{Flocking.js} also had web integration but a smaller online community and seemed less robust and less abstracted. \lightcode{Audiosynth.js} did not have looping technologies. We briefly considered integrating our whole product with \lightcode{Audiosynth.js} but it proved to be too difficult.
 
 \subsubsection{PureData}
-\lightcode{PureData} was far too low-level (and therefore tedious and slow) for our plans.
+One of \lightcode{PureData}'s strong points seems to be its easy and intuitive low-level sound synthesis, but we were more interested in higher-level procedural music generation than detailed sound creation. In general, \lightcode{PureData} was far too low-level (and therefore tedious and slow) for our plans. We also weren't quite sure how we'd integrate into a web application.
 
 \begin{quote}
 Pure Data is an open source visual programming environment that runs on anything from personal computers to embedded devices (ie Raspberry Pi) and smartphones (via libpd, DroidParty (Android), and PdParty (iOS). It is a major branch of the family of patcher programming languages known as Max (Max/FTS, ISPW Max, Max/MSP, etc), originally developed by Miller Puckette at IRCAM.
@@ -141,14 +141,14 @@ Algorithmic functions are represented in Pd by visual boxes called objects place
 \end{quote}
 
 \subsubsection{SuperCollider}
-\lightcode{SuperCollider} seemed okay at first, but we could not see an easy way to integrate it with HTML/JS/CSS (knowing that we wanted to build a web application).
+\lightcode{SuperCollider} seemed okay at first, but we could not see an easy way to integrate it with HTML/JS/CSS (knowing that we wanted to build a web application). And similar to \lightcode{PureData}, \lightcode{SuperCollider} seemed a bit too low-level for our plans. In particular, our project was unlikely to take advantage of the extensive sound synthesis tools that it provided.
 
 \begin{quote}
 SuperCollider is a platform for audio synthesis and algorithmic composition, used by musicians, artists, and researchers working with sound. It is free and open source software available for Windows, macOS, and Linux. \cite{supercollider}
 \end{quote}
 
 \subsubsection{Flocking.js}
-\lightcode{Flocking.js} was a strong contender for our choice of sound design technology.
+\lightcode{Flocking.js} was a strong contender for our choice of sound design technology. However, it was very difficult to find examples of projects using \lightcode{Flocking.js}. The documentation and other support resources were also a little lacking.
 
 \begin{quote}
 Flocking is a JavaScript audio synthesis framework designed for artists and musicians who are building creative and experimental Web-based sound projects. It runs in Firefox, Chrome, Safari, Edge, and Node.js on Mac OS X, Windows, Linux, iOS, and Android.
@@ -162,13 +162,15 @@ Flocking was inspired by the SuperCollider desktop synthesis environment. If you
 
 \subsubsection{Audiosynth.js}
 
+Partway through the project, we stumbled upon \lightcode{Audiosynth.js}, and briefly considered switching to it. One of the main draws was that it had several instruments built into it already. However, we found \lightcode{Audiosynth.js} to be a lot less fully-featured than \lightcode{Tone.js}. In particular, \lightcode{Audiosynth.js} did not have the sophisticated scheduling system that \lightcode{Tone.js} did, meaning that we'd have to handle all the low-level details of music timing ourselves. We ultimately decided that this would require too much work, and opted to stick with \lightcode{Tone.js}.
+
 \begin{quote}
 Dynamic waveform audio synthesizer, written in Javascript. Generate musical notes dynamically and play them in your browser using the HTML5 Audio Element. No static files required. (Besides the source, of course!) \cite{audiosynth}
 \end{quote}
 
 
 \subsubsection{Tone.js}
-In the end, we chose \lightcode{Tone.js} out of all three Javascript sound design frameworks for its robust online community (and therefore support).
+In the end, we chose \lightcode{Tone.js} out of all three Javascript sound design frameworks for its robust online community (and therefore support). We were able to find many examples of very cool musical projects others had done using \lightcode{Tone.js}, and there was also quite extensive documentation for it. \lightcode{Tone.js} also provided a very sophisticated scheduling system that made music generation much simpler.
 
 \begin{quote}
 Tone.js is a Web Audio framework for creating interactive music in the browser. The architecture of Tone.js aims to be familiar to both musicians and audio programmers looking to create web-based audio applications. On the high-level, Tone offers common DAW (digital audio workstation) features like a global transport for scheduling events and prebuilt synths and effects. For signal-processing programmers (coming from languages like Max/MSP), Tone provides a wealth of high performance, low latency building blocks and DSP modules to build your own synthesizers, effects, and complex control signals. \cite{tonejs}
@@ -184,10 +186,10 @@ We looked at Karplus-Strong String Synthesis but determined it was only relevant
 For the reasons discussed in `2. Sound Design Tool Discussion' above, we ultimately chose \lightcode{Tone.js} as our main sound design package.
 
 \subsubsection{Nbrosowsky's tonejs-instruments}
-The package \lightcode{tonejs-instruments} was instrumental (haha) in our final project. It features all soundclips in \code{WAV}, \code{MP3}, and \code{OGG} formats.
+The package \lightcode{tonejs-instruments} was instrumental (haha) in our final project. It features soundclips for many instruments, such as piano, clarinet, guitar, violin, etc., all in \code{WAV}, \code{MP3}, and \code{OGG} formats. It allowed us to move away from a very ``synth-y" sound to real soundclips from instruments. We ended up using a saxophone for our melody instrument and an electric bass for our bass line.
 
 \subsubsection{Wheelibin's synaesthesia}
-We modified his drum kit and synths. We based our \code{assets/jschords.js} and \code{assets/js/rhythms.js} off of \lightcode{synaesthesia}.
+Synaesthesia is a web application that randomly produces music based off of an input string. We modified his drum kit and synths. We also based our \code{assets/js/chords.js} and \code{assets/js/rhythms.js} off of \lightcode{synaesthesia}.
 
 \subsubsection{Tambien's jazz.computer}
 We got mostly drums synths and pads from \code{tambien} (Yotam Mann, creator of \lightcode{Tone.js})'s \href{http://jazz.computer/}{\lightcode{jazz.computer}} (works best in Chrome or Safari). \code{Tambien}'s \href{http://jazz.computer/}{\lightcode{jazz.computer}} but they had a very strange music set-up with interpolation and mediators between synths. We attempted to replicate by playing mulitple synths simulataneously but the resulting 'piano' was very tinny and sounded like Scottish bagpipes.
