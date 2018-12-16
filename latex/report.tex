@@ -189,7 +189,7 @@ For the reasons discussed in `2. Sound Design Tool Discussion' above, we ultimat
 The package \lightcode{tonejs-instruments} was instrumental (haha) in our final project. It features soundclips for many instruments, such as piano, clarinet, guitar, violin, etc., all in \code{WAV}, \code{MP3}, and \code{OGG} formats. It allowed us to move away from a very ``synth-y" sound to real soundclips from instruments. We ended up using a saxophone for our melody instrument and an electric bass for our bass line.
 
 \subsubsection{Wheelibin's synaesthesia}
-Synaesthesia is a web application that randomly produces music based off of an input string. We modified his drum kit and synths. We also based our \code{assets/js/chords.js} and \code{assets/js/rhythms.js} off of \lightcode{synaesthesia}.
+Synaesthesia is a web application that randomly produces music based off of an input string. Its method of generating music with multiple instrument lines (including drum kit), incorporating scales and chord progressions, was really useful examples for us to investigate. We modified his drum kit and synths. We also based our \code{assets/js/chords.js} and \code{assets/js/rhythms.js} off of \lightcode{synaesthesia}.
 
 \subsubsection{Tambien's jazz.computer}
 We got mostly drums synths and pads from \code{tambien} (Yotam Mann, creator of \lightcode{Tone.js})'s \href{http://jazz.computer/}{\lightcode{jazz.computer}} (works best in Chrome or Safari). \code{Tambien}'s \href{http://jazz.computer/}{\lightcode{jazz.computer}} but they had a very strange music set-up with interpolation and mediators between synths. We attempted to replicate by playing mulitple synths simulataneously but the resulting 'piano' was very tinny and sounded like Scottish bagpipes.
@@ -438,7 +438,9 @@ Thankfully, \code{wheelibin} was responsive to \href{https://github.com/wheelibi
 \subsection{Regrets}
 \textbf{What would you do differently if you knew at the start what you know now.}
 \begin{itemize}
-	\item Immediately find \lightcode{tonejs-instruments}.
+	\item Immediately find \lightcode{tonejs-instruments}. We spent a lot of time looking for and trying to create good synthetic instruments. That time could've easily been saved if we had found \lightcode{tonejs-instruments} from the beginning.
+	\item Construct a clear, more well-defined end goal. We had many ideas of what we wanted to thought we might want to include in the final product, but didn't precisely define which of these we for sure wanted to include. As a result, we weren't always synced up on what our immediate goals were for the project, which sometimes resulted in wasted effort.
+	\item Plan out music generation more carefully from the beginning. We sort of just started trying things out to see if they would work, then building on top of it. As our idea for the project changed, this sometimes required reconsidering the entire structure of how music generation system.
 \end{itemize}
 
 In general, we felt that we had taken appropriate steps throughout.
@@ -446,7 +448,11 @@ In general, we felt that we had taken appropriate steps throughout.
 \subsection{Continuation}
 \textbf{What would be your next steps if you were to continue working on the project.}
 \begin{itemize}
-	\item Flesh out the soundscape to make it more musical (e.g. phrasing, chord progressions).
+	\item Flesh out the soundscape to make it more musical.
+	\item Add more instrument lines (e.g. a harmony instrument).
+	\item Implement phrasing as best as possible.
+	\item More sophisticated repeat mechanisms (for instance, repeating a section, but transposing it up or down a few notes from the original).
+	\item Integrate chords and chord progressions.
 	\item Allow more parameters to vary from refresh to refresh (for example, changing the random chances of repeats, runs, etc.).
 	\item Preload background images to avoid white flashing.
 	\item Add more pleasant, fading background image transition.
