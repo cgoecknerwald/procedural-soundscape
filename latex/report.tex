@@ -88,12 +88,9 @@
 \pagebreak
 \section{Executive Summary}
 
-\textbf{A short overview of your project idea, why it is interesting and what you would like to learn from it.}
-
 We built a website with a procedural-generated soundscape inspired by `\href{https://www.youtube.com/watch?v=K2Q6YO3Ez44}{coffeehouse jazz}'. While we did not integrate the soundscape with live variables, we did integrate it with a synesthetic background image. It would not be terribly difficult to integrate the soundscape with live variables at this point, but we chose not to due to time constraints. The music consists of a single melody line, played by a saxophone, and an underlying bass line, played by a electric bass. We generate music measure by measure, choosing notes and rhythms randomly from a preset selection (for notes, the preset is a randomly-chosen scale, and for rhythms, a set of 8 rhythms, which then may be lengthened or shortened). To make it sound more musical, we limit the intervals between consecutive notes, and include rests, repeats, and runs. The music can be paused, played, or restarted with new parameters. We chose to use \lightcode{tonejs-instruments} because it integrated open-source \code{WAV}-format files from real instruments with \lightcode{Tone.js} \cite{tonejs-instruments}. We tested the final product in both the latest version of \href{https://www.mozilla.org/en-US/firefox/}{Mozilla Firefox} (Mozilla Firefox Quantum 63.0) and \href{https://www.google.com/chrome/index.html}{Google Chrome} (Google Chrome 70.0). Rather than using \href{https://cloud.google.com/appengine/}{Google App Engine}, or similar, we simply hosted the website for free on Claire's personal GitHub site, \href{https://cgoecknerwald.github.io/procedural-soundscape}{cgoecknerwald.github.io/procedural-soundscape}. This greatly simplified the workflow, as we could easily push HTML/CS/JS to the GitHub repository, and it would then be immediately updated online with no extra work.
 
 \subsection{Description}
-\textbf{Brief description of features}
 
 The entire codebase (and the original \code{LaTeX} files for this very report) can be found on Claire's GitHub repository: \href{https://github.com/cgoecknerwald/procedural-soundscape}{github.com/cgoecknerwald/procedural-soundscape}. The web application is live at \href{https://cgoecknerwald.github.io/procedural-soundscape/}{cgoecknerwald.github.io/procedural-soundscape/}.
 
@@ -104,8 +101,6 @@ The entire codebase (and the original \code{LaTeX} files for this very report) c
 \end{itemize}
 
 \subsection{Technical Requirements}
-\textbf{Audio requirements (and probably also requirements necessary to run the files)}
-
 \begin{itemize}
 	\item Browser: Firefox Quantum 63.0 and above, or Google Chrome 70.0 and above.
 	\item User input: Interaction with web browser via cursor.
@@ -124,7 +119,6 @@ We chose to license our repository with the MIT License.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \section{Technical Design}
-\textbf{In-depth technical design and reasons for choosing this design}
 
 \subsection{Sound Design Tool Discussion}
 We've decided to use \lightcode{Tone.js} instead of \lightcode{Audiosynth.js} by Keith William Horwood. We also chose \lightcode{Tone.js} over \lightcode{SuperCollider}, \lightcode{Flocking.js}, \lightcode{PureData}, because of web integration ease. \lightcode{Flocking.js} also had web integration but a smaller online community and seemed less robust and less abstracted. \lightcode{Audiosynth.js} did not have looping technologies. We briefly considered integrating our whole product with \lightcode{Audiosynth.js} but it proved to be too difficult.
@@ -178,7 +172,6 @@ Tone.js is a Web Audio framework for creating interactive music in the browser. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Technological Review}
-\textbf{Discuss relevant github repos and projects and articles.}
 
 We looked at Karplus-Strong String Synthesis but determined it was only relevant if we used \lightcode{Audiosynth.js} \cite{karplus-strong}.
 
@@ -232,7 +225,7 @@ We generate music one measure at a time, but within each measure, we generate th
 
 For example, we might generate a measure of music by first generating four sixteenth-notes (a one-quarter-note rhythm pattern), then one half-note (a one-half-note rhythm pattern), then finally two eighth-notes (a one-quarter-note rhythm pattern again). We cannot, however, generate first four sixteenth-notes, then four quarter-notes, as that will last longer than one measure. We also cannot generate four sixteenth-notes, then one half-note, then stop, since that will last shorter than one measure.
 
-\lightcode{createMeasure} handles creating an individual measure. The function randomly decides what length of music to generate (1, 2, or 4 quarter notes of music) that falls within the time remaining in the measure, until it's filled up the entire measure. It then calls \lightcode{createSectionNotes} (which calls \lightcode{generateNotes}) with the specified length. These functions randomly pick one of the 8 possible rhythms (and they also handle pitch generation, runs, and repeats, described in later sections). The shorter rhythms (half-note-length or quarter-note-length) are obtained by dividing the note lengths according to whether it's generating 1, 2, or 4 quarter notes of music.  
+\lightcode{createMeasure} handles creating an individual measure. The function randomly decides what length of music to generate (1, 2, or 4 quarter notes of music) that falls within the time remaining in the measure, until it's filled up the entire measure. It then calls \lightcode{createSectionNotes} (which calls \lightcode{generateNotes}) with the specified length. These functions randomly pick one of the 8 possible rhythms (and they also handle pitch generation, runs, and repeats, described in later sections). The shorter rhythms (half-note-length or quarter-note-length) are obtained by dividing the note lengths according to whether it's generating 1, 2, or 4 quarter notes of music.
 
 The bass line is much simpler. It has a set of four possible rhythms: 1. one note every beat, 2. one note on the first beat of the measure, 3. one note on the first and third beats, and 4. one note on the second and fourth beats. At the start of the music, one of these rhythms is randomly chosen and repeated every measure.
 
@@ -373,20 +366,6 @@ The project features approximately 50 unique backgrounds (the number fluctuates 
 
 The entire codebase (and the original \code{LaTeX} files for this very report) can be found on Claire's GitHub repository: \href{https://github.com/cgoecknerwald/procedural-soundscape}{github.com/cgoecknerwald/procedural-soundscape}. The web application is live at \href{https://cgoecknerwald.github.io/procedural-soundscape/}{cgoecknerwald.github.io/procedural-soundscape/}.
 
-% Brief overview of main files and main functions, eg:
-\subsubsection{assets/js/music.js}
-
-\begin{center}
-\code{init():}
-	\begin{verbatim}
-	Verbatim code.
-	\end{verbatim}
-\end{center}
-
-\begin{itemize}
-	\item \code{function()}: description of function
-\end{itemize}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Workflow}
 
@@ -400,7 +379,6 @@ Rather than using \href{https://cloud.google.com/appengine/}{Google App Engine},
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementation Issues}
-\textbf{Implementation issues, note any particular technical or audio difficulties and work-arounds}
 
 We looked into playing and modifying audiofiles (such as \code{MP3}s or \code{WAV}s) but the integration with Tone.js seemed too complicated \cite{tonejs-issue}. This threw us off track for several weeks as we searched for good synths to use (we found none). Claire had switched to \href{https://duckduckgo.com/}{DuckDuckGo} during the project, which has a much less 'intelligent' search algorithm, which would not return the repo \lightcode{tonejs-instruments} from a search for ``tone js instruments''. Google, however, did, so eventually it was found. In \lightcode{tonejs-instruments}, they use publicly available \code{WAV}s from about a dozen instruments, including saxophone and piano (but no drums) \cite{tonejs-instruments}.  We relied heavily on this repo due to its realistic sound qualities. Originally, we believe that \href{https://github.com/Tonejs/Tone.js/issues/290}{this issue} references why we can't use \code{WAV}-format files in Tone.js. However, that issue seems to be outdated, incorrect, or misread.
 
@@ -429,14 +407,12 @@ Thankfully, \code{wheelibin} was responsive to \href{https://github.com/wheelibi
 \pagebreak
 \section{Analysis \& Conclusion}
 \subsection{Original Goals}
-\textbf{How close did you come to achieving original goals?}
 \begin{itemize}
 	\item Notably, we did not integrate with any live input (but I suspect it would take less than a full day to integrate with the camera, grab some value from the camera (eg: mean pixel color), linearly scope it to a `temperature'-type value, and apply said temperature as a variable to any of our musical-type variables or functions.)
 	\item We did not quite achieve the coffeehouse jazz aesthetic, but I believe we could, given more time to experiment.
 \end{itemize}
 
 \subsection{Regrets}
-\textbf{What would you do differently if you knew at the start what you know now.}
 \begin{itemize}
 	\item Immediately find \lightcode{tonejs-instruments}. We spent a lot of time looking for and trying to create good synthetic instruments. That time could've easily been saved if we had found \lightcode{tonejs-instruments} from the beginning.
 	\item Construct a clear, more well-defined end goal. We had many ideas of what we wanted to thought we might want to include in the final product, but didn't precisely define which of these we for sure wanted to include. As a result, we weren't always synced up on what our immediate goals were for the project, which sometimes resulted in wasted effort.
@@ -446,7 +422,6 @@ Thankfully, \code{wheelibin} was responsive to \href{https://github.com/wheelibi
 In general, we felt that we had taken appropriate steps throughout.
 
 \subsection{Continuation}
-\textbf{What would be your next steps if you were to continue working on the project.}
 \begin{itemize}
 	\item Flesh out the soundscape to make it more musical.
 	\item Add more instrument lines (e.g. a harmony instrument).
